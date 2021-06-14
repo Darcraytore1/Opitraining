@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "179939077058",
+    "firebase_url": "https://opitraining-91a90-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "opitraining-91a90",
+    "storage_bucket": "opitraining-91a90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179939077058:android:79a4762567b10e9c2e445b",
+        "android_client_info": {
+          "package_name": "com.example.opitraining"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179939077058-c02v76d020nc0e3o1aed5o5gdptursnp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDThb571qycLvE1qa7zZi32S43JQhG3rZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179939077058-c02v76d020nc0e3o1aed5o5gdptursnp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
