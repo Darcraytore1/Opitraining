@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'coach_sign_up_4.dart';
+import 'coach_sign_up_3.dart';
 import 'main.dart';
 
 class CoachSignUp2 extends StatefulWidget {
@@ -16,8 +16,8 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
   // The seven days of one week
   final isSelected = [false,false,false,false,false,false,false];
 
-  Widget basicTextField(String placeholder, TextEditingController controller, bool isPassword) {
-    return new Container(
+  Widget basicTextField(String placeholder, TextEditingController controller) {
+    return Container(
       width: MediaQuery.of(context).size.width * 0.80,
       child: Theme(
         data: ThemeData (
@@ -25,9 +25,6 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
         ),
         child: new TextField(
           controller: controller,
-          obscureText: isPassword,
-          enableSuggestions: !isPassword,
-          autocorrect: !isPassword,
           decoration: InputDecoration(
               focusedBorder: OutlineInputBorder (
                   borderRadius: BorderRadius.circular(10),
@@ -53,76 +50,132 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
     );
   }
 
-  Widget itemDay(String day, bool isSelected) {
-    return AnimatedContainer(
-      width: MediaQuery.of(context).size.width * 0.15,
-      height: MediaQuery.of(context).size.height * 0.06,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-        border: Border.all(
-          color: Color(mainColor)
+  Widget smallTextField(String placeholder, TextEditingController controller) {
+    return Row(
+      children: [
+        SizedBox(width: MediaQuery.of(context).size.width * 0.10),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.30,
+          child: Theme(
+            data: ThemeData (
+              primaryColor: Color(mainColor),
+            ),
+            child: new TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder (
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                          color: Color(mainColor),
+                          width: 2
+                      )
+                  ),
+                  enabledBorder: OutlineInputBorder (
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Color(mainColor),
+                      )
+                  ),
+                  hintText: placeholder,
+                  hintStyle: TextStyle(
+                      color: Color(mainColor),
+                      fontSize: 18
+                  )
+              ),
+            ),
+          ),
         ),
-      ),
-      child: Center(
-        child: Text(
-          day,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color(mainColor),
+        Expanded(child: SizedBox()),
+      ],
+    );
+  }
+
+  Widget itemDay(String day, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isSelected[index] = !isSelected[index];
+        });
+      },
+      child: AnimatedContainer(
+        width: MediaQuery.of(context).size.width * 0.15,
+        height: MediaQuery.of(context).size.height * 0.06,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: isSelected[index] ? Color(mainColor) : Colors.white,
+          border: Border.all(
+              color: Color(mainColor)
+          ),
+        ),
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+        child: Center(
+          child: Text(
+            day,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: isSelected[index] ? Colors.white : Color(mainColor),
+            ),
           ),
         ),
       ),
     );
   }
 
-  /*
-  Widget itemDaySelected(String day) {
+  Widget circleNotFill() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.15,
-      height: MediaQuery.of(context).size.height * 0.06,
+      width: 20,
+      height: 20,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Color(mainColor),
-        border: Border.all(
-            color: Color(mainColor)
-        ),
-      ),
-      child: Center(
-        child: Text(
-          day,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
+        shape: BoxShape.circle,
+        color: Colors.white,
       ),
     );
   }
-   */
+
+  Widget circleFill() {
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.black,
+      ),
+    );
+  }
+
+  Widget signUpCounter() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.12,
+      color: Color(mainColor).withOpacity(0.70),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          circleFill(),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+          circleNotFill(),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+          circleNotFill(),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+          circleNotFill()
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "COACH INSCRIPTION",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        backgroundColor: Colors.white,
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
       body: Center (
         child: Column (
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            basicTextField("Prix",priceController, false),
+            signUpCounter(),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+            smallTextField("Prix",priceController),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
             Container(
               width: MediaQuery.of(context).size.width * 0.80,
@@ -139,60 +192,64 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                itemDay("Lun", isSelected[0]),
-                itemDay("Mar", isSelected[1]),
-                itemDay("Mer", isSelected[2]),
-                itemDay("Jeu", isSelected[3]),
+                itemDay("Lun", 0),
+                itemDay("Mar", 1),
+                itemDay("Mer", 2),
+                itemDay("Jeu", 3),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                itemDay("Ven", isSelected[4]),
-                itemDay("Sam", isSelected[5]),
-                itemDay("Dim", isSelected[6]),
+                itemDay("Ven", 4),
+                itemDay("Sam", 5),
+                itemDay("Dim", 6),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-            basicTextField("Equipment à disposition", equipmentOwnedController, false),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.008),
-            Container(
-                alignment: Alignment.centerRight,
-                width: MediaQuery.of(context).size.width * 0.80,
-                child: TextButton (
-                  child: Text(
-                    "Déjà enregistré ?",
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-            ElevatedButton(
-                onPressed: () {
-                  // Pass to the next page to sign up
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp4()));
-                },
-                child: Text(
-                  "NEXT",
-                  style: TextStyle(
-                      fontSize: 18
+            basicTextField("Equipment à disposition", equipmentOwnedController),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.01),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back),
                   ),
                 ),
-                style: ElevatedButton.styleFrom(
-                    primary: Color(mainColor),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    padding: EdgeInsets.fromLTRB(60,20,60,20)
+                Expanded(
+                    child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                // Pass to the next page to sign up
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp3()));
+                              },
+                              child: Text(
+                                "NEXT",
+                                style: TextStyle(
+                                    fontSize: 18
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Color(mainColor),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  padding: EdgeInsets.fromLTRB(60,20,60,20)
+                              )
+                          ),
+                        )
+                    )
                 )
-            ),
+              ],
+            )
           ],
         ),
       ),

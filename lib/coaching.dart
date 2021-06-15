@@ -1,6 +1,9 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/coach_info.dart';
+import 'package:opitraining/training_plan.dart';
 
+import 'Coach.dart';
 import 'coach_login.dart';
 import 'my_drawer.dart';
 
@@ -15,8 +18,30 @@ class Coaching extends StatefulWidget {
 class _CoachingState extends State<Coaching> {
 
   TextEditingController _searchQueryController = TextEditingController();
+  List<Coach> coachList = [];
+  final db = FirebaseDatabase.instance.reference();
 
-  Widget coachItem(String coachName) {
+  @override
+  void initState() {
+    super.initState();
+
+    List<String> dayList = [];
+    db.child(pathFirebase).child("coachs").once().then((DataSnapshot data) {
+      List<dynamic> values = data.value;
+      values.forEach((coach) {
+        dayList = [];
+        coach["availability"].forEach((day) {
+          dayList.add(day);
+        });
+        setState(() {
+          coachList.add(Coach(coach["full_name"], coach["city"], coach["price"], dayList));
+          print(coachList.toString());
+        });
+      });
+    });
+  }
+
+  Widget coachItem(Coach coach) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -54,7 +79,7 @@ class _CoachingState extends State<Coaching> {
                 Padding(
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
                   child: Text(
-                      coachName,
+                      coach.getFullName(),
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18
@@ -71,15 +96,15 @@ class _CoachingState extends State<Coaching> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "City : " + "Paris",
+                    "Ville : " + coach.getCity(),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
-                      "Availability : " + "everyday of the week"
+                      "Jour de disponible : " + coach.toStringDayAvailable(),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
-                      "Price : " + " 5\$ " + "per hour"
+                      "Price : " + " " + coach.getPricePerHour().toString() + "\$ " + " per hour"
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
@@ -154,7 +179,16 @@ class _CoachingState extends State<Coaching> {
           padding: EdgeInsets.only(left: 40,right: 40),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-        coachItem("Ronald DURANT"),
+        Expanded(
+          child: ListView.separated(
+            padding: const EdgeInsets.all(8),
+            itemCount: coachList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return coachItem(coachList[index]);
+            },
+            separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+          ),
+        ),
       ],
     );
   }
