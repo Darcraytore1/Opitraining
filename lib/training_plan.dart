@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:opitraining/coaching.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 import 'package:opitraining/training_builder.dart';
+import 'Exercise.dart';
 import 'Training.dart';
 import 'UserTraining.dart';
 import 'constant.dart';
@@ -55,7 +56,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         index = 0;
         List<dynamic> exercisesList = trainingC['listExercise'];
         exercisesList.forEach((exercise) {
-          exercises.add(Exercise(Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+          exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
           index ++;
           if (index == exercisesList.length){
             training = Training(trainingC["title"], trainingC['description'], trainingC['url_image'], exercises);
@@ -71,14 +72,14 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
 
     // user training
     db.child(pathFirebase).child("users").child(uid).child("userTraining").once().then((DataSnapshot data){
-      List<dynamic> trainings = data.value;
+      Map<dynamic,dynamic> trainings = data.value;
 
-      trainings.forEach((training) {
+      trainings.forEach((key, value) {
         exercises = [];
-        training["listExercise"].forEach((exercise) {
-          exercises.add(Exercise(Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+        trainings[key]["listExercise"].forEach((exercise) {
+          exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
         });
-        listUserTraining.add(UserTraining(training["title"], exercises));
+        listUserTraining.add(UserTraining(key,trainings[key]['title'], exercises));
       });
     });
 
@@ -96,6 +97,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     setState(() {});
   }
 
+  /*
   List<Widget> listExercises() {
 
     List<Widget> listExercises = [];
@@ -112,6 +114,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
 
     return listExercises;
   }
+   */
 
   Widget itemExercise(Training training) {
     return new Column(
@@ -216,7 +219,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => StartMenuExercise(listExercise: training.getListExercise(), training: training)),
+                          MaterialPageRoute(builder: (context) => StartMenuExercise(listExercise: training.getListExercise(), title: training.getTitle(), urlImage: training.getUrlImage())),
                         );
                       },
                       child: Text(
@@ -241,7 +244,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         Container(
           width: MediaQuery.of(context).size.width * 0.85,
           decoration: BoxDecoration(
-            color: Color(secondaryColor).withOpacity(0.35),
+            color: Color(mainColor),
             borderRadius: BorderRadius.circular(10)
           ),
           child: Column(
@@ -250,15 +253,43 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               Text(
                 userTraining.getTitle(),
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 20
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.03),
               Text(
-                "18 m | 14 exercices"
+                "18 m | 14 exercices",
+                style: TextStyle(
+                  color: Colors.white
+                ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.03),
+              Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        padding: EdgeInsets.fromLTRB(125,10,125,10)
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => StartMenuExercise(listExercise: userTraining.getListExercise(), title: userTraining.getTitle(), urlImage: "images/build_training.jpg")),
+                      );
+                    },
+                    child: Text(
+                      "START",
+                      style: TextStyle(
+                          color: Color(mainColor),
+                          fontSize: 16
+                      ),
+                    )
+                ),
+              ),
             ],
           ),
         ),
@@ -269,13 +300,16 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               Expanded(child: SizedBox()),
               IconButton(
                 onPressed: () {
-
+                  // Edit training
                 },
                 icon: Icon(Icons.edit),
               ),
               IconButton(
                 onPressed: () {
-
+                  db.child(pathFirebase).child("users").child(uid).child("userTraining").child(userTraining.id).remove();
+                  setState(() {
+                    listUserTraining.remove(userTraining);
+                  });
                 },
                 icon: Icon(Icons.delete),
               )
@@ -347,7 +381,6 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                     if (listTraining.length - 1 >= index) {
                       return itemExercise(listTraining[index]);
                     } else {
-                      print(index);
                       return itemUserTraining(listUserTraining[index - listTraining.length]);
                     }
                   },

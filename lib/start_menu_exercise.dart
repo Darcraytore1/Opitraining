@@ -6,13 +6,15 @@ import 'Training.dart';
 import 'constant.dart';
 
 class Exercise {
-  //AssetImage animatedImage;
+
+  String url;
   Image animatedImage;
   String exerciseTitle;
   int info;
   bool isRepetition;
 
-  Exercise(Image animatedImage, String exerciseTitle, int info, bool isRepetition ) {
+  Exercise(String url, Image animatedImage, String exerciseTitle, int info, bool isRepetition ) {
+    this.url = url;
     this.animatedImage = animatedImage;
     this.exerciseTitle = exerciseTitle;
     this.info = info;
@@ -29,49 +31,42 @@ class Exercise {
   Image getAnimatedImage() {
     return animatedImage;
   }
-  
+
   String getExerciseTitle() {
     return exerciseTitle;
   }
-  
+
   int getInfo() {
     return info;
   }
-  
+
   bool getIsRepetition() {
     return isRepetition;
+  }
+
+  Map<String,dynamic> json() {
+    return {
+      "animatedImage": url,
+      "title": exerciseTitle,
+      "info": info,
+      "isRepetition": isRepetition
+    };
   }
 }
 
 class StartMenuExercise extends StatefulWidget {
 
   final List<Exercise> listExercise;
-  final Training training;
+  final String title;
+  final String urlImage;
 
-  StartMenuExercise({Key key, this.listExercise, this.training}) : super (key: key);
+  StartMenuExercise({Key key, this.listExercise, this.title, this.urlImage}) : super (key: key);
 
   @override
   _StartMenuExerciseState createState() => _StartMenuExerciseState();
 }
 
 class _StartMenuExerciseState extends State<StartMenuExercise> {
-
-  /*
-  final List<Exercise> listExercise = [
-    Exercise(AssetImage("images/jumping-jack.gif"),"JUMPING JACKS", 20, false),
-    Exercise(AssetImage("images/Incline-Push-Up.gif"), "INCLINE PUSH-UPS", 16, true),
-    Exercise(AssetImage("images/push-up-on-knees.gif"), "KNEE PUSH-UPS", 16, true),
-    Exercise(AssetImage("images/push_ups.gif"), "PUSH-UPS", 16, true)
-  ];
-   */
-  /*
-  final List<Exercise> listExercise = [
-    Exercise(Image.network("https://cdn.dribbble.com/users/2931468/screenshots/5720362/jumping-jack.gif"),"JUMPING JACKS",20, false),
-    Exercise(Image.network("https://177d01fbswx3jjl1t20gdr8j-wpengine.netdna-ssl.com/wp-content/uploads/2019/06/Incline-Push-Up.gif"), "INCLINE PUSH-UPS", 16, true),
-    Exercise(Image.network("https://media.self.com/photos/583c641ca8746f6e65a60c7e/master/w_1600%2Cc_limit/DIAMOND_PUSHUP_MOTIFIED.gif"), "KNEE PUSH-UPS", 16, true),
-    Exercise(Image.network("https://thumbs.gfycat.com/GlossySkinnyDuckbillcat-small.gif"), "PUSH-UPS", 16, true)
-  ];
-   */
 
   String _printDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
@@ -174,7 +169,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                 height: MediaQuery.of(context).size.height * 0.25,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(widget.training.urlImage),
+                      image: AssetImage(widget.urlImage),
                       fit: BoxFit.cover
                   ),
                 ),
@@ -205,7 +200,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                 child: Padding(
                   padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.20, bottom: MediaQuery.of(context).size.height * 0.03),
                   child: Text(
-                    widget.training.getTitle(),
+                    widget.title,
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.white

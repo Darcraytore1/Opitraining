@@ -1,4 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 
 class Training {

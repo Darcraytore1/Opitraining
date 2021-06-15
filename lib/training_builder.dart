@@ -6,6 +6,7 @@ import 'package:opitraining/training_plan.dart';
 import 'UserTraining.dart';
 import 'coaching.dart';
 import 'constant.dart';
+import 'main.dart';
 
 class TrainingBuilder extends StatefulWidget {
   @override
@@ -29,21 +30,6 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
   final List<Exercise> newListExercise = [];
 
-  /*
-  final List<Exercise> listExercise = [
-    Exercise(AssetImage("images/jumping-jack.gif"),"JUMPING JACKS", 20, false),
-    Exercise(AssetImage("images/Incline-Push-Up.gif"), "INCLINE PUSH-UPS", 16, true),
-    Exercise(AssetImage("images/push-up-on-knees.gif"), "KNEE PUSH-UPS", 16, true),
-    Exercise(AssetImage("images/push_ups.gif"), "PUSH-UPS", 16, true)
-  ];
-    // info exercises
-    Exercise(Image.network("https://cdn.dribbble.com/users/2931468/screenshots/5720362/jumping-jack.gif"),"JUMPING JACKS",20, false),
-    Exercise(Image.network("https://177d01fbswx3jjl1t20gdr8j-wpengine.netdna-ssl.com/wp-content/uploads/2019/06/Incline-Push-Up.gif"), "INCLINE PUSH-UPS", 16, true),
-    Exercise(Image.network("https://media.self.com/photos/583c641ca8746f6e65a60c7e/master/w_1600%2Cc_limit/DIAMOND_PUSHUP_MOTIFIED.gif"), "KNEE PUSH-UPS", 16, true),
-    Exercise(Image.network("https://thumbs.gfycat.com/GlossySkinnyDuckbillcat-small.gif"), "PUSH-UPS", 16, true)
-
-   */
-
   List<Exercise> listExercise = [];
 
   @override
@@ -51,16 +37,13 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
     super.initState();
 
     List<Exercise> exercises = [];
-    Exercise exercise;
 
-    db.child("exercises").once().then((DataSnapshot data){
-      Map<dynamic, dynamic> values = data.value;
+    db.child(pathFirebase).child("exercises").once().then((DataSnapshot data){
+      List<dynamic> values = data.value;
 
-      values.forEach((key, value) {
-        //log(value["description"].toString());
-        exercise = Exercise(Image.network(value["animatedImage"]), value["title"], value["info"], value["isRepetition"]);
+      values.forEach((exercise) {
         setState(() {
-          exercises.add(exercise);
+          exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
         });
       });
     });
@@ -240,7 +223,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
             });
           },
           child: Text(
-            "CREATE TRAINING",
+            "CREER L'ENTRAINEMENT",
             style: TextStyle(
                 fontSize: 18,
                 color: Colors.white
@@ -303,7 +286,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * 0.04),
               Text(
-                "Set name",
+                "Choisir le nom de l'entrainement",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20
@@ -361,20 +344,31 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     child: TextButton(
                         onPressed: () {
                           // Add this training in bdd
-                          UserTraining training = UserTraining(controller.text, newListExercise);
-                          db.child("userTrainings").set({
-                            'title': controller.text,
-                            'listExercise': newListExercise
+                          //UserTraining training = UserTraining(controller.text, newListExercise);
+                          print(newListExercise.toString());
+
+                          List<dynamic> jsonListExercise = [];
+
+                          newListExercise.forEach((exercise) {
+                            jsonListExercise.add(exercise.json());
                           });
+
+                          db.child(pathFirebase).child("users").child(uid).child("userTraining").push().set(<String,dynamic>{
+                            'title': controller.text,
+                            'listExercise': jsonListExercise
+                          });
+
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => TrainingPlans(indexTab: 0)),
                           );
+
                         },
                         child: Text(
                           "SET",
                           style: TextStyle(
-                              fontSize: 20
+                            fontSize: 20
                           ),
                         )
                     ),
@@ -469,7 +463,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.04, left: MediaQuery.of(context).size.width * 0.04),
                     child: TextButton(
                       onPressed: () {
-                        newListExercise.add(Exercise(exercise.getAnimatedImage(), exercise.exerciseTitle, value, exercise.getIsRepetition()));
+                        newListExercise.add(Exercise(exercise.url, exercise.getAnimatedImage(), exercise.exerciseTitle, value, exercise.getIsRepetition()));
                         _isVisible = false;
                         value = defaultValue;
                         createTrainingButton = true;
