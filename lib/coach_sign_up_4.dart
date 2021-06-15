@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+import 'constant.dart';
 
 class CoachSignUp4 extends StatefulWidget {
   @override
@@ -103,11 +103,11 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
           children: [
             signUpCounter(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            basicTextField("Login",loginController, false),
+            basicTextField("Nom d'utilisateur",loginController, false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-            basicTextField("Password", passwordController, false),
+            basicTextField("Mot de passe", passwordController, true),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-            basicTextField("Password confirmation", passwordConfirmationController, false),
+            basicTextField("Confirmation de mot de passe", passwordConfirmationController, true),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +131,7 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
                                 //Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp4()));
                               },
                               child: Text(
-                                "NEXT",
+                                "S'ENREGISTRER",
                                 style: TextStyle(
                                     fontSize: 18
                                 ),

@@ -5,7 +5,7 @@ import 'package:opitraining/rest.dart';
 import 'package:opitraining/result.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 
-import 'main.dart';
+import 'constant.dart';
 
 class ExerciseRunner extends StatefulWidget {
 

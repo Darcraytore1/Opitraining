@@ -5,7 +5,8 @@ import 'package:opitraining/training_plan.dart';
 
 import 'Coach.dart';
 import 'coach_login.dart';
-import 'my_drawer.dart';
+import 'constant.dart';
+import 'main.dart';
 
 int searchColor = 0xFF6090B2;
 int secondaryColor = 0xFF89D37D;
@@ -35,7 +36,6 @@ class _CoachingState extends State<Coaching> {
         });
         setState(() {
           coachList.add(Coach(coach["full_name"], coach["city"], coach["price"], dayList));
-          print(coachList.toString());
         });
       });
     });

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:opitraining/start_menu_exercise.dart';
 import 'package:opitraining/training_plan.dart';
-import 'main.dart';
+import 'constant.dart';
 
 class ResultTraining extends StatefulWidget {
   @override

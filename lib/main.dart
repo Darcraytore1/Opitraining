@@ -1,20 +1,18 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'constant.dart';
 import 'opitraining_sign_up.dart';
 import 'training_plan.dart';
-
-const int mainColor = 0xFF5D5FEF;
 
 // Items of drawer menu
 final List<String> listItem = [];
 final List<String> listBottomItems = [];
 String pseudo = "";
+String uid = "";
 
 void main() async {
 
@@ -221,6 +219,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                       if (user == null) {
                         print('User is currently signed out!');
                       } else {
+                        uid = user.uid;
                         db.child("mobile_ALBISSON_DAMIEN").child("users").child(user.uid).once().then((DataSnapshot data){
                           Map<dynamic, dynamic> userInfo = data.value;
                           pseudo = userInfo["pseudo"];

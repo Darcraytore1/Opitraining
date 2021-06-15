@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'package:opitraining/exercise_runner.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 
-import 'main.dart';
+import 'constant.dart';
 
 class Rest extends StatefulWidget {
 

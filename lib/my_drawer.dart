@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/contact.dart';
 import 'package:opitraining/settings.dart';
+import 'constant.dart';
 import 'main.dart';
 import 'training_plan.dart';
 import 'my_account.dart';
@@ -9,7 +10,6 @@ import 'schedule.dart';
 import 'report.dart';
 import 'reminder.dart';
 
-const int mainColor = 0xFF5D5FEF;
 const int secondaryColor = 0xFF89D37D;
 
 class MyDrawer extends StatefulWidget {

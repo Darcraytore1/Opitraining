@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:opitraining/training_plan.dart';
-import 'main.dart';
+import 'constant.dart';
 
 class OpitrainingSignUp extends StatefulWidget {
   @override

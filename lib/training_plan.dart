@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/coaching.dart';
@@ -7,10 +5,11 @@ import 'package:opitraining/start_menu_exercise.dart';
 import 'package:opitraining/training_builder.dart';
 import 'Training.dart';
 import 'UserTraining.dart';
+import 'constant.dart';
+import 'main.dart';
 import 'my_drawer.dart';
 
 const int secondaryColor = 0xFF6090B2;
-const pathFirebase = "mobile_ALBISSON_DAMIEN";
 
 class TrainingPlans extends StatefulWidget {
   final int indexTab;
@@ -26,6 +25,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
   final db = FirebaseDatabase.instance.reference();
   TabController _tabController;
   List<Training> listTraining = [];
+  List<UserTraining> listUserTraining = [];
 
   @override
   void initState() {
@@ -48,7 +48,8 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     Training training;
     int index = 0;
 
-    db.child("mobile_ALBISSON_DAMIEN").child("trainings").once().then((DataSnapshot data){
+    // global training
+    db.child(pathFirebase).child("trainings").once().then((DataSnapshot data){
       List<dynamic> values = data.value;
       values.forEach((trainingC) async {
         index = 0;
@@ -65,6 +66,19 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
             });
           }
         });
+      });
+    });
+
+    // user training
+    db.child(pathFirebase).child("users").child(uid).child("userTraining").once().then((DataSnapshot data){
+      List<dynamic> trainings = data.value;
+
+      trainings.forEach((training) {
+        exercises = [];
+        training["listExercise"].forEach((exercise) {
+          exercises.add(Exercise(Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+        });
+        listUserTraining.add(UserTraining(training["title"], exercises));
       });
     });
 
@@ -242,7 +256,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.03),
               Text(
-                "18 m | 14 workouts"
+                "18 m | 14 exercices"
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.03),
             ],
@@ -321,7 +335,29 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: listExercises(),
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.08,
+              ),
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: listTraining.length + listUserTraining.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (listTraining.length - 1 >= index) {
+                      return itemExercise(listTraining[index]);
+                    } else {
+                      print(index);
+                      return itemUserTraining(listUserTraining[index - listTraining.length]);
+                    }
+                  },
+                  separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
+            ],
           ),
           Coaching()
         ],

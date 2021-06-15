@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:opitraining/coach_sign_up_2.dart';
 
-import 'main.dart';
+import 'constant.dart';
 
 class CoachSignUp extends StatefulWidget {
   @override
@@ -124,7 +124,7 @@ class _CoachSignUpState extends State<CoachSignUp> {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp2()));
                           },
                           child: Text(
-                            "NEXT",
+                            "CONTINUER",
                             style: TextStyle(
                                 fontSize: 18
                             ),

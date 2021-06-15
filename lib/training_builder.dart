@@ -2,10 +2,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 import 'package:opitraining/training_plan.dart';
-import 'main.dart';
 
 import 'UserTraining.dart';
 import 'coaching.dart';
+import 'constant.dart';
 
 class TrainingBuilder extends StatefulWidget {
   @override

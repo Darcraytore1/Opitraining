@@ -3,6 +3,7 @@ import 'package:opitraining/exercise_runner.dart';
 import 'package:opitraining/my_drawer.dart';
 
 import 'Training.dart';
+import 'constant.dart';
 
 class Exercise {
   //AssetImage animatedImage;

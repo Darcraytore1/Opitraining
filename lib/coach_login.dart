@@ -1,12 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/coach_sign_up.dart';
-import 'package:opitraining/training_plan.dart';
 
 import 'coach_account.dart';
-import 'main.dart';
-import 'opitraining_sign_up.dart';
+import 'constant.dart';
 
 class CoachLogin extends StatefulWidget {
   @override
