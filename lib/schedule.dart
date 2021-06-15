@@ -29,9 +29,11 @@ class _ScheduleState extends State<Schedule> {
         lastDay: DateTime.utc(2030, 3, 14),
         focusedDay: DateTime.now(),
         onDaySelected: (selectedDay, focusedDay) {
-          // Event on day selected
+          showTimePicker(
+            context: context,
+            initialTime: TimeOfDay(hour: 20, minute: 00),
+          );
         },
-
       ),
     );
   }

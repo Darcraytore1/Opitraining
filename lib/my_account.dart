@@ -24,17 +24,10 @@ class _MyAccountState extends State<MyAccount> {
           ),
         ),
         Container (
-          width: MediaQuery.of(context).size.width * 0.80,
+          width: margeWidth(context),
           child: OutlinedButton(
             onPressed: () {
-              /*
-              db.once().then((DataSnapshot dataSnapShot) {
-                log(dataSnapShot.value);
-              });
-               */
-              db.child("1").set({
-                'id':'prout'
-              });
+
             },
             child: Text(
               value,

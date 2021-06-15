@@ -44,14 +44,14 @@ void main() async {
 
   // Maybe add setState
 
-  db.child(pathFirebase).child("drawerMenu").child("items").once().then((DataSnapshot data) {
+  db.child(pathFirebase).child(dataP).child(drawerMenuP).child(itemsP).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
       listItem.add(item);
     });
   });
 
-  db.child(pathFirebase).child("drawerMenu").child("bottomItems").once().then((DataSnapshot data) {
+  db.child(pathFirebase).child(drawerMenuP).child(bottomItemsP).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
       listBottomItems.add(item);
@@ -165,7 +165,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.80,
+              width: margeWidth(context),
               child: Text(
                 error,
                 style: TextStyle(
@@ -175,7 +175,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.015),
             Container(
-              width: MediaQuery.of(context).size.width * 0.80,
+              width: margeWidth(context),
               child: Theme(
                 data: ThemeData (
                   primaryColor: Color(mainColor),
@@ -185,7 +185,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.028),
             Container(
-              width: MediaQuery.of(context).size.width * 0.80,
+              width: margeWidth(context),
               child: Theme(
                 data: ThemeData (
                   primaryColor: Color(mainColor),
@@ -196,7 +196,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Container(
               alignment: Alignment.centerRight,
-              width: MediaQuery.of(context).size.width * 0.80,
+              width: margeWidth(context),
               child: Text(
                 "Mot de passe oublié",
                 style: TextStyle(
@@ -220,7 +220,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                         print('User is currently signed out!');
                       } else {
                         uid = user.uid;
-                        db.child("mobile_ALBISSON_DAMIEN").child("users").child(user.uid).once().then((DataSnapshot data){
+                        db.child(pathFirebase).child(dataP).child(usersP).child(user.uid).once().then((DataSnapshot data){
                           Map<dynamic, dynamic> userInfo = data.value;
                           pseudo = userInfo["pseudo"];
                         });

@@ -38,7 +38,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
     List<Exercise> exercises = [];
 
-    db.child(pathFirebase).child("exercises").once().then((DataSnapshot data){
+    db.child(pathFirebase).child(exercisesP).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
 
       values.forEach((exercise) {
@@ -353,7 +353,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                             jsonListExercise.add(exercise.json());
                           });
 
-                          db.child(pathFirebase).child("users").child(uid).child("userTraining").push().set(<String,dynamic>{
+                          db.child(pathFirebase).child(usersP).child(uid).child(userTrainingP).push().set(<String,dynamic>{
                             'title': controller.text,
                             'listExercise': jsonListExercise
                           });

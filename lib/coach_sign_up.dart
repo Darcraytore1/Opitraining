@@ -17,7 +17,7 @@ class _CoachSignUpState extends State<CoachSignUp> {
 
   Widget basicTextField(String placeholder, TextEditingController controller, bool isPassword) {
     return new Container(
-      width: MediaQuery.of(context).size.width * 0.80,
+      width: margeWidth(context),
       child: Theme(
         data: ThemeData (
           primaryColor: Color(mainColor),

@@ -13,7 +13,7 @@ class _CoachSignUp3State extends State<CoachSignUp3> {
   final descriptionController = TextEditingController();
   Widget descriptionTextField(String placeholder, TextEditingController controller) {
     return new Container(
-      width: MediaQuery.of(context).size.width * 0.80,
+      width: margeWidth(context),
       child: Theme(
         data: ThemeData (
           primaryColor: Color(mainColor),
@@ -97,7 +97,7 @@ class _CoachSignUp3State extends State<CoachSignUp3> {
             signUpCounter(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Container(
-              width: MediaQuery.of(context).size.width * 0.80,
+              width: margeWidth(context),
               child: Text(
                 "Description",
                 style: TextStyle(

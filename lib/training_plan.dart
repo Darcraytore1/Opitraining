@@ -50,7 +50,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     int index = 0;
 
     // global training
-    db.child(pathFirebase).child("trainings").once().then((DataSnapshot data){
+    db.child(pathFirebase).child(trainingsP).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
       values.forEach((trainingC) async {
         index = 0;
@@ -306,7 +306,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               ),
               IconButton(
                 onPressed: () {
-                  db.child(pathFirebase).child("users").child(uid).child("userTraining").child(userTraining.id).remove();
+                  db.child(pathFirebase).child(usersP).child(uid).child(userTrainingP).child(userTraining.id).remove();
                   setState(() {
                     listUserTraining.remove(userTraining);
                   });

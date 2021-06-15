@@ -17,7 +17,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
 
   Widget basicTextField(String placeholder, TextEditingController controller, bool isPassword) {
     return new Container(
-      width: MediaQuery.of(context).size.width * 0.80,
+      width: margeWidth(context),
       child: Theme(
         data: ThemeData (
           primaryColor: Color(mainColor),
@@ -83,7 +83,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.008),
             Container(
                 alignment: Alignment.centerRight,
-                width: MediaQuery.of(context).size.width * 0.80,
+                width: margeWidth(context),
                 child: TextButton (
                   child: Text(
                     "Déjà enregistré ?",

@@ -145,7 +145,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
 
   Widget itemPauseOptions(String titleOption) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.80,
+      width: margeWidth(context),
       height: MediaQuery.of(context).size.height * 0.1,
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white),

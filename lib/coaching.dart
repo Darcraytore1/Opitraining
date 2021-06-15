@@ -27,7 +27,7 @@ class _CoachingState extends State<Coaching> {
     super.initState();
 
     List<String> dayList = [];
-    db.child(pathFirebase).child("coachs").once().then((DataSnapshot data) {
+    db.child(pathFirebase).child(coachsP).once().then((DataSnapshot data) {
       List<dynamic> values = data.value;
       values.forEach((coach) {
         dayList = [];

@@ -21,7 +21,7 @@ class _ReminderState extends State<Reminder> {
 
     return Center (
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.80,
+        width: margeWidth(context),
         height: MediaQuery.of(context).size.width * 0.25,
         decoration: BoxDecoration(
           color: Colors.white,

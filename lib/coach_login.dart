@@ -12,7 +12,6 @@ class CoachLogin extends StatefulWidget {
 
 class _CoachLoginState extends State<CoachLogin> {
 
-  final db = FirebaseDatabase.instance.reference();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String error = "";

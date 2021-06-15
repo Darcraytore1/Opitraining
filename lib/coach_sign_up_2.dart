@@ -18,7 +18,7 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
 
   Widget basicTextField(String placeholder, TextEditingController controller) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.80,
+      width: margeWidth(context),
       child: Theme(
         data: ThemeData (
           primaryColor: Color(mainColor),
@@ -178,7 +178,7 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
             smallTextField("Prix",priceController),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
             Container(
-              width: MediaQuery.of(context).size.width * 0.80,
+              width: margeWidth(context),
               child: Text(
                 "Jour de disponible",
                 textAlign: TextAlign.left,
