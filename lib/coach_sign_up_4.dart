@@ -1,14 +1,25 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'Coach.dart';
 import 'constant.dart';
 
 class CoachSignUp4 extends StatefulWidget {
+
+  final List<String> coachInfo;
+  final List<String> availability;
+  final String price;
+  final String description;
+
+  CoachSignUp4({Key key, this.coachInfo, this.availability, this.price, this.description}) : super (key: key);
+
   @override
   _CoachSignUp4State createState() => _CoachSignUp4State();
 }
 
 class _CoachSignUp4State extends State<CoachSignUp4> {
 
+  final db = FirebaseDatabase.instance.reference();
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmationController = TextEditingController();
@@ -127,7 +138,13 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
                           padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
                           child: ElevatedButton(
                               onPressed: () {
-                                // Here create coach account
+
+                                Coach coach = Coach(widget.coachInfo[0], widget.coachInfo[1], widget.coachInfo[3], int.parse(widget.price), widget.availability, widget.coachInfo[2], widget.description);
+
+                                // Here create a account with the system of authentication of firebase
+
+                                db.child(pathFirebase).child(dataP).child(coachsP).push().set(coach.json());
+
                                 //Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp4()));
                               },
                               child: Text(

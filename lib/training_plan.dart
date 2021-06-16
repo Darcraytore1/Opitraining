@@ -50,7 +50,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     int index = 0;
 
     // global training
-    db.child(pathFirebase).child(trainingsP).once().then((DataSnapshot data){
+    db.child(pathFirebase).child(configurationP).child(trainingsP).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
       values.forEach((trainingC) async {
         index = 0;
@@ -71,7 +71,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     });
 
     // user training
-    db.child(pathFirebase).child("users").child(uid).child("userTraining").once().then((DataSnapshot data){
+    db.child(pathFirebase).child(dataP).child(usersP).child(uid).child(userTrainingP).once().then((DataSnapshot data){
       Map<dynamic,dynamic> trainings = data.value;
 
       trainings.forEach((key, value) {

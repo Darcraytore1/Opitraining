@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'MenuItem.dart';
 import 'constant.dart';
 import 'opitraining_sign_up.dart';
 import 'training_plan.dart';
@@ -44,14 +45,14 @@ void main() async {
 
   // Maybe add setState
 
-  db.child(pathFirebase).child(dataP).child(drawerMenuP).child(itemsP).once().then((DataSnapshot data) {
+  db.child(pathFirebase).child(configurationP).child(drawerMenuP).child(itemsP).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
       listItem.add(item);
     });
   });
 
-  db.child(pathFirebase).child(drawerMenuP).child(bottomItemsP).once().then((DataSnapshot data) {
+  db.child(pathFirebase).child(configurationP).child(drawerMenuP).child(bottomItemsP).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
       listBottomItems.add(item);
@@ -156,6 +157,17 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                 color: Colors.black
               ),
           ),
+        leading: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width * 0.08,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(
+              image: AssetImage("images/logo_opitraining2.png"),
+              fit: BoxFit.cover
+            )
+          ),
+        ),
         backgroundColor: Colors.white,
       ),
       body: Center (

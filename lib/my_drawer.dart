@@ -162,7 +162,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         color: Colors.white,
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: AssetImage('images/shogi.jpg'),
+                            image: AssetImage('images/logo_opitraining2.png'),
                             fit: BoxFit.cover
                         )
                     ),
@@ -180,7 +180,7 @@ class _MyDrawerState extends State<MyDrawer> {
           itemDrawer("Rappels", Icon(Icons.add_alert), Reminder(), context),
            */
           
-          itemDrawer(listItem[0], Icon(Icons.accessible_forward_rounded), TrainingPlans(indexTab: 0), context),
+          itemDrawer(listItem[0], Icon(Icons.accessibility_rounded), TrainingPlans(indexTab: 0), context),
           itemDrawer(listItem[1], Icon(Icons.airline_seat_flat_rounded), TrainingPlans(indexTab: 1), context),
           itemDrawer(listItem[2], Icon(Icons.account_circle), MyAccount(), context),
           itemDrawer(listItem[3], Icon(Icons.schedule), Schedule(), context),

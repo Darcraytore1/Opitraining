@@ -15,7 +15,7 @@ const String usersP = "users";
 const String exercisesP = "exercises";
 const String userTrainingP = "userTraining";
 const String trainingsP = "trainings";
-const String coachsP = "coachsP";
+const String coachsP = "coachs";
 
 
 // Marge

@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'Coach.dart';
+
 int infoColor = 0xFF6090B2;
 
 class CoachInfo extends StatefulWidget {
+
+  final Coach coach;
+
+  CoachInfo({Key key, this.coach}) : super (key: key);
+
   @override
   _CoachInfoState createState() => _CoachInfoState();
 }
@@ -43,7 +50,7 @@ class _CoachInfoState extends State<CoachInfo> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Text(
-              "Ronald DURANT",
+              widget.coach.getFirstName() + " " + widget.coach.getName(),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 18
@@ -56,7 +63,7 @@ class _CoachInfoState extends State<CoachInfo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      "Hello, I have been a coach for 10 years and I think I can teach you many things"
+                      widget.coach.getDescription()
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Text(
@@ -80,19 +87,19 @@ class _CoachInfoState extends State<CoachInfo> {
                         children: [
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "City : " + "Paris"
+                              "City : " + widget.coach.getCity()
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "Availabity : " + "everyday of the week"
+                              "Availabity : " + widget.coach.toStringDayAvailable()
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "Price : " + "5\$ " + "per hour"
+                              "Price : " + widget.coach.getPricePerHour().toString() +"\$ " + "per hour"
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "Phone : " + "06.00.00.00.00"
+                              "Phone : " + widget.coach.getPhone()
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(

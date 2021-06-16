@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'AccountItem.dart';
 import 'constant.dart';
 import 'my_drawer.dart';
 
@@ -11,6 +12,12 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
+
+  List<AccountItem> accountItems = [
+    AccountItem("Size", "1m80"),
+    AccountItem("Weight", "95 kg"),
+    AccountItem("Equipment owned", "Dumbbells")
+  ];
 
   final db = FirebaseDatabase.instance.reference();
 
@@ -120,9 +127,16 @@ class _MyAccountState extends State<MyAccount> {
                     )
                   )
               ),
-              accountItem("Size", "1m80"),
-              accountItem("Weight", "95 kg"),
-              accountItem("Equipment owned", "Dumbbells")
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: accountItems.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return accountItem(accountItems[index].name, accountItems[index].value);
+                  },
+                  separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                ),
+              ),
             ]
         ),
       )

@@ -4,6 +4,13 @@ import 'coach_sign_up_4.dart';
 import 'constant.dart';
 
 class CoachSignUp3 extends StatefulWidget {
+
+  final List<String> coachInfo;
+  final List<String> availability;
+  final String price;
+
+  CoachSignUp3({Key key, this.coachInfo, this.availability, this.price}) : super (key: key);
+
   @override
   _CoachSignUp3State createState() => _CoachSignUp3State();
 }
@@ -127,8 +134,7 @@ class _CoachSignUp3State extends State<CoachSignUp3> {
                           padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
                           child: ElevatedButton(
                               onPressed: () {
-                                // Pass to the next page to sign up
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp4()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp4(coachInfo: widget.coachInfo, availability: widget.availability, price: widget.price, description: descriptionController.text)));
                               },
                               child: Text(
                                 "CONTINUER",

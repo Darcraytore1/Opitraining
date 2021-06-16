@@ -4,6 +4,11 @@ import 'coach_sign_up_3.dart';
 import 'constant.dart';
 
 class CoachSignUp2 extends StatefulWidget {
+
+  final List<String> coachInfo;
+
+  CoachSignUp2({Key key, this.coachInfo}) : super (key: key);
+
   @override
   _CoachSignUp2State createState() => _CoachSignUp2State();
 }
@@ -14,7 +19,17 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
   final equipmentOwnedController = TextEditingController();
 
   // The seven days of one week
-  final isSelected = [false,false,false,false,false,false,false];
+
+  final List<String> listDay = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
+  final List<bool> isSelected = [false,false,false,false,false,false,false];
+  List<String> listSelectedDay = [];
+
+  void daySelected() {
+    listSelectedDay = [];
+    for (int i = 0; i < isSelected.length; i++) {
+      if (isSelected[i]) listSelectedDay.add(listDay[i]);
+    }
+  }
 
   Widget basicTextField(String placeholder, TextEditingController controller) {
     return Container(
@@ -175,7 +190,7 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
           children: [
             signUpCounter(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            smallTextField("Prix",priceController),
+            smallTextField("Prix/heure",priceController),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
             Container(
               width: margeWidth(context),
@@ -228,8 +243,9 @@ class _CoachSignUp2State extends State<CoachSignUp2> {
                           padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
                           child: ElevatedButton(
                               onPressed: () {
-                                // Pass to the next page to sign up
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp3()));
+
+                                daySelected();
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp3(coachInfo: widget.coachInfo, availability: listSelectedDay, price: priceController.text)));
                               },
                               child: Text(
                                 "CONTINUER",

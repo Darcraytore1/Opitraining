@@ -1,18 +1,29 @@
 class Coach {
-  String fullName;
+
+  String firstName;
+  String name;
   String city;
   int pricePerHour;
   List<String> dayAvailable;
+  String phone;
+  String description;
 
-  Coach(String fullName, String city, int pricePerHour, List<String> dayAvailable) {
-    this.fullName = fullName;
+  Coach(String firstName, String name, String city, int pricePerHour, List<String> dayAvailable, String phone, String description) {
+    this.firstName = firstName;
+    this.name = name;
     this.city = city;
     this.pricePerHour = pricePerHour;
     this.dayAvailable = dayAvailable;
+    this.phone = phone;
+    this.description = description;
   }
 
-  String getFullName() {
-    return fullName;
+  String getFirstName() {
+    return firstName;
+  }
+
+  String getName() {
+    return name;
   }
 
   String getCity() {
@@ -27,6 +38,14 @@ class Coach {
     return dayAvailable;
   }
 
+  String getPhone() {
+    return phone;
+  }
+
+  String getDescription() {
+    return description;
+  }
+
   String toStringDayAvailable() {
     if (dayAvailable.length == 7) return "Tous les jours de la semaine";
     else {
@@ -35,10 +54,22 @@ class Coach {
         if (i == dayAvailable.length - 1) {
           days += dayAvailable[i];
         } else {
-          days += dayAvailable[i] + ",";
+          days += dayAvailable[i] + ", ";
         }
       }
       return days;
     }
+  }
+
+  Map<String,dynamic> json() {
+    return {
+      "availability": dayAvailable,
+      "city": city,
+      "first_name": firstName,
+      "name": name,
+      "price": pricePerHour,
+      "phone": phone,
+      "description": description
+    };
   }
 }

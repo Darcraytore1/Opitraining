@@ -10,8 +10,8 @@ class CoachSignUp extends StatefulWidget {
 
 class _CoachSignUpState extends State<CoachSignUp> {
 
-  final fullNameController = TextEditingController();
-  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+  final firstNameController = TextEditingController();
   final phoneController = TextEditingController();
   final cityController = TextEditingController();
 
@@ -94,9 +94,9 @@ class _CoachSignUpState extends State<CoachSignUp> {
           children: [
             signUpCounter(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            basicTextField("Nom et prénom",fullNameController, false),
+            basicTextField("Prénom",firstNameController, false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-            basicTextField("Mail", emailController, false),
+            basicTextField("Nom",nameController, false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
             basicTextField("Téléphone", phoneController, false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
@@ -121,7 +121,8 @@ class _CoachSignUpState extends State<CoachSignUp> {
                       child: ElevatedButton(
                           onPressed: () {
                             // Pass to the next page to sign up
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp2()));
+                            List<String> coachInfo = [firstNameController.text, nameController.text, phoneController.text, cityController.text];
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp2(coachInfo: coachInfo)));
                           },
                           child: Text(
                             "CONTINUER",

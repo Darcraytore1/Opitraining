@@ -27,15 +27,17 @@ class _CoachingState extends State<Coaching> {
     super.initState();
 
     List<String> dayList = [];
-    db.child(pathFirebase).child(coachsP).once().then((DataSnapshot data) {
-      List<dynamic> values = data.value;
-      values.forEach((coach) {
+    db.child(pathFirebase).child(dataP).child(coachsP).once().then((DataSnapshot data) {
+
+      Map<dynamic,dynamic> trainings = data.value;
+
+      trainings.forEach((key, value) {
         dayList = [];
-        coach["availability"].forEach((day) {
+        trainings[key]["availability"].forEach((day) {
           dayList.add(day);
         });
         setState(() {
-          coachList.add(Coach(coach["full_name"], coach["city"], coach["price"], dayList));
+          coachList.add(Coach(trainings[key]["first_name"], trainings[key]["name"], trainings[key]["city"], trainings[key]["price"], dayList, trainings[key]["phone"], trainings[key]["description"]));
         });
       });
     });
@@ -46,7 +48,7 @@ class _CoachingState extends State<Coaching> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CoachInfo()),
+          MaterialPageRoute(builder: (context) => CoachInfo(coach: coach)),
         );
       },
       child: Container(
@@ -79,7 +81,7 @@ class _CoachingState extends State<Coaching> {
                 Padding(
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
                   child: Text(
-                      coach.getFullName(),
+                      coach.getFirstName() + " " + coach.getName(),
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18
@@ -104,7 +106,7 @@ class _CoachingState extends State<Coaching> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
-                      "Price : " + " " + coach.getPricePerHour().toString() + "\$ " + " per hour"
+                      "Price : " + " " + coach.getPricePerHour().toString() + "\$ " + " par heure"
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
