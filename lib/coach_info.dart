@@ -103,7 +103,7 @@ class _CoachInfoState extends State<CoachInfo> {
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "Email : " + "example@yahou.fr"
+                              "Email : " + widget.coach.getEmail()
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                         ],

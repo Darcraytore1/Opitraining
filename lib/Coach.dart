@@ -7,8 +7,9 @@ class Coach {
   List<String> dayAvailable;
   String phone;
   String description;
+  String email;
 
-  Coach(String firstName, String name, String city, int pricePerHour, List<String> dayAvailable, String phone, String description) {
+  Coach(String firstName, String name, String city, int pricePerHour, List<String> dayAvailable, String phone, String description, String email) {
     this.firstName = firstName;
     this.name = name;
     this.city = city;
@@ -16,6 +17,7 @@ class Coach {
     this.dayAvailable = dayAvailable;
     this.phone = phone;
     this.description = description;
+    this.email = email;
   }
 
   String getFirstName() {
@@ -44,6 +46,10 @@ class Coach {
 
   String getDescription() {
     return description;
+  }
+
+  String getEmail() {
+    return email;
   }
 
   String toStringDayAvailable() {

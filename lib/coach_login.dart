@@ -63,120 +63,126 @@ class _CoachLoginState extends State<CoachLogin> {
           ),
         ),
         body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.80,
-                  child: Text(
-                    error,
-                    style: TextStyle(
-                        color: Colors.red
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.015),
-                Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.80,
-                  child: Theme(
-                    data: ThemeData(
-                      primaryColor: Color(mainColor),
-                    ),
-                    child: basicTextField("Email", emailController, false),
-                  ),
-                ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.028),
-                Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.80,
-                  child: Theme(
-                    data: ThemeData(
-                      primaryColor: Color(mainColor),
-                    ),
-                    child: basicTextField(
-                        "Mot de passe", passwordController, true),
-                  ),
-                ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.02),
-                Container(
-                  alignment: Alignment.centerRight,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.80,
-                  child: Text(
-                    "Mot de passe oublié",
-                    style: TextStyle(
-                        fontSize: 16
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.02),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CoachAccount()));
-                  },
-                  child: Text(
-                    "CONNEXION",
-                    style: TextStyle(
-                        fontSize: 18
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      primary: Color(mainColor),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.80,
+                      child: Text(
+                        error,
+                        style: TextStyle(
+                            color: Colors.red
+                        ),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.03, horizontal: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.15)
-                  ),
-                ),
-                TextButton(
-                  child: Text(
-                    "S'inscrire",
-                    style: TextStyle(
-                      color: Color(mainColor),
-                      fontSize: 16,
                     ),
-                  ),
-                  onPressed: () {
-                    error = "";
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CoachSignUp()),
-                    );
-                  },
-                )
-              ],
-            )
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.015),
+                    Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.80,
+                      child: Theme(
+                        data: ThemeData(
+                          primaryColor: Color(mainColor),
+                        ),
+                        child: basicTextField("Email", emailController, false),
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.028),
+                    Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.80,
+                      child: Theme(
+                        data: ThemeData(
+                          primaryColor: Color(mainColor),
+                        ),
+                        child: basicTextField(
+                            "Mot de passe", passwordController, true),
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.02),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.80,
+                      child: Text(
+                        "Mot de passe oublié",
+                        style: TextStyle(
+                            fontSize: 16
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.02),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CoachAccount()));
+                      },
+                      child: Text(
+                        "CONNEXION",
+                        style: TextStyle(
+                            fontSize: 18
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Color(mainColor),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.03, horizontal: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.15)
+                      ),
+                    ),
+                    TextButton(
+                      child: Text(
+                        "S'inscrire",
+                        style: TextStyle(
+                          color: Color(mainColor),
+                          fontSize: 16,
+                        ),
+                      ),
+                      onPressed: () {
+                        error = "";
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CoachSignUp()),
+                        );
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )
         )
     );
   }

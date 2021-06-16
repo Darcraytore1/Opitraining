@@ -37,7 +37,7 @@ class _CoachingState extends State<Coaching> {
           dayList.add(day);
         });
         setState(() {
-          coachList.add(Coach(trainings[key]["first_name"], trainings[key]["name"], trainings[key]["city"], trainings[key]["price"], dayList, trainings[key]["phone"], trainings[key]["description"]));
+          coachList.add(Coach(trainings[key]["first_name"], trainings[key]["name"], trainings[key]["city"], trainings[key]["price"], dayList, trainings[key]["phone"], trainings[key]["description"], trainings[key]["email"]));
         });
       });
     });
@@ -155,7 +155,7 @@ class _CoachingState extends State<Coaching> {
           child: TextField(
             controller: _searchQueryController,
             decoration: InputDecoration(
-              suffixIcon: Icon(Icons.youtube_searched_for),
+              suffixIcon: Icon(Icons.search),
               fillColor: Color(searchColor).withOpacity(0.35),
               filled: true,
               focusedBorder: OutlineInputBorder (

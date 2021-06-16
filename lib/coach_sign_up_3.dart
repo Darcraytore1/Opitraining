@@ -96,6 +96,7 @@ class _CoachSignUp3State extends State<CoachSignUp3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center (
         child: Column (
           mainAxisAlignment: MainAxisAlignment.start,

@@ -20,7 +20,7 @@ class CoachSignUp4 extends StatefulWidget {
 class _CoachSignUp4State extends State<CoachSignUp4> {
 
   final db = FirebaseDatabase.instance.reference();
-  final loginController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmationController = TextEditingController();
 
@@ -107,6 +107,7 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center (
         child: Column (
           mainAxisAlignment: MainAxisAlignment.start,
@@ -114,7 +115,7 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
           children: [
             signUpCounter(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            basicTextField("Nom d'utilisateur",loginController, false),
+            basicTextField("Email",emailController, false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
             basicTextField("Mot de passe", passwordController, true),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
@@ -139,7 +140,7 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
                           child: ElevatedButton(
                               onPressed: () {
 
-                                Coach coach = Coach(widget.coachInfo[0], widget.coachInfo[1], widget.coachInfo[3], int.parse(widget.price), widget.availability, widget.coachInfo[2], widget.description);
+                                Coach coach = Coach(widget.coachInfo[0], widget.coachInfo[1], widget.coachInfo[3], int.parse(widget.price), widget.availability, widget.coachInfo[2], widget.description, emailController.text);
 
                                 // Here create a account with the system of authentication of firebase
 

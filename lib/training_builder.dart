@@ -7,6 +7,7 @@ import 'UserTraining.dart';
 import 'coaching.dart';
 import 'constant.dart';
 import 'main.dart';
+import 'constant.dart';
 
 class TrainingBuilder extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
   TextEditingController controller = TextEditingController();
 
+  List<Exercise> listExerciseFiltered = [];
   final List<Exercise> newListExercise = [];
 
   List<Exercise> listExercise = [];
@@ -38,7 +40,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
     List<Exercise> exercises = [];
 
-    db.child(pathFirebase).child(exercisesP).once().then((DataSnapshot data){
+    db.child(pathFirebase).child(configurationP).child(exercisesP).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
 
       values.forEach((exercise) {
@@ -46,9 +48,12 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
           exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
         });
       });
+
+      listExercise.addAll(exercises);
+      listExerciseFiltered.addAll(exercises);
     });
 
-    listExercise = exercises;
+
   }
 
   Widget itemExercise(Exercise exercise) {
@@ -343,9 +348,8 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.04, left: MediaQuery.of(context).size.width * 0.04),
                     child: TextButton(
                         onPressed: () {
-                          // Add this training in bdd
-                          //UserTraining training = UserTraining(controller.text, newListExercise);
-                          print(newListExercise.toString());
+
+                          // Add training to the db
 
                           List<dynamic> jsonListExercise = [];
 
@@ -353,7 +357,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                             jsonListExercise.add(exercise.json());
                           });
 
-                          db.child(pathFirebase).child(usersP).child(uid).child(userTrainingP).push().set(<String,dynamic>{
+                          db.child(pathFirebase).child(dataP).child(usersP).child(uid).child(userTrainingP).push().set(<String,dynamic>{
                             'title': controller.text,
                             'listExercise': jsonListExercise
                           });
@@ -488,6 +492,36 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
     );
   }
 
+  // For filter exercise
+
+  void filterSearchResults(String query) {
+
+    List<Exercise> dummySearchList = [];
+    dummySearchList.addAll(listExercise);
+
+    if(query.isNotEmpty) {
+      print(dummySearchList.toString());
+      List<Exercise> dummyListData = [];
+      dummySearchList.forEach((item) {
+        print(item.getExerciseTitle());
+        if(item.getExerciseTitle().toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        listExerciseFiltered.clear();
+        listExerciseFiltered.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        listExerciseFiltered.clear();
+        listExerciseFiltered.addAll(listExercise);
+      });
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -536,9 +570,12 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
           SizedBox(height: MediaQuery.of(context).size.height * 0.04),
           Padding(
             child: TextField(
+              onChanged: (value) {
+                filterSearchResults(value);
+              },
               controller: _searchQueryController,
               decoration: InputDecoration(
-                suffixIcon: Icon(Icons.youtube_searched_for),
+                suffixIcon: Icon(Icons.search),
                 fillColor: Color(searchColor).withOpacity(0.35),
                 filled: true,
                 focusedBorder: OutlineInputBorder (
@@ -569,9 +606,9 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
               children: [
                 ListView.separated(
                   scrollDirection: Axis.vertical,
-                  itemCount: listExercise.length,
+                  itemCount: listExerciseFiltered.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return itemExercise(listExercise[index]);
+                    return itemExercise(listExerciseFiltered[index]);
                   },
                   separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 ),
