@@ -26,6 +26,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   bool isRepetition = false;
   Exercise currentExercise;
   bool createTrainingButton = false;
+  bool isEdit = false;
 
   TextEditingController controller = TextEditingController();
 
@@ -40,7 +41,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
     List<Exercise> exercises = [];
 
-    db.child(pathFirebase).child(configurationP).child(exercisesP).once().then((DataSnapshot data){
+    db.child(opi_pathFirebase).child(opi_cf_configurationP).child(opi_cf_exercisesP).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
 
       values.forEach((exercise) {
@@ -52,8 +53,6 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
       listExercise.addAll(exercises);
       listExerciseFiltered.addAll(exercises);
     });
-
-
   }
 
   Widget itemExercise(Exercise exercise) {
@@ -173,41 +172,39 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height*0.01),
-                    Text(
-                      formatInfo(exercise),
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          formatInfo(exercise),
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isEdit = true;
+                              _isVisible = true;
+                              isRepetition = exercise.getIsRepetition();
+                              value = exercise.getInfo();
+                              currentExercise = exercise;
+                            });
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              newListExercise.remove(exercise);
+                            });
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
+                      ],
                     )
                   ]
               ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.05,
-                  height: MediaQuery.of(context).size.height * 0.03,
-                  child: IconButton(
-                    onPressed: () {
-
-                    },
-                    icon: Icon(Icons.edit),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.05,
-                  height: MediaQuery.of(context).size.height * 0.045,
-                  child: IconButton(
-                    onPressed: () {
-                      print("prout");
-                    },
-                    icon: Icon(Icons.delete),
-                  ),
-                )
-              ],
             ),
             Expanded(
                 child: SizedBox()
@@ -251,8 +248,8 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
     String titleSettings;
 
-    if (isRepetition) titleSettings = "Set repetition";
-    else titleSettings = "Set duration";
+    if (isRepetition) titleSettings = "Choisir le nbr de répétitions";
+    else titleSettings = "Choisir la durée";
 
     return Text(
       titleSettings,
@@ -337,7 +334,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         });
                       },
                       child: Text(
-                        "CANCEL",
+                        "ANNULER",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20
@@ -357,7 +354,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                             jsonListExercise.add(exercise.json());
                           });
 
-                          db.child(pathFirebase).child(dataP).child(usersP).child(uid).child(userTrainingP).push().set(<String,dynamic>{
+                          db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_userTrainingP).push().set(<String,dynamic>{
                             'title': controller.text,
                             'listExercise': jsonListExercise
                           });
@@ -370,7 +367,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
                         },
                         child: Text(
-                          "SET",
+                          "VALIDER",
                           style: TextStyle(
                             fontSize: 20
                           ),
@@ -451,12 +448,13 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                   TextButton(
                       onPressed: () {
                         setState(() {
+                          isEdit = false;
                           _isVisible = false;
                           value = defaultValue;
                         });
                       },
                       child: Text(
-                        "CANCEL",
+                        "ANNULER",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 20
@@ -467,7 +465,11 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.04, left: MediaQuery.of(context).size.width * 0.04),
                     child: TextButton(
                       onPressed: () {
-                        newListExercise.add(Exercise(exercise.url, exercise.getAnimatedImage(), exercise.exerciseTitle, value, exercise.getIsRepetition()));
+                        if (isEdit) {
+                          exercise.setInfo(value);
+                        } else {
+                          newListExercise.add(Exercise(exercise.url, exercise.getAnimatedImage(), exercise.exerciseTitle, value, exercise.getIsRepetition()));
+                        }
                         _isVisible = false;
                         value = defaultValue;
                         createTrainingButton = true;
@@ -476,7 +478,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         });
                       },
                       child: Text(
-                        "SET",
+                        "VALIDER",
                         style: TextStyle(
                           fontSize: 20
                         ),
@@ -500,10 +502,8 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
     dummySearchList.addAll(listExercise);
 
     if(query.isNotEmpty) {
-      print(dummySearchList.toString());
       List<Exercise> dummyListData = [];
       dummySearchList.forEach((item) {
-        print(item.getExerciseTitle());
         if(item.getExerciseTitle().toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(item);
         }

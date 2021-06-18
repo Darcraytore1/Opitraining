@@ -25,7 +25,6 @@ class Exercise {
   AssetImage getAnimatedImage() {
     return animatedImage;
   }
-
    */
 
   Image getAnimatedImage() {
@@ -42,6 +41,10 @@ class Exercise {
 
   bool getIsRepetition() {
     return isRepetition;
+  }
+
+  void setInfo(int info) {
+    this.info = info;
   }
 
   Map<String,dynamic> json() {

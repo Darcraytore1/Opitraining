@@ -50,7 +50,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     int index = 0;
 
     // global training
-    db.child(pathFirebase).child(configurationP).child(trainingsP).once().then((DataSnapshot data){
+    db.child(opi_pathFirebase).child(opi_cf_configurationP).child(opi_cf_trainingsP).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
       values.forEach((trainingC) async {
         index = 0;
@@ -71,16 +71,18 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     });
 
     // user training
-    db.child(pathFirebase).child(dataP).child(usersP).child(uid).child(userTrainingP).once().then((DataSnapshot data){
+    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_userTrainingP).once().then((DataSnapshot data){
       Map<dynamic,dynamic> trainings = data.value;
 
-      trainings.forEach((key, value) {
-        exercises = [];
-        trainings[key]["listExercise"].forEach((exercise) {
-          exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+      if (trainings != null) {
+        trainings.forEach((key, value) {
+          exercises = [];
+          trainings[key]["listExercise"].forEach((exercise) {
+            exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+          });
+          listUserTraining.add(UserTraining(key,trainings[key]['title'], exercises));
         });
-        listUserTraining.add(UserTraining(key,trainings[key]['title'], exercises));
-      });
+      }
     });
 
     listTraining = trainings;
@@ -96,25 +98,6 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
   void _handleTabIndex() {
     setState(() {});
   }
-
-  /*
-  List<Widget> listExercises() {
-
-    List<Widget> listExercises = [];
-
-    listTraining.forEach((training) {
-      listExercises.add(itemExercise(training));
-      listExercises.add(SizedBox(height: MediaQuery.of(context).size.height * 0.02));
-    });
-
-    /*
-    listExercises.add(itemUserTraining(UserTraining("Strong",[])));
-    listExercises.add(SizedBox(height: MediaQuery.of(context).size.height * 0.02));
-     */
-
-    return listExercises;
-  }
-   */
 
   Widget itemExercise(Training training) {
     return new Column(
@@ -306,7 +289,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               ),
               IconButton(
                 onPressed: () {
-                  db.child(pathFirebase).child(usersP).child(uid).child(userTrainingP).child(userTraining.id).remove();
+                  db.child(opi_pathFirebase).child(opi_dt_usersP).child(uid).child(opi_dt_userTrainingP).child(userTraining.id).remove();
                   setState(() {
                     listUserTraining.remove(userTraining);
                   });

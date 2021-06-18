@@ -1,7 +1,9 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:opitraining/training_plan.dart';
 import 'constant.dart';
+import 'main.dart';
 
 class OpitrainingSignUp extends StatefulWidget {
   @override
@@ -11,9 +13,10 @@ class OpitrainingSignUp extends StatefulWidget {
 class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
 
   final emailController = TextEditingController();
-  final usernameController = TextEditingController();
+  final pseudoController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmationController = TextEditingController();
+  String error = "";
 
   Widget basicTextField(String placeholder, TextEditingController controller, bool isPassword) {
     return new Container(
@@ -75,7 +78,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
           children: [
             basicTextField("Email",emailController, false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-            basicTextField("Pseudo", usernameController, false),
+            basicTextField("Pseudo", pseudoController, false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
             basicTextField("Mot de passe", passwordController, true),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
@@ -105,6 +108,21 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                       email: emailController.text,
                       password: passwordController.text
                     );
+
+                    uid = userCredential.user.uid;
+
+                    final db = FirebaseDatabase.instance.reference();
+
+                    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).set({
+                      "pseudo" : pseudoController.text,
+                      "is_coach" : false
+                    });
+
+                    UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TrainingPlans(indexTab: 0)),
@@ -112,16 +130,19 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
                       print('The password provided is too weak.');
+                      setState(() {
+                        error = "Le mot de passe proposé est trop faible";
+                      });
                     } else if (e.code == 'email-already-in-use') {
                       print('The account already exists for that email.');
+                      setState(() {
+                        error = "Le compte existe déjà";
+                      });
                     }
-                    usernameController.text = "";
-                    passwordController.text = "";
-                    passwordConfirmationController.text = "";
-                    emailController.text = "";
+
                   } catch (e) {
                     print(e);
-                    usernameController.text = "";
+                    pseudoController.text = "";
                     passwordController.text = "";
                     passwordConfirmationController.text = "";
                     emailController.text = "";
@@ -159,6 +180,17 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                     ),
                     padding: EdgeInsets.fromLTRB(60,20,60,20)
                 )
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+            Container(
+              alignment: Alignment.center,
+              width: margeWidth(context),
+              child: Text(
+                error,
+                style: TextStyle(
+                    color: Colors.red
+                ),
+              ),
             ),
           ],
         ),

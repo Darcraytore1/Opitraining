@@ -23,6 +23,33 @@ class _ContactState extends State<Contact> {
         backgroundColor: Colors.white,
       ),
       drawer: MyDrawer(),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            ElevatedButton(
+              onPressed: () {
+              },
+              child: Text(
+                "AJOUTER AMIS",
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                  primary: Color(mainColor),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.2,MediaQuery.of(context).size.height * 0.025,MediaQuery.of(context).size.width * 0.2,MediaQuery.of(context).size.height * 0.025)
+              ),
+            ),
+          ],
+        ),
+      )
     );
   }
 }

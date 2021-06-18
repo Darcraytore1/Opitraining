@@ -27,18 +27,22 @@ class _CoachingState extends State<Coaching> {
     super.initState();
 
     List<String> dayList = [];
-    db.child(pathFirebase).child(dataP).child(coachsP).once().then((DataSnapshot data) {
+    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).once().then((DataSnapshot data) {
 
-      Map<dynamic,dynamic> trainings = data.value;
+      Map<dynamic,dynamic> users = data.value;
 
-      trainings.forEach((key, value) {
-        dayList = [];
-        trainings[key]["availability"].forEach((day) {
-          dayList.add(day);
-        });
-        setState(() {
-          coachList.add(Coach(trainings[key]["first_name"], trainings[key]["name"], trainings[key]["city"], trainings[key]["price"], dayList, trainings[key]["phone"], trainings[key]["description"], trainings[key]["email"]));
-        });
+      users.forEach((key, value) {
+        if (users[key]["is_coach"]) {
+          dayList = [];
+          users[key]["coach_info"]["availability"].forEach((key, value) {
+            if (value) {
+              dayList.add(key);
+            }
+          });
+          setState(() {
+            coachList.add(Coach(users[key]["coach_info"]["first_name"], users[key]["coach_info"]["name"], users[key]["coach_info"]["city"], users[key]["coach_info"]["price"], dayList, users[key]["coach_info"]["phone"], users[key]["coach_info"]["description"], users[key]["coach_info"]["email"]));
+          });
+        }
       });
     });
   }
@@ -126,7 +130,8 @@ class _CoachingState extends State<Coaching> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 30),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+        /*
         ElevatedButton(
           onPressed: () {
             // Redirect to coach login page
@@ -151,6 +156,7 @@ class _CoachingState extends State<Coaching> {
           ),
         ),
         SizedBox(height: 50),
+         */
         Padding(
           child: TextField(
             controller: _searchQueryController,

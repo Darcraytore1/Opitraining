@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:opitraining/coach_info.dart';
 
 import 'Coach.dart';
 import 'constant.dart';
+import 'main.dart';
 
 class CoachSignUp4 extends StatefulWidget {
 
@@ -144,7 +147,55 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
 
                                 // Here create a account with the system of authentication of firebase
 
-                                db.child(pathFirebase).child(dataP).child(coachsP).push().set(coach.json());
+                                db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).once().then((DataSnapshot data) async {
+                                  Map<dynamic,dynamic> user = data.value;
+
+                                  if (user == null) {
+
+                                    try {
+                                      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                          email: emailController.text,
+                                          password: passwordController.text
+                                      );
+
+                                      final db = FirebaseDatabase.instance.reference();
+
+                                      db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).set({
+                                        "pseudo" : emailController.text
+                                      });
+
+                                      db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_coachsP).child(userCredential.user.uid).set(coach.json());
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => CoachInfo()),
+                                      );
+
+                                    } on FirebaseAuthException catch (e) {
+                                      if (e.code == 'weak-password') {
+                                        print('The password provided is too weak.');
+                                      } else if (e.code == 'email-already-in-use') {
+                                        print(
+                                            'The account already exists for that email.');
+                                      }
+                                      passwordController.text = "";
+                                      passwordConfirmationController.text = "";
+                                      emailController.text = "";
+                                    } catch (e) {
+                                      print(e);
+                                      passwordController.text = "";
+                                      passwordConfirmationController.text = "";
+                                      emailController.text = "";
+                                    }
+
+                                  } else if (user["is_coach"] == false) {
+
+                                    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_coachsP).child(uid).set(coach.json());
+                                    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_isCoachP).set(true);
+                                  } else {
+                                    print("Ce compte existe déjà");
+                                  }
+                                });
 
                                 //Navigator.push(context, MaterialPageRoute(builder: (context) => CoachSignUp4()));
                               },

@@ -45,14 +45,14 @@ void main() async {
 
   // Maybe add setState
 
-  db.child(pathFirebase).child(configurationP).child(drawerMenuP).child(itemsP).once().then((DataSnapshot data) {
+  db.child(opi_pathFirebase).child(opi_cf_configurationP).child(opi_cf_drawerMenuP).child(opi_cf_itemsP).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
       listItem.add(item);
     });
   });
 
-  db.child(pathFirebase).child(configurationP).child(drawerMenuP).child(bottomItemsP).once().then((DataSnapshot data) {
+  db.child(opi_pathFirebase).child(opi_cf_configurationP).child(opi_cf_drawerMenuP).child(opi_cf_bottomItemsP).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
       listBottomItems.add(item);
@@ -116,6 +116,16 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String error = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _signOut();
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
   Widget basicTextField(String placeholder, TextEditingController controller, bool isPassword) {
     return new TextField(
@@ -225,19 +235,11 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                       password: passwordController.text,
                     );
 
-                    FirebaseAuth.instance
-                        .authStateChanges()
-                        .listen((User user) {
-                      if (user == null) {
-                        print('User is currently signed out!');
-                      } else {
-                        uid = user.uid;
-                        db.child(pathFirebase).child(dataP).child(usersP).child(user.uid).once().then((DataSnapshot data){
-                          Map<dynamic, dynamic> userInfo = data.value;
-                          pseudo = userInfo["pseudo"];
-                        });
-                      }
-                    });
+                  uid = userCredential.user.uid;
+                  db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).once().then((DataSnapshot data){
+                    Map<dynamic, dynamic> userInfo = data.value;
+                    pseudo = userInfo["user_info"]["pseudo"];
+                  });
 
                   error = "";
                   emailController.text = "";
