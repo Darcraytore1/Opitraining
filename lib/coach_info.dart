@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:opitraining/app_bar.dart';
+import 'package:opitraining/constant.dart';
 
 import 'Coach.dart';
-
-int infoColor = 0xFF6090B2;
+import 'constant.dart';
 
 class CoachInfo extends StatefulWidget {
 
@@ -19,19 +20,7 @@ class _CoachInfoState extends State<CoachInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "COACH",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        backgroundColor: Colors.white,
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
+      appBar: MyAppBar(title : "COACH", hasBackArrow: true),
       body: Center(
         child: Column(
           children: [
@@ -52,7 +41,7 @@ class _CoachInfoState extends State<CoachInfo> {
             Text(
               widget.coach.getFirstName() + " " + widget.coach.getName(),
               style: TextStyle(
-                color: Colors.black,
+                color: Color(fontColor2),
                 fontSize: 18
               ),
             ),
@@ -77,7 +66,7 @@ class _CoachInfoState extends State<CoachInfo> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.85,
                     decoration: BoxDecoration(
-                      color: Color(infoColor).withOpacity(0.35),
+                      color: Color(tertiaryColor).withOpacity(0.35),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(

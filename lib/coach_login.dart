@@ -56,7 +56,7 @@ class _CoachLoginState extends State<CoachLogin> {
                 color: Colors.black
             ),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Color(fontColor1),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.of(context).pop(),

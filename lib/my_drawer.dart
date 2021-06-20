@@ -10,27 +10,7 @@ import 'schedule.dart';
 import 'report.dart';
 import 'reminder.dart';
 
-const int secondaryColor = 0xFF89D37D;
-
-class MyDrawer extends StatefulWidget {
-  @override
-  _MyDrawerState createState() => _MyDrawerState();
-}
-
-class _MyDrawerState extends State<MyDrawer> {
-  /*
-  final db = FirebaseDatabase.instance.reference();
-  final List<String> listItem = [];
-  final List<String> listBottomItems = [];
-   */
-
-  @override
-  void initState() {
-    
-    super.initState();
-  }
-
-
+class MyDrawer extends StatelessWidget {
 
   Widget itemDrawer(String itemName, Icon icon, StatefulWidget statefulWidget, BuildContext context) {
     return new InkWell(
@@ -78,7 +58,7 @@ class _MyDrawerState extends State<MyDrawer> {
             Text(
               itemName,
               style: TextStyle(
-                  color: Colors.white
+                  color: Color(fontColor1)
               ),
             ),
           ]
@@ -105,7 +85,7 @@ class _MyDrawerState extends State<MyDrawer> {
             Text(
               itemName,
               style: TextStyle(
-                  color: Colors.white
+                  color: Color(fontColor1)
               ),
             ),
           ]
@@ -135,7 +115,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         pseudo,
                         style: TextStyle(
                             fontSize: 20,
-                            color: Colors.white
+                            color: Color(fontColor1)
                         ),
                       ),
                       SizedBox(height: 30),
@@ -143,14 +123,14 @@ class _MyDrawerState extends State<MyDrawer> {
                         "3",
                         style: TextStyle(
                             fontSize: 18,
-                            color: Colors.white
+                            color: Color(fontColor1)
                         ),
                       ),
                       Text(
                         "Followers",
                         style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white
+                            color: Color(fontColor1)
                         ),
                       )
                     ],

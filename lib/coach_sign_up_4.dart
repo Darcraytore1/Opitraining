@@ -147,7 +147,7 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
 
                                 // Here create a account with the system of authentication of firebase
 
-                                db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).once().then((DataSnapshot data) async {
+                                db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).once().then((DataSnapshot data) async {
                                   Map<dynamic,dynamic> user = data.value;
 
                                   if (user == null) {
@@ -160,11 +160,11 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
 
                                       final db = FirebaseDatabase.instance.reference();
 
-                                      db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).set({
+                                      db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).set({
                                         "pseudo" : emailController.text
                                       });
 
-                                      db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_coachsP).child(userCredential.user.uid).set(coach.json());
+                                      db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_coachs).child(userCredential.user.uid).set(coach.json());
 
                                       Navigator.push(
                                         context,
@@ -190,8 +190,8 @@ class _CoachSignUp4State extends State<CoachSignUp4> {
 
                                   } else if (user["is_coach"] == false) {
 
-                                    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_coachsP).child(uid).set(coach.json());
-                                    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_isCoachP).set(true);
+                                    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_coachs).child(uid).set(coach.json());
+                                    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_isCoachP).set(true);
                                   } else {
                                     print("Ce compte existe déjà");
                                   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opitraining/app_bar.dart';
 
 import 'constant.dart';
 import 'my_drawer.dart';
@@ -31,7 +32,7 @@ class _SettingsState extends State<Settings> {
             Text(
               settingName,
               style: TextStyle(
-                  color: Colors.black,
+                  color: Color(fontColor2),
                   fontSize: 16
               ),
             )
@@ -44,16 +45,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "SETTINGS",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        iconTheme: IconThemeData(color: Color(mainColor)),
-        backgroundColor: Colors.white,
-      ),
+      appBar: MyAppBar(title: "SETTINGS", hasBackArrow: false),
       drawer: MyDrawer(),
       body: Column(
         children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opitraining/app_bar.dart';
 
 import 'constant.dart';
 import 'my_drawer.dart';
@@ -12,16 +13,7 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "CONTATCTS",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        iconTheme: IconThemeData(color: Color(mainColor)),
-        backgroundColor: Colors.white,
-      ),
+      appBar: MyAppBar(title: "CONTACT", hasBackArrow: false),
       drawer: MyDrawer(),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -36,7 +28,7 @@ class _ContactState extends State<Contact> {
                 "AJOUTER AMIS",
                 style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white
+                    color: Color(fontColor1)
                 ),
               ),
               style: ElevatedButton.styleFrom(

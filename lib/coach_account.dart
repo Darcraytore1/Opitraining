@@ -52,7 +52,7 @@ class _CoachAccountState extends State<CoachAccount> {
     TextEditingController()
   ];
 
-  final db = FirebaseDatabase.instance.reference();
+  final dbMyUser = FirebaseDatabase.instance.reference().child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid);
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class _CoachAccountState extends State<CoachAccount> {
     super.initState();
     // Load content textfield
 
-    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).once().then((DataSnapshot data) {
+    dbMyUser.once().then((DataSnapshot data) {
       Map<dynamic,dynamic> users = data.value;
 
       isChecked = users["is_coach"];
@@ -113,7 +113,7 @@ class _CoachAccountState extends State<CoachAccount> {
       onTap: () {
         setState(() {
           isSelected[index] = !isSelected[index];
-          db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_coachInfo).child(opi_dt_availability).child(listDay[index]).set(isSelected[index]);
+          dbMyUser.child(opi_dt_coachInfo).child(opi_dt_availability).child(listDay[index]).set(isSelected[index]);
         });
       },
       child: AnimatedContainer(
@@ -121,7 +121,7 @@ class _CoachAccountState extends State<CoachAccount> {
         height: MediaQuery.of(context).size.height * 0.06,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: isSelected[index] ? Color(mainColor) : Colors.white,
+          color: isSelected[index] ? Color(mainColor) : Color(fontColor1),
           border: Border.all(
               color: Color(mainColor)
           ),
@@ -133,7 +133,7 @@ class _CoachAccountState extends State<CoachAccount> {
             day,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: isSelected[index] ? Colors.white : Color(mainColor),
+              color: isSelected[index] ? Color(fontColor1) : Color(mainColor),
             ),
           ),
         ),
@@ -167,7 +167,7 @@ class _CoachAccountState extends State<CoachAccount> {
             ),
             child: new TextField(
               onChanged: (value) {
-                db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_coachInfo).child(listPathFirebase[index]).set(
+                dbMyUser.child(opi_dt_coachInfo).child(listPathFirebase[index]).set(
                   value
                 );
               },
@@ -226,7 +226,7 @@ class _CoachAccountState extends State<CoachAccount> {
                         onChanged: (bool value) {
                           setState(() {
                             isChecked = value;
-                            db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_isCoachP).set(value);
+                            dbMyUser.child(opi_dt_isCoachP).set(value);
                           });
                           // Here change isCoach to tru
                         }

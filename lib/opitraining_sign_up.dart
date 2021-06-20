@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/training_plan.dart';
 import 'constant.dart';
 import 'main.dart';
@@ -58,19 +59,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "INSCRIPTION",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        backgroundColor: Colors.white,
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
+      appBar: MyAppBar(title: "INSCRIPTION", hasBackArrow: true),
       body: Center (
         child: Column (
           mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +102,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
 
                     final db = FirebaseDatabase.instance.reference();
 
-                    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).set({
+                    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).set({
                       "pseudo" : pseudoController.text,
                       "is_coach" : false
                     });

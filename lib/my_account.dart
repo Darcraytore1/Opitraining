@@ -101,8 +101,8 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Color(mainColor),
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.black.withOpacity(0.4),
+          labelColor: Color(fontColor2),
+          unselectedLabelColor: Color(fontColor2).withOpacity(0.4),
           tabs: [
             Tab(
                 text: "Perso"
@@ -115,11 +115,11 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
         title: Text(
           "MON COMPTE",
           style: TextStyle(
-            color: Colors.black
+            color: Color(fontColor2)
           ),
         ),
         iconTheme: IconThemeData(color: Color(mainColor)),
-        backgroundColor: Colors.white,
+        backgroundColor: Color(backgroundColor),
       ),
       drawer: MyDrawer(),
       body: TabBarView(
@@ -147,7 +147,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
                           "Follows",
                           style: TextStyle(
                               fontSize: 18,
-                              color: Colors.black
+                              color: Color(fontColor2)
                           ),
                         ),
                         style: ElevatedButton.styleFrom(

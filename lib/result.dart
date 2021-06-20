@@ -38,7 +38,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                           "10",
                           style: TextStyle(
                             fontSize: 20,
-                            color: Colors.white
+                            color: Color(fontColor1)
                           ),
                         ),
                         Padding(
@@ -57,7 +57,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                   "Classic Completed",
                   style: TextStyle(
                     fontSize: 24,
-                    color: Colors.white
+                    color: Color(fontColor1)
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.08),
@@ -70,14 +70,14 @@ class _ResultTrainingState extends State<ResultTraining> {
                           "4",
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.white
+                            color: Color(fontColor1)
                           ),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                         Text(
                           "exercises",
                           style: TextStyle(
-                            color: Colors.white
+                            color: Color(fontColor1)
                           ),
                         ),
                       ],
@@ -88,14 +88,14 @@ class _ResultTrainingState extends State<ResultTraining> {
                           "05:00",
                           style: TextStyle(
                               fontSize: 18,
-                              color: Colors.white
+                              color: Color(fontColor1)
                           ),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                         Text(
                           "duration",
                           style: TextStyle(
-                              color: Colors.white
+                              color: Color(fontColor1)
                           ),
                         )
                       ],

@@ -8,9 +8,6 @@ import 'coach_login.dart';
 import 'constant.dart';
 import 'main.dart';
 
-int searchColor = 0xFF6090B2;
-int secondaryColor = 0xFF89D37D;
-
 class Coaching extends StatefulWidget {
   @override
   _CoachingState createState() => _CoachingState();
@@ -27,7 +24,7 @@ class _CoachingState extends State<Coaching> {
     super.initState();
 
     List<String> dayList = [];
-    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).once().then((DataSnapshot data) {
+    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).once().then((DataSnapshot data) {
 
       Map<dynamic,dynamic> users = data.value;
 
@@ -87,7 +84,7 @@ class _CoachingState extends State<Coaching> {
                   child: Text(
                       coach.getFirstName() + " " + coach.getName(),
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Color(fontColor2),
                           fontSize: 18
                       )
                   ),
@@ -131,38 +128,12 @@ class _CoachingState extends State<Coaching> {
     return Column(
       children: [
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-        /*
-        ElevatedButton(
-          onPressed: () {
-            // Redirect to coach login page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CoachLogin()),
-            );
-          },
-          child: Text(
-            "Deviens coach",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-              primary: Color(mainColor),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
-              ),
-              padding: EdgeInsets.fromLTRB(130,25,130,25)
-          ),
-        ),
-        SizedBox(height: 50),
-         */
         Padding(
           child: TextField(
             controller: _searchQueryController,
             decoration: InputDecoration(
               suffixIcon: Icon(Icons.search),
-              fillColor: Color(searchColor).withOpacity(0.35),
+              fillColor: Color(tertiaryColor).withOpacity(0.35),
               filled: true,
               focusedBorder: OutlineInputBorder (
                   borderRadius: BorderRadius.circular(10),

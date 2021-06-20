@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opitraining/app_bar.dart';
 
 import 'constant.dart';
 import 'my_drawer.dart';
@@ -12,16 +13,7 @@ class _ReportState extends State<Report> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "SCHEDULE",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        iconTheme: IconThemeData(color: Color(mainColor)),
-        backgroundColor: Colors.white,
-      ),
+      appBar: MyAppBar(title: "RAPPORT", hasBackArrow: false),
       drawer: MyDrawer(),
     );
   }

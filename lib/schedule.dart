@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opitraining/app_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'constant.dart';
@@ -13,16 +14,7 @@ class _ScheduleState extends State<Schedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "SCHEDULE",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        iconTheme: IconThemeData(color: Color(mainColor)),
-        backgroundColor: Colors.white,
-      ),
+      appBar: MyAppBar(title: "CALENDRIER", hasBackArrow: false),
       drawer: MyDrawer(),
       body: TableCalendar(
         firstDay: DateTime.utc(2010, 10, 16),

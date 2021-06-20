@@ -10,8 +10,6 @@ import 'constant.dart';
 import 'main.dart';
 import 'my_drawer.dart';
 
-const int secondaryColor = 0xFF6090B2;
-
 class TrainingPlans extends StatefulWidget {
   final int indexTab;
 
@@ -50,7 +48,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     int index = 0;
 
     // global training
-    db.child(opi_pathFirebase).child(opi_cf_configurationP).child(opi_cf_trainingsP).once().then((DataSnapshot data){
+    db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_trainings).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
       values.forEach((trainingC) async {
         index = 0;
@@ -71,7 +69,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     });
 
     // user training
-    db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_userTrainingP).once().then((DataSnapshot data){
+    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).once().then((DataSnapshot data){
       Map<dynamic,dynamic> trainings = data.value;
 
       if (trainings != null) {
@@ -145,7 +143,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                 child: Text(
                   training.getTitle(),
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(fontColor1),
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.left,
@@ -175,7 +173,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                           training.getDescription(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.white
+                              color: Color(fontColor1)
                           ),
                         ),
                         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015, bottom: MediaQuery.of(context).size.height * 0.015, left: MediaQuery.of(context).size.width * 0.015),
@@ -236,7 +234,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               Text(
                 userTraining.getTitle(),
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color(fontColor1),
                   fontSize: 20
                 ),
               ),
@@ -244,7 +242,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               Text(
                 "18 m | 14 exercices",
                 style: TextStyle(
-                  color: Colors.white
+                  color: Color(fontColor1)
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.03),
@@ -289,7 +287,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               ),
               IconButton(
                 onPressed: () {
-                  db.child(opi_pathFirebase).child(opi_dt_usersP).child(uid).child(opi_dt_userTrainingP).child(userTraining.id).remove();
+                  db.child(opi_pathFirebase).child(opi_dt_users).child(uid).child(opi_dt_userTraining).child(userTraining.id).remove();
                   setState(() {
                     listUserTraining.remove(userTraining);
                   });
@@ -325,8 +323,8 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Color(mainColor),
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.black.withOpacity(0.4),
+          labelColor: Color(fontColor2),
+          unselectedLabelColor: Color(fontColor2).withOpacity(0.4),
           tabs: [
             Tab(
                 text: "Entrainement"
@@ -339,11 +337,11 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         title: Text(
           "ENTRAINEMENTS",
           style: TextStyle(
-              color: Colors.black
+              color: Color(fontColor2)
           ),
         ),
         iconTheme: IconThemeData(color: Color(mainColor)),
-        backgroundColor: Colors.white,
+        backgroundColor: Color(backgroundColor),
       ),
       drawer: MyDrawer(),
       body: TabBarView(

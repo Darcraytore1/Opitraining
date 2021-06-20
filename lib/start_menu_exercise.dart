@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/exercise_runner.dart';
 import 'package:opitraining/my_drawer.dart';
 
@@ -124,7 +125,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                       exercise.getExerciseTitle(),
                       style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black
+                          color: Color(fontColor2)
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height*0.01),
@@ -132,7 +133,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                       formatInfo(exercise),
                       style: TextStyle(
                           fontSize: 15,
-                          color: Colors.black
+                          color: Color(fontColor2)
                       ),
                     )
                   ]
@@ -150,16 +151,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "EXERCICES",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        iconTheme: IconThemeData(color: Color(mainColor)),
-        backgroundColor: Colors.white,
-      ),
+      appBar: MyAppBar(title: "EXERCICES", hasBackArrow: false),
       drawer: MyDrawer(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

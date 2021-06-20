@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 import 'package:opitraining/training_plan.dart';
 
@@ -41,7 +42,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
     List<Exercise> exercises = [];
 
-    db.child(opi_pathFirebase).child(opi_cf_configurationP).child(opi_cf_exercisesP).once().then((DataSnapshot data){
+    db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_exercises).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
 
       values.forEach((exercise) {
@@ -228,7 +229,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
             "CREER L'ENTRAINEMENT",
             style: TextStyle(
                 fontSize: 18,
-                color: Colors.white
+                color: Color(fontColor1)
             ),
           ),
           style: ElevatedButton.styleFrom(
@@ -354,7 +355,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                             jsonListExercise.add(exercise.json());
                           });
 
-                          db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).child(opi_dt_userTrainingP).push().set(<String,dynamic>{
+                          db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).push().set(<String,dynamic>{
                             'title': controller.text,
                             'listExercise': jsonListExercise
                           });
@@ -525,19 +526,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "TRAINING BUILDER",
-          style: TextStyle(
-            color: Colors.black
-          ),
-        ),
-        backgroundColor: Colors.white,
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
+      appBar: MyAppBar(title: "CREATEUR D'ENTRAINEMENT", hasBackArrow: true),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -576,7 +565,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
               controller: _searchQueryController,
               decoration: InputDecoration(
                 suffixIcon: Icon(Icons.search),
-                fillColor: Color(searchColor).withOpacity(0.35),
+                fillColor: Color(tertiaryColor).withOpacity(0.35),
                 filled: true,
                 focusedBorder: OutlineInputBorder (
                   borderRadius: BorderRadius.circular(10),

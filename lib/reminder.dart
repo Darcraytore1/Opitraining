@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'app_bar.dart';
 import 'constant.dart';
 import 'my_drawer.dart';
 
@@ -51,7 +52,7 @@ class _ReminderState extends State<Reminder> {
                       hour,
                       style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black
+                          color: Color(fontColor2)
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -73,7 +74,7 @@ class _ReminderState extends State<Reminder> {
                           "Repeat",
                           style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black
+                              color: Color(fontColor2)
                           ),
                         ),
                       ),
@@ -87,7 +88,7 @@ class _ReminderState extends State<Reminder> {
                           daysString,
                           style: TextStyle(
                               fontSize: 12,
-                              color: Colors.black
+                              color: Color(fontColor2)
                           ),
                         ),
                       ),
@@ -122,16 +123,7 @@ class _ReminderState extends State<Reminder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "REMINDER",
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-        iconTheme: IconThemeData(color: Color(mainColor)),
-        backgroundColor: Colors.white,
-      ),
+      appBar: MyAppBar(title: "Rappel", hasBackArrow: false),
       drawer: MyDrawer(),
       body: Column(
         children: [

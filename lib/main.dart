@@ -18,6 +18,7 @@ String uid = "";
 void main() async {
 
   // Initialize graphQL
+
   await initHiveForFlutter();
 
   final HttpLink httpLink = HttpLink(
@@ -40,19 +41,26 @@ void main() async {
     ),
   );
 
-  Firebase.initializeApp();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   final db = FirebaseDatabase.instance.reference();
 
-  // Maybe add setState
+  // Load theme of the application so load variable of constant file
 
-  db.child(opi_pathFirebase).child(opi_cf_configurationP).child(opi_cf_drawerMenuP).child(opi_cf_itemsP).once().then((DataSnapshot data) {
+  initTheme();
+
+
+  // Load items of the drawer menu
+
+  db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_drawerMenu).child(opi_cf_items).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
       listItem.add(item);
     });
   });
 
-  db.child(opi_pathFirebase).child(opi_cf_configurationP).child(opi_cf_drawerMenuP).child(opi_cf_bottomItemsP).once().then((DataSnapshot data) {
+  db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_drawerMenu).child(opi_cf_bottomItems).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
       listBottomItems.add(item);
@@ -102,9 +110,9 @@ class MyApp extends StatelessWidget {
 
 class OpitrainingLogin extends StatefulWidget {
 
-  OpitrainingLogin({Key key, this.client}) : super (key: key);
+  OpitrainingLogin({Key key}) : super (key: key);
 
-  final ValueNotifier<GraphQLClient> client;
+  //final ValueNotifier<GraphQLClient> client;
 
   @override
   _OpitrainingLoginState createState() => _OpitrainingLoginState();
@@ -164,7 +172,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
           Text(
               "OPITRAINING",
               style: TextStyle(
-                color: Colors.black
+                color: Color(fontColor2)
               ),
           ),
         leading: Container(
@@ -178,7 +186,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
             )
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Color(backgroundColor),
       ),
       body: Center (
         child: Column (
@@ -236,7 +244,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                     );
 
                   uid = userCredential.user.uid;
-                  db.child(opi_pathFirebase).child(opi_dt_dataP).child(opi_dt_usersP).child(uid).once().then((DataSnapshot data){
+                  db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).once().then((DataSnapshot data){
                     Map<dynamic, dynamic> userInfo = data.value;
                     pseudo = userInfo["user_info"]["pseudo"];
                   });

@@ -21,25 +21,6 @@ class ExerciseRunner extends StatefulWidget {
 
 class _ExerciseRunnerState extends State<ExerciseRunner> {
 
-  // Must be create with the exercise choose by the user
-  /*
-  final List<Exercise> listExercise = [
-    Exercise(AssetImage("images/jumping-jack.gif"),"JUMPING JACKS",20, false),
-    Exercise(AssetImage("images/Incline-Push-Up.gif"), "INCLINE PUSH-UPS", 16, true),
-    Exercise(AssetImage("images/push-up-on-knees.gif"), "KNEE PUSH-UPS", 16, true),
-    Exercise(AssetImage("images/push_ups.gif"), "PUSH-UPS", 16, true)
-  ];
-   */
-
-  /*
-  final List<Exercise> listExercise = [
-    Exercise(Image.network("https://cdn.dribbble.com/users/2931468/screenshots/5720362/jumping-jack.gif"),"JUMPING JACKS",20, false),
-    Exercise(Image.network("https://177d01fbswx3jjl1t20gdr8j-wpengine.netdna-ssl.com/wp-content/uploads/2019/06/Incline-Push-Up.gif"), "INCLINE PUSH-UPS", 16, true),
-    Exercise(Image.network("https://media.self.com/photos/583c641ca8746f6e65a60c7e/master/w_1600%2Cc_limit/DIAMOND_PUSHUP_MOTIFIED.gif"), "KNEE PUSH-UPS", 16, true),
-    Exercise(Image.network("https://thumbs.gfycat.com/GlossySkinnyDuckbillcat-small.gif"), "PUSH-UPS", 16, true)
-  ];
-   */
-
   bool _isVisible = false;
   bool _isOpaque = false;
 
@@ -114,7 +95,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
       return Text(
         repetitionString,
         style: TextStyle(
-          color: Colors.black,
+          color: Color(fontColor2),
           fontSize: 22
         ),
       );
@@ -122,7 +103,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
     return Text(
       _printDuration(Duration(seconds: _start)),
       style: TextStyle(
-        color: Colors.black,
+        color: Color(fontColor2),
         fontSize: 22
       ),
     );
@@ -155,7 +136,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
         child: Text(
           titleOption,
           style: TextStyle(
-              color: Colors.white,
+              color: Color(fontColor1),
               fontSize: 18
           ),
           textAlign: TextAlign.center,
@@ -188,7 +169,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
                 "PAUSE",
                 style: TextStyle(
                     fontSize: 22,
-                    color: Colors.white
+                    color: Color(fontColor1)
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.12),
