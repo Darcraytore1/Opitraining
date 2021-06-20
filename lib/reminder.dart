@@ -51,7 +51,7 @@ class _ReminderState extends State<Reminder> {
                     child: Text(
                       hour,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: lg,
                           color: Color(fontColor2)
                       ),
                       textAlign: TextAlign.center,
@@ -73,7 +73,7 @@ class _ReminderState extends State<Reminder> {
                         child: Text(
                           "Repeat",
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: sm,
                               color: Color(fontColor2)
                           ),
                         ),
@@ -87,7 +87,7 @@ class _ReminderState extends State<Reminder> {
                         child: Text(
                           daysString,
                           style: TextStyle(
-                              fontSize: 12,
+                              fontSize: xsm,
                               color: Color(fontColor2)
                           ),
                         ),

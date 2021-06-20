@@ -144,7 +144,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                   training.getTitle(),
                   style: TextStyle(
                     color: Color(fontColor1),
-                    fontSize: 16,
+                    fontSize: med,
                   ),
                   textAlign: TextAlign.left,
                 ),
@@ -207,7 +207,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                         "START",
                         style: TextStyle(
                             color: Color(mainColor),
-                            fontSize: 16
+                            fontSize: med
                         ),
                       )
                   ),
@@ -235,7 +235,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                 userTraining.getTitle(),
                 style: TextStyle(
                   color: Color(fontColor1),
-                  fontSize: 20
+                  fontSize: xl
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.03),
@@ -266,7 +266,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                       "START",
                       style: TextStyle(
                           color: Color(mainColor),
-                          fontSize: 16
+                          fontSize: med
                       ),
                     )
                 ),

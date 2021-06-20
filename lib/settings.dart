@@ -33,7 +33,7 @@ class _SettingsState extends State<Settings> {
               settingName,
               style: TextStyle(
                   color: Color(fontColor2),
-                  fontSize: 16
+                  fontSize: med
               ),
             )
           ],
@@ -53,7 +53,7 @@ class _SettingsState extends State<Settings> {
           Text(
             "WORKOUT",
             style: TextStyle(
-                fontSize: 18,
+                fontSize: lg,
                 color: Color(mainColor)
             ),
           ),
@@ -63,7 +63,7 @@ class _SettingsState extends State<Settings> {
           Text(
             "GENERAL SETTINGS",
             style: TextStyle(
-                fontSize: 18,
+                fontSize: lg,
                 color: Color(mainColor)
             ),
           ),

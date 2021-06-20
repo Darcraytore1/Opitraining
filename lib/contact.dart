@@ -27,7 +27,7 @@ class _ContactState extends State<Contact> {
               child: Text(
                 "AJOUTER AMIS",
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: lg,
                     color: Color(fontColor1)
                 ),
               ),

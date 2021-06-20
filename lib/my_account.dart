@@ -136,7 +136,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
                       Text(
                         "Personnalise ton compte",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: lg,
                         ),
                       ),
                       ElevatedButton(
@@ -146,7 +146,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
                         child: Text(
                           "Follows",
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: lg,
                               color: Color(fontColor2)
                           ),
                         ),
@@ -179,7 +179,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
                       child: Text(
                           "Changer la photo de profil",
                           style: TextStyle(
-                              fontSize: 18
+                              fontSize: lg
                           )
                       )
                   ),

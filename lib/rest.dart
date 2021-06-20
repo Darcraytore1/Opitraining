@@ -99,7 +99,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
             Text(
               "REST",
               style: TextStyle(
-                fontSize: 22,
+                fontSize: xxl,
                 color: Color(fontColor1)
               ),
             ),
@@ -119,7 +119,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
               _printDuration(Duration(seconds: restTime)),
               style: TextStyle(
                 color: Color(fontColor1),
-                fontSize: 22
+                fontSize: xxl
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.08),
@@ -139,7 +139,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
                   child: Text(
                     "+20s",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: xxl,
                       color: Color(fontColor2)
                     ),
                   ),
@@ -163,7 +163,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
                   child: Text(
                     "SKIP",
                     style: TextStyle(
-                        fontSize: 24,
+                        fontSize: xxl,
                         color: Color(fontColor2)
                     ),
                   ),

@@ -114,7 +114,7 @@ class MyDrawer extends StatelessWidget {
                       Text(
                         pseudo,
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: xl,
                             color: Color(fontColor1)
                         ),
                       ),
@@ -122,14 +122,14 @@ class MyDrawer extends StatelessWidget {
                       Text(
                         "3",
                         style: TextStyle(
-                            fontSize: 18,
+                            fontSize: lg,
                             color: Color(fontColor1)
                         ),
                       ),
                       Text(
                         "Followers",
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: sm,
                             color: Color(fontColor1)
                         ),
                       )

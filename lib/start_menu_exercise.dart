@@ -124,7 +124,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                     Text(
                       exercise.getExerciseTitle(),
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: med,
                           color: Color(fontColor2)
                       ),
                     ),
@@ -132,7 +132,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                     Text(
                       formatInfo(exercise),
                       style: TextStyle(
-                          fontSize: 15,
+                          fontSize: med,
                           color: Color(fontColor2)
                       ),
                     )
@@ -197,7 +197,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                   child: Text(
                     widget.title,
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: lg,
                         color: Colors.white
                     ),
                   ),
@@ -237,7 +237,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                 child: Text(
                   "START",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: lg,
                     color: Colors.white
                   ),
                 ),

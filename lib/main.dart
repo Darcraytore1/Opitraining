@@ -158,7 +158,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
           hintText: placeholder,
           hintStyle: TextStyle(
               color: Color(mainColor),
-              fontSize: 18
+              fontSize: lg
           )
       ),
     );
@@ -230,7 +230,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
               child: Text(
                 "Mot de passe oublié",
                 style: TextStyle(
-                    fontSize: 16
+                    fontSize: med
                 ),
               ),
             ),
@@ -299,7 +299,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                 child: Text(
                     "CONNEXION",
                     style: TextStyle(
-                      fontSize: 18
+                      fontSize: lg
                     ),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -315,7 +315,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                 "S'inscrire",
                 style: TextStyle(
                   color: Color(mainColor),
-                  fontSize: 16,
+                  fontSize: med,
                 ),
               ),
               onPressed: () {

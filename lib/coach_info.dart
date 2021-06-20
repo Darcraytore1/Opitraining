@@ -42,7 +42,7 @@ class _CoachInfoState extends State<CoachInfo> {
               widget.coach.getFirstName() + " " + widget.coach.getName(),
               style: TextStyle(
                 color: Color(fontColor2),
-                fontSize: 18
+                fontSize: lg
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),

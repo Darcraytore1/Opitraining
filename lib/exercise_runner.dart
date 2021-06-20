@@ -96,7 +96,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
         repetitionString,
         style: TextStyle(
           color: Color(fontColor2),
-          fontSize: 22
+          fontSize: xxl
         ),
       );
     }
@@ -104,7 +104,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
       _printDuration(Duration(seconds: _start)),
       style: TextStyle(
         color: Color(fontColor2),
-        fontSize: 22
+        fontSize: xxl
       ),
     );
 
@@ -137,7 +137,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
           titleOption,
           style: TextStyle(
               color: Color(fontColor1),
-              fontSize: 18
+              fontSize: lg
           ),
           textAlign: TextAlign.center,
         ),
@@ -168,7 +168,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
               Text(
                 "PAUSE",
                 style: TextStyle(
-                    fontSize: 22,
+                    fontSize: xxl,
                     color: Color(fontColor1)
                 ),
               ),
@@ -229,7 +229,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
                 Text(
                   widget.listExercise[widget.indexExercise].getExerciseTitle(),
                   style: TextStyle(
-                    fontSize: 18
+                    fontSize: lg
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),

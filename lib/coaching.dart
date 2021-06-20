@@ -85,7 +85,7 @@ class _CoachingState extends State<Coaching> {
                       coach.getFirstName() + " " + coach.getName(),
                       style: TextStyle(
                           color: Color(fontColor2),
-                          fontSize: 18
+                          fontSize: lg
                       )
                   ),
                 ),
@@ -151,7 +151,7 @@ class _CoachingState extends State<Coaching> {
               hintText: "Search",
               hintStyle: TextStyle(
                   color: Colors.black,
-                  fontSize: 18
+                  fontSize: lg
               )
             ),
           ),

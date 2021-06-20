@@ -214,7 +214,7 @@ class _CoachAccountState extends State<CoachAccount> {
                           "Montrer ton compte aux autres utilisateurs ?",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: sm,
                           ),
                         ),
                       ),
@@ -253,7 +253,7 @@ class _CoachAccountState extends State<CoachAccount> {
                     child: Text(
                         "Change profile photo",
                         style: TextStyle(
-                            fontSize: 18
+                            fontSize: lg
                         )
                     )
                 ),
@@ -272,7 +272,7 @@ class _CoachAccountState extends State<CoachAccount> {
                                 textAlign: TextAlign.left,
                                 style : TextStyle(
                                     color: Color(mainColor),
-                                    fontSize: 18
+                                    fontSize: lg
                                 ),
                               ),
                             ),

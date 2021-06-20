@@ -101,7 +101,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                 child: Text(
                   exercise.getExerciseTitle(),
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: med,
                       color: Colors.black
                   ),
                 ),
@@ -168,7 +168,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     Text(
                       exercise.getExerciseTitle(),
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: med,
                           color: Colors.black
                       ),
                     ),
@@ -178,7 +178,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         Text(
                           formatInfo(exercise),
                           style: TextStyle(
-                              fontSize: 15,
+                              fontSize: med,
                               color: Colors.black
                           ),
                         ),
@@ -228,7 +228,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
           child: Text(
             "CREER L'ENTRAINEMENT",
             style: TextStyle(
-                fontSize: 18,
+                fontSize: lg,
                 color: Color(fontColor1)
             ),
           ),
@@ -256,7 +256,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
       titleSettings,
       style: TextStyle(
           color: Colors.black,
-          fontSize: 20
+          fontSize: xl
       ),
     );
   }
@@ -292,7 +292,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                 "Choisir le nom de l'entrainement",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20
+                  fontSize: xl
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -338,7 +338,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         "ANNULER",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 20
+                          fontSize: xl
                         ),
                       )
                   ),
@@ -370,7 +370,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         child: Text(
                           "VALIDER",
                           style: TextStyle(
-                            fontSize: 20
+                            fontSize: xl
                           ),
                         )
                     ),
@@ -425,7 +425,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     setTime(value, isRepetition),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 36
+                      fontSize: builder_time
                     ),
                   ),
                   SizedBox(width:  MediaQuery.of(context).size.width * 0.05),
@@ -458,7 +458,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         "ANNULER",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 20
+                            fontSize: xl
                         ),
                       )
                   ),
@@ -481,7 +481,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                       child: Text(
                         "VALIDER",
                         style: TextStyle(
-                          fontSize: 20
+                          fontSize: xl
                         ),
                       )
                     ),
@@ -583,7 +583,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                 hintText: "Search",
                 hintStyle: TextStyle(
                   color: Colors.black,
-                  fontSize: 18
+                  fontSize: lg
                 )
               ),
             ),

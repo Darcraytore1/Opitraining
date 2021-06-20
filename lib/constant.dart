@@ -40,6 +40,16 @@ int tertiaryColor;
 int fontColor1;
 int fontColor2;
 
+// Font size statement
+
+double xsm;
+double med;
+double lg;
+double sm;
+double xl;
+double xxl;
+double builder_time;
+
 // I load the theme of the application from the firebase db
 
 void initTheme() {
@@ -58,14 +68,20 @@ void initTheme() {
     fontColor1 = int.parse(colors["fontColor1"]);
     fontColor2 = int.parse(colors["fontColor2"]);
 
+    // Font size of the application
+
+    Map<dynamic,dynamic> fontSizes = theme["Theme"]["fontSizes"];
+
+    xsm = fontSizes["xsm"].toDouble();
+    sm = fontSizes["sm"].toDouble();
+    med = fontSizes["med"].toDouble();
+    lg = fontSizes["lg"].toDouble();
+    xl = fontSizes["xl"].toDouble();
+    xxl = fontSizes["xxl"].toDouble();
+    builder_time = fontSizes["builder_time"].toDouble();
+
   });
 }
-
-
-// Font size of the application
-
-
-
 
 // Marge
 

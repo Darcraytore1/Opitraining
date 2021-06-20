@@ -37,7 +37,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                         Text(
                           "10",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: xl,
                             color: Color(fontColor1)
                           ),
                         ),
@@ -56,7 +56,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                 Text(
                   "Classic Completed",
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: xxl,
                     color: Color(fontColor1)
                   ),
                 ),
@@ -69,7 +69,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                         Text(
                           "4",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: lg,
                             color: Color(fontColor1)
                           ),
                         ),
@@ -87,7 +87,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                         Text(
                           "05:00",
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: lg,
                               color: Color(fontColor1)
                           ),
                         ),

@@ -48,7 +48,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
               hintText: placeholder,
               hintStyle: TextStyle(
                   color: Color(mainColor),
-                  fontSize: 18
+                  fontSize: lg
               )
           ),
         ),
@@ -80,7 +80,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                   child: Text(
                     "Déjà enregistré ?",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: med,
                       color: Colors.black
                     ),
                   ),
@@ -159,7 +159,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                 child: Text(
                   "SIGN UP",
                   style: TextStyle(
-                      fontSize: 18
+                      fontSize: lg
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
