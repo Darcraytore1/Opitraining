@@ -5,6 +5,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'constant.dart';
 import 'my_drawer.dart';
 
+/// This widget must provide the capacity to create a schedule to organize the
+/// moment where the user is going to make one or another exercise.
+
 class Schedule extends StatefulWidget {
   @override
   _ScheduleState createState() => _ScheduleState();

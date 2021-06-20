@@ -10,6 +10,9 @@ import 'constant.dart';
 import 'main.dart';
 import 'my_drawer.dart';
 
+/// Show every training that the application offers, and those create by each
+/// user, and coachs
+
 class TrainingPlans extends StatefulWidget {
   final int indexTab;
 

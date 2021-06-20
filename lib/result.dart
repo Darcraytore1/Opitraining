@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:opitraining/training_plan.dart';
 import 'constant.dart';
 
+/// This widget show the result of the user on this training, the time he has
+/// take to finish this training, the creator of this training if it's not a
+/// basic training
+
 class ResultTraining extends StatefulWidget {
   @override
   _ResultTrainingState createState() => _ResultTrainingState();

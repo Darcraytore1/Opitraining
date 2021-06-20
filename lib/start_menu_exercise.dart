@@ -58,6 +58,8 @@ class Exercise {
   }
 }
 
+/// This widget show each exercise than contain a training
+
 class StartMenuExercise extends StatefulWidget {
 
   final List<Exercise> listExercise;

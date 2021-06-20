@@ -7,6 +7,9 @@ import 'AccountItem.dart';
 import 'constant.dart';
 import 'my_drawer.dart';
 
+/// Information of the user account, for the settings of the applications, and
+/// some informations of private friends.
+
 class MyAccount extends StatefulWidget {
   @override
   _MyAccountState createState() => _MyAccountState();

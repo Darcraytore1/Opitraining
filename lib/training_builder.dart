@@ -10,6 +10,10 @@ import 'constant.dart';
 import 'main.dart';
 import 'constant.dart';
 
+/// This widget provide the capacity to create training, add exercise to your
+/// self training training and when tour are satisfied, you can set up his
+/// name and he's going to be in your list of training (training_plan).
+
 class TrainingBuilder extends StatefulWidget {
   @override
   _TrainingBuilderState createState() => _TrainingBuilderState();
@@ -425,7 +429,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     setTime(value, isRepetition),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: builder_time
+                      fontSize: builderTime
                     ),
                   ),
                   SizedBox(width:  MediaQuery.of(context).size.width * 0.05),

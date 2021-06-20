@@ -6,6 +6,10 @@ import 'constant.dart';
 import 'main.dart';
 import 'my_drawer.dart';
 
+/// This widget permit to personalize your coach account for each person on the
+/// application can see your profile and contact you, if they want to have some
+/// "lessons" of you part.
+
 class CoachAccount extends StatefulWidget {
   @override
   _CoachAccountState createState() => _CoachAccountState();

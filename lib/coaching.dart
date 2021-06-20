@@ -1,12 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/coach_info.dart';
-import 'package:opitraining/training_plan.dart';
 
 import 'Coach.dart';
-import 'coach_login.dart';
 import 'constant.dart';
-import 'main.dart';
+
+
+/// This widget present the differents coach presents in the db, there is a option
+/// to filter the coach with key words
 
 class Coaching extends StatefulWidget {
   @override

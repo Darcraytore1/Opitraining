@@ -4,6 +4,9 @@ import 'package:opitraining/app_bar.dart';
 import 'constant.dart';
 import 'my_drawer.dart';
 
+/// This widget show the settings of the user like the rest time between each
+/// exercise, he can thus for example change the the time of his training rest
+
 class Settings extends StatefulWidget {
   @override
   _SettingsState createState() => _SettingsState();

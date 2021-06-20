@@ -6,6 +6,10 @@ import 'package:opitraining/start_menu_exercise.dart';
 
 import 'constant.dart';
 
+/// This widget provide a rest time to the user between each exercise, with
+/// a circular bar progress to see the time who stay to the user before to pass
+/// to another exercise, he can skip that rest or increase that rest of 20s in 20s
+
 class Rest extends StatefulWidget {
 
   final int indexExercise;

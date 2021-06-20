@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'MenuItem.dart';
 import 'constant.dart';
+import 'my_text_fields.dart';
 import 'opitraining_sign_up.dart';
 import 'training_plan.dart';
 
@@ -108,6 +109,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// This widget present the login page of the application, firebase authentication
+/// is used to make this system of login
+
 class OpitrainingLogin extends StatefulWidget {
 
   OpitrainingLogin({Key key}) : super (key: key);
@@ -135,34 +139,6 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
     await FirebaseAuth.instance.signOut();
   }
 
-  Widget basicTextField(String placeholder, TextEditingController controller, bool isPassword) {
-    return new TextField(
-      controller: controller,
-      obscureText: isPassword,
-      enableSuggestions: !isPassword,
-      autocorrect: !isPassword,
-      decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder (
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: Color(mainColor),
-                width: 2
-              )
-          ),
-          enabledBorder: OutlineInputBorder (
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: Color(mainColor),
-              )
-          ),
-          hintText: placeholder,
-          hintStyle: TextStyle(
-              color: Color(mainColor),
-              fontSize: lg
-          )
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,25 +180,9 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-            Container(
-              width: margeWidth(context),
-              child: Theme(
-                data: ThemeData (
-                  primaryColor: Color(mainColor),
-                ),
-                child: basicTextField("Email", emailController, false),
-              ),
-            ),
+            MyTextFields(placeholder: "Email", controller: emailController, isPassword: false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.028),
-            Container(
-              width: margeWidth(context),
-              child: Theme(
-                data: ThemeData (
-                  primaryColor: Color(mainColor),
-                ),
-                child: basicTextField("Mot de passe", passwordController, true),
-              ),
-            ),
+            MyTextFields(placeholder: "Mot de passe", controller: passwordController, isPassword: true),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Container(
               alignment: Alignment.centerRight,
@@ -269,32 +229,6 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                     emailController.text = "";
                     passwordController.text = "";
                   }
-                    /*
-                    try {
-                      FirebaseUser user =
-                          (await FirebaseAuth.instance.signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          )).user;
-                      if (user != null) {
-                        error = "";
-                        emailController.text = "";
-                        passwordController.text = "";
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TrainingPlans(indexTab: 0)
-                          ),
-                        );
-                      }
-                    } catch (e) {
-                      this.error = "Wrong email or password.";
-                      print(error);
-                      emailController.text = "";
-                      passwordController.text = "";
-                      // TODO: AlertDialog with error
-                    }
-                     */
                 },
                 child: Text(
                     "CONNEXION",

@@ -4,6 +4,9 @@ import 'package:opitraining/app_bar.dart';
 import 'constant.dart';
 import 'my_drawer.dart';
 
+/// This widget must provide the information of report of one user, how that user
+/// has respect his schedule, the weight he has loose ...
+
 class Report extends StatefulWidget {
   @override
   _ReportState createState() => _ReportState();

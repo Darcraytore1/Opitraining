@@ -48,7 +48,7 @@ double lg;
 double sm;
 double xl;
 double xxl;
-double builder_time;
+double builderTime;
 
 // I load the theme of the application from the firebase db
 
@@ -78,7 +78,7 @@ void initTheme() {
     lg = fontSizes["lg"].toDouble();
     xl = fontSizes["xl"].toDouble();
     xxl = fontSizes["xxl"].toDouble();
-    builder_time = fontSizes["builder_time"].toDouble();
+    builderTime = fontSizes["builder_time"].toDouble();
 
   });
 }

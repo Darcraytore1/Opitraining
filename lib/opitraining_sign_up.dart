@@ -5,6 +5,10 @@ import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/training_plan.dart';
 import 'constant.dart';
 import 'main.dart';
+import 'my_text_fields.dart';
+
+/// This widget provide to the user a possibility to sign up to the application
+/// for use her
 
 class OpitrainingSignUp extends StatefulWidget {
   @override
@@ -19,43 +23,6 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
   final passwordConfirmationController = TextEditingController();
   String error = "";
 
-  Widget basicTextField(String placeholder, TextEditingController controller, bool isPassword) {
-    return new Container(
-      width: margeWidth(context),
-      child: Theme(
-        data: ThemeData (
-          primaryColor: Color(mainColor),
-        ),
-        child: new TextField(
-          controller: controller,
-          obscureText: isPassword,
-          enableSuggestions: !isPassword,
-          autocorrect: !isPassword,
-          decoration: InputDecoration(
-              focusedBorder: OutlineInputBorder (
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                      color: Color(mainColor),
-                      width: 2
-                  )
-              ),
-              enabledBorder: OutlineInputBorder (
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: Color(mainColor),
-                  )
-              ),
-              hintText: placeholder,
-              hintStyle: TextStyle(
-                  color: Color(mainColor),
-                  fontSize: lg
-              )
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,13 +32,13 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            basicTextField("Email",emailController, false),
+            MyTextFields(placeholder: "Email",controller: emailController, isPassword: false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-            basicTextField("Pseudo", pseudoController, false),
+            MyTextFields(placeholder: "Pseudo",controller: pseudoController, isPassword: false),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-            basicTextField("Mot de passe", passwordController, true),
+            MyTextFields(placeholder: "Mot de passe",controller: passwordController, isPassword: true),
             SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-            basicTextField("Confirmation mot de passe", passwordConfirmationController, true),
+            MyTextFields(placeholder: "Confirmation mot de passe",controller: passwordConfirmationController, isPassword: true),
             SizedBox(height: MediaQuery.of(context).size.height * 0.008),
             Container(
                 alignment: Alignment.centerRight,
@@ -136,25 +103,6 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                     passwordConfirmationController.text = "";
                     emailController.text = "";
                   }
-                  /*
-                    if(user != null){
-                      UserUpdateInfo updateUser = UserUpdateInfo();
-                      updateUser.displayName = usernameController.text;
-                      user.updateProfile(updateUser);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => TrainingPlans(indexTab: 0)),
-                      );
-                    }
-                  } catch (e) {
-                    print(e);
-                    usernameController.text = "";
-                    passwordController.text = "";
-                    passwordConfirmationController.text = "";
-                    emailController.text = "";
-                    // TODO: alertdialog with error
-                  }
-                   */
                 },
                 child: Text(
                   "SIGN UP",

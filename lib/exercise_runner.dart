@@ -5,8 +5,11 @@ import 'package:opitraining/rest.dart';
 import 'package:opitraining/result.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 
-import 'Training.dart';
 import 'constant.dart';
+
+/// This widget provide the system of exercise helper, we can see a animation
+/// of a gif, who show to the user the exercise who must to do, he can go the
+/// next exercise or press the pause button
 
 class ExerciseRunner extends StatefulWidget {
 

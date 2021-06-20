@@ -4,6 +4,10 @@ import 'app_bar.dart';
 import 'constant.dart';
 import 'my_drawer.dart';
 
+/// This widget must provide a system of reminder where one user can choose
+/// a hour and set up a reminder, he must can disabled it or just delete it but
+/// also change the hour or the name of one reminder.
+
 class Reminder extends StatefulWidget {
   @override
   _ReminderState createState() => _ReminderState();
