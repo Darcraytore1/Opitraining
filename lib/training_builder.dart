@@ -32,6 +32,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   Exercise currentExercise;
   bool createTrainingButton = false;
   bool isEdit = false;
+  bool isCoaching = false;
 
   TextEditingController controller = TextEditingController();
 
@@ -332,6 +333,24 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                   Expanded(
                     child: SizedBox(),
                   ),
+                  Text(
+                    "Coaching ?",
+                    style: TextStyle(
+                      color: Color(fontColor2),
+                      fontSize: med
+                    ),
+                  ),
+                  Checkbox(
+                      value: isCoaching,
+                      onChanged: (value) {
+                        setState(() {
+                          isCoaching = value;
+                        });
+                      }
+                  ),
+                  Expanded(
+                    child: SizedBox(),
+                  ),
                   TextButton(
                       onPressed: () {
                         setState(() {
@@ -342,7 +361,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         "ANNULER",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: xl
+                          fontSize: lg
                         ),
                       )
                   ),
@@ -361,6 +380,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
                           db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).push().set(<String,dynamic>{
                             'title': controller.text,
+                            'coaching': isCoaching,
                             'listExercise': jsonListExercise
                           });
 
@@ -374,7 +394,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         child: Text(
                           "VALIDER",
                           style: TextStyle(
-                            fontSize: xl
+                            fontSize: lg
                           ),
                         )
                     ),
@@ -462,7 +482,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         "ANNULER",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: xl
+                            fontSize: lg
                         ),
                       )
                   ),
@@ -485,7 +505,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                       child: Text(
                         "VALIDER",
                         style: TextStyle(
-                          fontSize: xl
+                          fontSize: lg
                         ),
                       )
                     ),

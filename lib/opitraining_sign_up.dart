@@ -71,7 +71,9 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                     final db = FirebaseDatabase.instance.reference();
 
                     db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).set({
-                      "pseudo" : pseudoController.text,
+                      "user_info" : {
+                        "pseudo" : pseudoController.text
+                      },
                       "is_coach" : false
                     });
 

@@ -28,6 +28,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
   TabController _tabController;
   List<Training> listTraining = [];
   List<UserTraining> listUserTraining = [];
+  List<UserTraining> listCoachTraining = [];
 
   @override
   void initState() {
@@ -70,6 +71,32 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         });
       });
     });
+
+
+    // coach training
+    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).once().then((DataSnapshot data){
+
+      Map<dynamic,dynamic> users = data.value;
+
+      users.forEach((key, value) {
+        Map<dynamic,dynamic> trainings = users[key]["userTraining"];
+
+        if (key != uid) {
+          if (trainings != null) {
+            trainings.forEach((key, value) {
+              if (trainings[key]["coaching"]) {
+                exercises = [];
+                trainings[key]["listExercise"].forEach((exercise) {
+                  exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+                });
+                listCoachTraining.add(UserTraining(key,trainings[key]['title'], exercises));
+              }
+            });
+          }
+        }
+      });
+    });
+
 
     // user training
     db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).once().then((DataSnapshot data){
@@ -222,7 +249,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     );
   }
 
-  Widget itemUserTraining(UserTraining userTraining) {
+  Widget itemUserTraining(UserTraining userTraining, bool isCoaching) {
     return Column(
       children: [
         Container(
@@ -277,31 +304,38 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
             ],
           ),
         ),
-        Container(
-          width: MediaQuery.of(context).size.width * 0.85,
-          child: Row(
-            children: [
-              Expanded(child: SizedBox()),
-              IconButton(
-                onPressed: () {
-                  // Edit training
-                },
-                icon: Icon(Icons.edit),
-              ),
-              IconButton(
-                onPressed: () {
-                  db.child(opi_pathFirebase).child(opi_dt_users).child(uid).child(opi_dt_userTraining).child(userTraining.id).remove();
-                  setState(() {
-                    listUserTraining.remove(userTraining);
-                  });
-                },
-                icon: Icon(Icons.delete),
-              )
-            ],
-          ),
-        )
+        editDeleteBar(isCoaching, userTraining)
       ],
     );
+  }
+
+  Widget editDeleteBar(bool isCoaching, UserTraining userTraining) {
+    if (!isCoaching) {
+      return Container(
+        width: MediaQuery.of(context).size.width * 0.85,
+        child: Row(
+          children: [
+            Expanded(child: SizedBox()),
+            IconButton(
+              onPressed: () {
+                // Edit training
+              },
+              icon: Icon(Icons.edit),
+            ),
+            IconButton(
+              onPressed: () {
+                db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).child(userTraining.id).remove();
+                setState(() {
+                  listUserTraining.remove(userTraining);
+                });
+              },
+              icon: Icon(Icons.delete),
+            )
+          ],
+        ),
+      );
+    }
+    else return Container();
   }
 
   Widget _bottomsButtons() {
@@ -360,12 +394,14 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.all(8),
-                  itemCount: listTraining.length + listUserTraining.length,
+                  itemCount: listTraining.length + listUserTraining.length + listCoachTraining.length,
                   itemBuilder: (BuildContext context, int index) {
                     if (listTraining.length - 1 >= index) {
                       return itemExercise(listTraining[index]);
+                    } else if (listCoachTraining.length + listTraining.length - 1 >= index) {
+                      return itemUserTraining(listCoachTraining[index - listTraining.length], true);
                     } else {
-                      return itemUserTraining(listUserTraining[index - listTraining.length]);
+                      return itemUserTraining(listUserTraining[index - (listTraining.length + listCoachTraining.length)], false);
                     }
                   },
                   separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.02),
