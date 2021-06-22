@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:survey_js_core/survey_js_core.dart';
 
 import 'AccountItem.dart';
 import 'constant.dart';
@@ -23,39 +24,13 @@ class _CoachAccountState extends State<CoachAccount> {
   final List<bool> isSelected = [false,false,false,false,false,false,false];
   List<String> listSelectedDay = [];
 
-  List<AccountItem> accountItems = [
-    AccountItem("Prénom", "Durant"),
-    AccountItem("Nom", "Ronald"),
-    AccountItem("Ville", "Paris"),
-    AccountItem("Jour de disponible", "Tous les jours de la semaine"),
-    AccountItem("Email", ""),
-    AccountItem("Téléphone", ""),
-    AccountItem("Prix par heure", ""),
-    AccountItem("Description", "")
-  ];
+  List<String> accountItems = [];
 
-  List<String> listPathFirebase = [
-    "first_name",
-    "name",
-    "city",
-    "availability",
-    "email",
-    "phone",
-    "price",
-    "description"
-  ];
+  List<String> listPathFirebase = [];
 
-  List<TextEditingController> listController = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController()
-  ];
+  List<TextEditingController> listController = [];
 
+  final db = FirebaseDatabase.instance.reference().child(opi_pathFirebase);
   final dbMyUser = FirebaseDatabase.instance.reference().child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid);
 
   @override
@@ -64,20 +39,41 @@ class _CoachAccountState extends State<CoachAccount> {
     super.initState();
     // Load content textfield
 
-    dbMyUser.once().then((DataSnapshot data) {
-      Map<dynamic,dynamic> users = data.value;
+    db.once().then((DataSnapshot data) {
 
-      isChecked = users["is_coach"];
+      Map<dynamic,dynamic> ref = data.value;
 
-      listController[0].text = users["coach_info"]["first_name"];
-      listController[1].text = users["coach_info"]["name"];
-      listController[2].text = users["coach_info"]["city"];
-      listController[4].text = users["coach_info"]["email"];
-      listController[5].text = users["coach_info"]["phone"];
-      listController[6].text = users["coach_info"]["price"].toString();
-      listController[7].text = users["coach_info"]["description"];
+      // List of text field name
+      List<dynamic> accountItems = ref[opi_cf_configuration][opi_cf_coachSurvey];
 
-      Map<dynamic,dynamic> dayAvailable = users["coach_info"]["availability"];
+      accountItems.forEach((field) {
+        this.accountItems.add(field);
+      });
+
+      // List path firebase for coach info
+      List<dynamic> listPathFirebase =  ref[opi_cf_configuration][opi_cf_pathFirebaseCoachSurvey];
+
+      listPathFirebase.forEach((path) {
+        this.listPathFirebase.add(path);
+      });
+
+      Map<dynamic,dynamic> user = ref[opi_dt_data][opi_dt_users][uid];
+
+      isChecked = user["is_coach"];
+
+      // Initialize value of textField with content of db
+      String text = "";
+
+      for (int i = 0; i < this.listPathFirebase.length; i++) {
+        if (user["coach_info"][this.listPathFirebase[i]] == null) {
+          text = "";
+        } else {
+          text =  user["coach_info"][this.listPathFirebase[i]].toString();
+        }
+        listController.add(TextEditingController(text: text));
+      }
+
+      Map<dynamic,dynamic> dayAvailable = user["coach_info"]["availability"];
       dayAvailable.forEach((key,value) {
         switch (key) {
           case ("Lun"):
@@ -302,7 +298,7 @@ class _CoachAccountState extends State<CoachAccount> {
                           ],
                         );
                       } else {
-                        return accountItem(accountItems[index].name, listController[index], index);
+                        return accountItem(accountItems[index], listController[index], index);
                       }
                     },
                     separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.02),

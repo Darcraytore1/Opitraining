@@ -16,9 +16,35 @@ final List<String> listBottomItems = [];
 String pseudo = "";
 String uid = "";
 
+/*
+Future<int> addFromJs( JavascriptRuntime jsRuntime,
+    int firtNumber, int secondNumber) async {
+    String blocJs = await rootBundle.loadString("assets/bloc.js");
+    final jsResult =
+        jsRuntime.evaluate(blocJs + """add($firtNumber, $secondNumber)""");
+    final jsStringResult = jsResult.stringResult;
+    return int.parse(jsStringResult);
+}
+ */
+
 void main() async {
 
+  /*
+  try {
+    print(addFromJs(jsRuntime, 3, 4).toString());
+  } catch (e) {
+
+  }
+   */
+
+  //JsEvalResult jsResult = jsRuntime.evaluate("Math.trunc(Math.random() * 100).toString();");
+  //print (jsResult.stringResult);
+
+
+
+
   // Initialize graphQL
+  /*
 
   await initHiveForFlutter();
 
@@ -41,6 +67,7 @@ void main() async {
       cache: GraphQLCache(store: HiveStore()),
     ),
   );
+   */
 
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,14 +95,12 @@ void main() async {
     });
   });
 
-  runApp(MyApp(client: client));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
 
-  final ValueNotifier<GraphQLClient> client;
-
-  MyApp({Key key, this.client}) : super (key: key);
+  MyApp({Key key}) : super (key: key);
 
   // This widget is the root of your application.
   @override
@@ -84,27 +109,24 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return GraphQLProvider(
-      client: client,
-      child: MaterialApp(
-          title: 'Opitraining',
-          routes: {
-            '/training': (context) => TrainingPlans(indexTab: 0),
-          },
-          theme: ThemeData(
-            // This is the theme of your application.
-            //
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or simply save your changes to "hot reload" in a Flutter IDE).
-            // Notice that the counter didn't reset back to zero; the application
-            // is not restarted.
-            primarySwatch: Colors.blue,
-          ),
-          home: OpitrainingLogin()
-      ),
+    return MaterialApp(
+        title: 'Opitraining',
+        routes: {
+          '/training': (context) => TrainingPlans(indexTab: 0),
+        },
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blue,
+        ),
+        home: OpitrainingLogin()
     );
   }
 }
@@ -114,7 +136,7 @@ class MyApp extends StatelessWidget {
 
 class OpitrainingLogin extends StatefulWidget {
 
-  OpitrainingLogin({Key key}) : super (key: key);
+  // OpitrainingLogin({Key key}) : super (key: key);
 
   //final ValueNotifier<GraphQLClient> client;
 
@@ -132,6 +154,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
   @override
   void initState() {
     super.initState();
+
     _signOut();
   }
 

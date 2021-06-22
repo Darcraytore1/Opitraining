@@ -12,6 +12,10 @@ const String opi_cf_bottomItems = "bottomItems";
 const String opi_cf_trainings = "trainings";
 const String opi_cf_exercises = "exercises";
 const String opi_cf_theme = "theme";
+const String opi_cf_coachSurvey = "coachSurvey";
+const String opi_cf_pathFirebaseCoachSurvey = "pathFirebaseCoachSurvey";
+const String opi_cf_userSurvey = "userSurvey";
+const String opi_cf_pathFirebaseUserSurvey = "pathFirebaseUserSurvey";
 
 
 // Path firebase data
@@ -21,6 +25,7 @@ const String opi_dt_users = "users";
 const String opi_dt_userTraining = "userTraining";
 const String opi_dt_coachs = "coachs";
 const String opi_dt_isCoachP = "is_coach";
+const String opi_dt_userInfo = "user_info";
 const String opi_dt_coachInfo = "coach_info";
 const String opi_dt_firstName = "first_name";
 const String opi_dt_availability = "availability";

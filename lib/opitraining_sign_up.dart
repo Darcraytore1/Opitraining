@@ -66,6 +66,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                     );
 
                     uid = userCredential.user.uid;
+                    pseudo = pseudoController.text;
 
                     final db = FirebaseDatabase.instance.reference();
 

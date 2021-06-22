@@ -38,7 +38,7 @@ class _CoachingState extends State<Coaching> {
             }
           });
           setState(() {
-            coachList.add(Coach(users[key]["coach_info"]["first_name"], users[key]["coach_info"]["name"], users[key]["coach_info"]["city"], users[key]["coach_info"]["price"], dayList, users[key]["coach_info"]["phone"], users[key]["coach_info"]["description"], users[key]["coach_info"]["email"]));
+            coachList.add(Coach(users[key]["coach_info"]["first_name"], users[key]["coach_info"]["name"], users[key]["coach_info"]["city"], int.parse(users[key]["coach_info"]["price"]), dayList, users[key]["coach_info"]["phone"], users[key]["coach_info"]["description"], users[key]["coach_info"]["email"]));
           });
         }
       });
