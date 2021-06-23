@@ -25,26 +25,21 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
 
   AnimationController controller;
   Timer _timer;
-  int restTime = 20;
+  int advisedTime = 20;
+  int restTime = 0;
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
-          (Timer timer) {
-        if (restTime == 0) {
-          setState(() {
-            timer.cancel();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ExerciseRunner(indexExercise: widget.indexExercise)),
-            );
-          });
-        } else {
-          setState(() {
-            restTime--;
-          });
-        }
+      (Timer timer) {
+        setState(() {
+          restTime++;
+          if (restTime % advisedTime == 0) {
+            controller.reset();
+            controller.forward();
+          }
+        });
       },
     );
   }
@@ -54,13 +49,15 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
     startTimer();
     controller = AnimationController(
       vsync: this,
-      reverseDuration: Duration(seconds: restTime),
-      duration: Duration(seconds: restTime),
+      duration: Duration(seconds: advisedTime),
     )..addListener(() {
       setState(() {});
     });
+    /*
     controller.forward(from: restTime.toDouble());
     controller.reverse();
+     */
+    controller.forward();
     super.initState();
   }
 
@@ -130,6 +127,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                /*
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -156,6 +154,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+                 */
                 ElevatedButton(
                   onPressed: () {
                     _timer.cancel();

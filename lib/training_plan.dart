@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/coaching.dart';
-import 'package:opitraining/schedule.dart';
+import 'package:opitraining/schedule_choice.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 import 'package:opitraining/training_builder.dart';
 import 'Training.dart';
@@ -213,7 +213,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Schedule()),
+                            MaterialPageRoute(builder: (context) => ScheduleChoice()),
                           );
                         },
                         icon: Icon(Icons.add_alarm)

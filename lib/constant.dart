@@ -29,6 +29,8 @@ const String opi_dt_userInfo = "user_info";
 const String opi_dt_coachInfo = "coach_info";
 const String opi_dt_firstName = "first_name";
 const String opi_dt_availability = "availability";
+const String opi_dt_schedule = "schedule";
+const String opi_dt_toDo = "toDo";
 
 
 // Path of the theme of the application with all infos like colors, font size ...
