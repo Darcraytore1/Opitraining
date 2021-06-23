@@ -77,7 +77,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -566,7 +566,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   xdg_directories:
     dependency: transitive
     description:

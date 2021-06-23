@@ -41,36 +41,53 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
     );
     _tabController.addListener(_handleTabIndex);
 
-    db.once().then((DataSnapshot data) {
-      Map<dynamic, dynamic> ref = data.value;
+    loadInfo();
+  }
 
-      // List of text field name
-      List<dynamic> accountItems = ref[opi_cf_configuration][opi_cf_userSurvey];
+  Future<void> loadInfo() async {
+    var dbUserSurvey = db.child(opi_cf_configuration).child(opi_cf_userSurvey);
+    var dbPathFirebase = db.child(opi_cf_configuration).child(opi_cf_pathFirebaseUserSurvey);
+    var dbUser = db.child(opi_dt_data).child(opi_dt_users).child(uid);
 
-      accountItems.forEach((field) {
-        this.accountItems.add(field);
-      });
-
+    await dbPathFirebase.once().then((DataSnapshot data) {
       // List path firebase for coach info
-      List<dynamic> listPathFirebase = ref[opi_cf_configuration][opi_cf_pathFirebaseUserSurvey];
+      List<dynamic> listPathFirebase = data.value;
 
       listPathFirebase.forEach((path) {
-        this.listPathFirebase.add(path);
+        setState(() {
+          this.listPathFirebase.add(path);
+        });
       });
 
-      Map<dynamic, dynamic> user = ref[opi_dt_data][opi_dt_users][uid];
+      dbUserSurvey.once().then((DataSnapshot data) {
 
-      // Initialize value of textField with content of db
-      String text = "";
+        // List of text field name
+        List<dynamic> accountItems = data.value;
 
-      for (int i = 0; i < this.listPathFirebase.length; i++) {
-        if (user["user_info"][this.listPathFirebase[i]] == null) {
-          text = "";
-        } else {
-          text = user["user_info"][this.listPathFirebase[i]].toString();
-        }
-        listController.add(TextEditingController(text: text));
-      }
+        accountItems.forEach((field) {
+          setState(() {
+            this.accountItems.add(field);
+          });
+        });
+
+        dbUser.once().then((DataSnapshot data) {
+          Map<dynamic, dynamic> user = data.value;
+
+          // Initialize value of textField with content of db
+          String text = "";
+
+          for (int i = 0; i < this.listPathFirebase.length; i++) {
+            if (user["user_info"][this.listPathFirebase[i]] == null) {
+              text = "";
+            } else {
+              text = user["user_info"][this.listPathFirebase[i]].toString();
+            }
+            setState(() {
+              listController.add(TextEditingController(text: text));
+            });
+          }
+        });
+      });
     });
   }
 
@@ -225,7 +242,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
                       padding: const EdgeInsets.all(8),
                       itemCount: accountItems.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return accountItem(accountItems[index], listController[index], index);
+                          return accountItem(accountItems[index], listController[index], index);
                       },
                       separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     ),

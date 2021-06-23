@@ -47,14 +47,18 @@ class _CoachAccountState extends State<CoachAccount> {
       List<dynamic> accountItems = ref[opi_cf_configuration][opi_cf_coachSurvey];
 
       accountItems.forEach((field) {
-        this.accountItems.add(field);
+        setState(() {
+          this.accountItems.add(field);
+        });
       });
 
       // List path firebase for coach info
       List<dynamic> listPathFirebase =  ref[opi_cf_configuration][opi_cf_pathFirebaseCoachSurvey];
 
       listPathFirebase.forEach((path) {
-        this.listPathFirebase.add(path);
+        setState(() {
+          this.listPathFirebase.add(path);
+        });
       });
 
       Map<dynamic,dynamic> user = ref[opi_dt_data][opi_dt_users][uid];
@@ -70,7 +74,9 @@ class _CoachAccountState extends State<CoachAccount> {
         } else {
           text =  user["coach_info"][this.listPathFirebase[i]].toString();
         }
-        listController.add(TextEditingController(text: text));
+        setState(() {
+          listController.add(TextEditingController(text: text));
+        });
       }
 
       Map<dynamic,dynamic> dayAvailable = user["coach_info"]["availability"];
