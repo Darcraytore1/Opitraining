@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'MenuItem.dart';
 import 'constant.dart';
 import 'my_text_fields.dart';
@@ -16,59 +15,8 @@ final List<String> listBottomItems = [];
 String pseudo = "";
 String uid = "";
 
-/*
-Future<int> addFromJs( JavascriptRuntime jsRuntime,
-    int firtNumber, int secondNumber) async {
-    String blocJs = await rootBundle.loadString("assets/bloc.js");
-    final jsResult =
-        jsRuntime.evaluate(blocJs + """add($firtNumber, $secondNumber)""");
-    final jsStringResult = jsResult.stringResult;
-    return int.parse(jsStringResult);
-}
- */
 
 void main() async {
-
-  /*
-  try {
-    print(addFromJs(jsRuntime, 3, 4).toString());
-  } catch (e) {
-
-  }
-   */
-
-  //JsEvalResult jsResult = jsRuntime.evaluate("Math.trunc(Math.random() * 100).toString();");
-  //print (jsResult.stringResult);
-
-
-
-
-  // Initialize graphQL
-  /*
-
-  await initHiveForFlutter();
-
-  final HttpLink httpLink = HttpLink(
-    'https://api.github.com/graphql',
-  );
-
-  final AuthLink authLink = AuthLink(
-    getToken: () async => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
-    // OR
-    // getToken: () => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
-  );
-
-  final Link link = authLink.concat(httpLink);
-
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
-    GraphQLClient(
-      link: link,
-      // The default store is the InMemoryStore, which does NOT persist to disk
-      cache: GraphQLCache(store: HiveStore()),
-    ),
-  );
-   */
-
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/coach_account.dart';
-import 'package:survey_js_core/model/survey.dart';
 import 'AccountItem.dart';
 import 'constant.dart';
 import 'main.dart';
@@ -43,6 +41,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
 
     loadInfo();
   }
+
 
   Future<void> loadInfo() async {
     var dbUserSurvey = db.child(opi_cf_configuration).child(opi_cf_userSurvey);

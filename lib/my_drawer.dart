@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/contact.dart';
+import 'package:opitraining/new_exercise.dart';
 import 'package:opitraining/schedule.dart';
 import 'package:opitraining/settings.dart';
 import 'constant.dart';
+import 'history.dart';
 import 'main.dart';
 import 'training_plan.dart';
 import 'my_account.dart';
@@ -153,11 +155,11 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           itemDrawer(listItem[0], Icon(Icons.accessibility_rounded), TrainingPlans(indexTab: 0), context),
-          itemDrawer(listItem[1], Icon(Icons.accessibility_rounded), TrainingPlans(indexTab: 1), context),
-          itemDrawer(listItem[2], Icon(Icons.airline_seat_flat_rounded), MyAccount(), context),
-          itemDrawer(listItem[3], Icon(Icons.account_circle), Schedule(), context),
-          itemDrawer(listItem[4], Icon(Icons.schedule), Report(), context),
-          itemDrawer(listItem[5], Icon(Icons.airplanemode_on_rounded), Reminder(), context),
+          itemDrawer(listItem[1], Icon(Icons.accessibility_rounded), NewExercise(), context),
+          itemDrawer(listItem[2], Icon(Icons.airline_seat_flat_rounded), TrainingPlans(indexTab: 1), context),
+          itemDrawer(listItem[3], Icon(Icons.account_circle), MyAccount(), context),
+          itemDrawer(listItem[4], Icon(Icons.schedule), Schedule(), context),
+          itemDrawer(listItem[5], Icon(Icons.airplanemode_on_rounded), History(), context),
           Expanded(
             flex: 1,
             child: Container(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:opitraining/rest.dart';
 import 'package:opitraining/result.dart';
 import 'package:opitraining/start_menu_exercise.dart';
+import 'package:video_player/video_player.dart';
 
 import 'constant.dart';
 
@@ -24,14 +25,14 @@ class ExerciseRunner extends StatefulWidget {
 
 class _ExerciseRunnerState extends State<ExerciseRunner> {
 
+  VideoPlayerController _videController;
+  Future<void> _initializeVideoPlayerFuture;
+
   bool _isVisible = false;
   bool _isOpaque = false;
 
   Timer _timer;
   int _start;
-
-  AnimationController _controller;
-  Animation<int> _animation;
 
   bool isRepetition() {
     if (widget.listExercise[widget.indexExercise].getIsRepetition()) return true;
@@ -44,8 +45,30 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
       _start = widget.listExercise[widget.indexExercise].getInfo();
       startTimer();
     }
+
+    // Create an store the VideoPlayerController. The VideoPlayerController
+    // offers several different constructors to play videos from assets, files,
+    // or the internet.
+    _videController = VideoPlayerController.network(
+      widget.listExercise[widget.indexExercise].url,
+    );
+
+    _initializeVideoPlayerFuture = _videController.initialize();
+    _videController.play();
+    _videController.setLooping(true);
+
     super.initState();
   }
+
+  @override
+  void dispose() {
+    // Ensure disposing of the VideoPlayerController to free up resources.
+
+    _timer.cancel();
+    _videController.dispose();
+    super.dispose();
+  }
+
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -54,6 +77,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
           (Timer timer) {
         if (_start == 0) {
           setState(() {
+            _videController.dispose();
             timer.cancel();
             if (widget.indexExercise == widget.listExercise.length - 1) {
               Navigator.push(
@@ -76,12 +100,6 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
         }
       },
     );
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 
   String _printDuration(Duration duration) {
@@ -227,7 +245,24 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
                       )
                   ),
                 ),
-                currentExercise(widget.listExercise[widget.indexExercise].getAnimatedImage()),
+                FutureBuilder(
+                  future: _initializeVideoPlayerFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      // If the VideoPlayerController has finished initialization, use
+                      // the data it provides to limit the aspect ratio of the video.
+                      return AspectRatio(
+                        aspectRatio: _videController.value.aspectRatio,
+                        // Use the VideoPlayer widget to display the video.
+                        child: VideoPlayer(_videController),
+                      );
+                    } else {
+                      // If the VideoPlayerController is still initializing, show a
+                      // loading spinner.
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 Text(
                   widget.listExercise[widget.indexExercise].getExerciseTitle(),
@@ -256,6 +291,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
                       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.08),
                       child: ElevatedButton(
                         onPressed: () {
+                          _videController.dispose();
                           if (!isRepetition()) _timer.cancel();
                           if (widget.indexExercise == widget.listExercise.length - 1) {
                             Navigator.push(

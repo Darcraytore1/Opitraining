@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/exercise_runner.dart';
 import 'package:opitraining/my_drawer.dart';
+import 'package:video_player/video_player.dart';
 
 import 'Training.dart';
 import 'constant.dart';
@@ -9,14 +10,12 @@ import 'constant.dart';
 class Exercise {
 
   String url;
-  Image animatedImage;
   String exerciseTitle;
   int info;
   bool isRepetition;
 
-  Exercise(String url, Image animatedImage, String exerciseTitle, int info, bool isRepetition ) {
+  Exercise(String url, String exerciseTitle, int info, bool isRepetition ) {
     this.url = url;
-    this.animatedImage = animatedImage;
     this.exerciseTitle = exerciseTitle;
     this.info = info;
     this.isRepetition = isRepetition;
@@ -28,8 +27,8 @@ class Exercise {
   }
    */
 
-  Image getAnimatedImage() {
-    return animatedImage;
+  String getUrl() {
+    return url;
   }
 
   String getExerciseTitle() {
@@ -74,6 +73,46 @@ class StartMenuExercise extends StatefulWidget {
 
 class _StartMenuExerciseState extends State<StartMenuExercise> {
 
+  List<VideoPlayerController> listController = [];
+  List<Future<void>> _initializeVideoPlayerFuture = [];
+
+  @override
+  void initState() {
+    // Create an store the VideoPlayerController. The VideoPlayerController
+    // offers several different constructors to play videos from assets, files,
+    // or the internet.
+
+
+    widget.listExercise.forEach((exercise) {
+      listController.add(VideoPlayerController.network(
+        exercise.url,
+      ));
+    });
+
+
+    listController.forEach((controller) {
+      _initializeVideoPlayerFuture.add(controller.initialize());
+      controller.setVolume(0);
+      controller.play();
+      controller.setLooping(true);
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Ensure disposing of the VideoPlayerController to free up resources.
+
+    listController.forEach((controller) {
+      controller.dispose();
+    });
+
+    //_controller.dispose();
+
+    super.dispose();
+  }
+
   String _printDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
@@ -86,7 +125,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
     return _printDuration(Duration(seconds: exercise.getInfo()));
   }
 
-  Widget itemExercise(Exercise exercise) {
+  Widget itemExercise(Exercise exercise, VideoPlayerController controller, Future<void> init) {
     return Center (
       child: Container(
         width: MediaQuery.of(context).size.width*0.85,
@@ -105,11 +144,23 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.25,
                 height: MediaQuery.of(context).size.height * 0.10,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: exercise.getAnimatedImage().image,
-                      fit: BoxFit.fill
-                  ),
+                child: FutureBuilder(
+                  future: init,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      // If the VideoPlayerController has finished initialization, use
+                      // the data it provides to limit the aspect ratio of the video.
+                      return AspectRatio(
+                        aspectRatio: controller.value.aspectRatio,
+                        // Use the VideoPlayer widget to display the video.
+                        child: VideoPlayer(controller),
+                      );
+                    } else {
+                      // If the VideoPlayerController is still initializing, show a
+                      // loading spinner.
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
               ),
             ),
@@ -220,7 +271,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                 scrollDirection: Axis.vertical,
                 itemCount: widget.listExercise.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return itemExercise(widget.listExercise[index]);
+                  return itemExercise(widget.listExercise[index], listController[index], _initializeVideoPlayerFuture[index]);
                 },
                 separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               ),
@@ -231,6 +282,9 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
             child: Center(
               child: ElevatedButton(
                 onPressed: () {
+                  listController.forEach((controller) {
+                    controller.dispose();
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ExerciseRunner(indexExercise: 0, listExercise: widget.listExercise)),

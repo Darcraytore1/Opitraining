@@ -1,11 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:survey_js_core/survey_js_core.dart';
 
 import 'AccountItem.dart';
 import 'constant.dart';
 import 'main.dart';
-import 'my_drawer.dart';
 
 /// This widget permit to personalize your coach account for each person on the
 /// application can see your profile and contact you, if they want to have some
@@ -30,6 +29,8 @@ class _CoachAccountState extends State<CoachAccount> {
 
   List<TextEditingController> listController = [];
 
+  String imgUrl = "";
+
   final db = FirebaseDatabase.instance.reference().child(opi_pathFirebase);
   final dbMyUser = FirebaseDatabase.instance.reference().child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid);
 
@@ -38,6 +39,8 @@ class _CoachAccountState extends State<CoachAccount> {
 
     super.initState();
     // Load content textfield
+
+    downloadURLExample();
 
     db.once().then((DataSnapshot data) {
 
@@ -113,6 +116,21 @@ class _CoachAccountState extends State<CoachAccount> {
       });
     });
   }
+
+  Future<void> downloadURLExample() async {
+
+    imgUrl = await FirebaseStorage.instance
+        .ref('Image/ronald.jpg')
+        .getDownloadURL();
+    print(imgUrl);
+
+    setState(() {});
+
+    // Within your widgets:
+    // Image.network(downloadURL);
+  }
+
+
 
   Widget itemDay(String day, int index) {
     return GestureDetector(
@@ -247,7 +265,7 @@ class _CoachAccountState extends State<CoachAccount> {
                       color: Colors.white,
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage('images/ronald.jpg'),
+                          image: NetworkImage(imgUrl),
                           fit: BoxFit.cover
                       )
                   ),

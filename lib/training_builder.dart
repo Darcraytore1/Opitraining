@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 import 'package:opitraining/training_plan.dart';
+import 'package:video_player/video_player.dart';
 
 import 'UserTraining.dart';
 import 'coaching.dart';
@@ -41,6 +42,9 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
   List<Exercise> listExercise = [];
 
+  List<VideoPlayerController> listController = [];
+  List<Future<void>> _initializeVideoPlayerFuture = [];
+
   @override
   void initState(){
     super.initState();
@@ -52,8 +56,18 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
       values.forEach((exercise) {
         setState(() {
-          exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+          exercises.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
         });
+        listController.add(VideoPlayerController.network(
+          exercise["animatedImage"],
+        ));
+      });
+
+      listController.forEach((controller) {
+        _initializeVideoPlayerFuture.add(controller.initialize());
+        controller.setVolume(0);
+        controller.play();
+        controller.setLooping(true);
       });
 
       listExercise.addAll(exercises);
@@ -61,7 +75,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
     });
   }
 
-  Widget itemExercise(Exercise exercise) {
+  Widget itemExercise(Exercise exercise, VideoPlayerController controller, Future<void> init) {
     return Center (
       child: InkWell(
         onTap: () {
@@ -88,11 +102,31 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.25,
                   height: MediaQuery.of(context).size.height * 0.10,
+                  /*
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: exercise.getAnimatedImage().image,
                         fit: BoxFit.fill
                     ),
+                  ),
+                   */
+                  child: FutureBuilder(
+                    future: init,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        // If the VideoPlayerController has finished initialization, use
+                        // the data it provides to limit the aspect ratio of the video.
+                        return AspectRatio(
+                          aspectRatio: controller.value.aspectRatio,
+                          // Use the VideoPlayer widget to display the video.
+                          child: VideoPlayer(controller),
+                        );
+                      } else {
+                        // If the VideoPlayerController is still initializing, show a
+                        // loading spinner.
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
                   ),
                 ),
               ),
@@ -133,7 +167,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
     return _printDuration(Duration(seconds: exercise.getInfo()));
   }
 
-  Widget itemExerciseActive(Exercise exercise) {
+  Widget itemExerciseActive(Exercise exercise, VideoPlayerController controller, Future<void> init) {
     return Center (
       child: Container(
         width: MediaQuery.of(context).size.width*0.85,
@@ -152,12 +186,25 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.25,
                 height: MediaQuery.of(context).size.height * 0.10,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: exercise.getAnimatedImage().image,
-                      fit: BoxFit.fill
-                  ),
+                child: FutureBuilder(
+                  future: init,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      // If the VideoPlayerController has finished initialization, use
+                      // the data it provides to limit the aspect ratio of the video.
+                      return AspectRatio(
+                        aspectRatio: controller.value.aspectRatio,
+                        // Use the VideoPlayer widget to display the video.
+                        child: VideoPlayer(controller),
+                      );
+                    } else {
+                      // If the VideoPlayerController is still initializing, show a
+                      // loading spinner.
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
+
               ),
             ),
             Expanded(
@@ -493,7 +540,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         if (isEdit) {
                           exercise.setInfo(value);
                         } else {
-                          newListExercise.add(Exercise(exercise.url, exercise.getAnimatedImage(), exercise.exerciseTitle, value, exercise.getIsRepetition()));
+                          newListExercise.add(Exercise(exercise.url, exercise.exerciseTitle, value, exercise.getIsRepetition()));
                         }
                         _isVisible = false;
                         value = defaultValue;
@@ -544,7 +591,6 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
         listExerciseFiltered.addAll(listExercise);
       });
     }
-
   }
 
   @override
@@ -569,7 +615,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     shrinkWrap: true,
                     itemCount: newListExercise.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return itemExerciseActive(newListExercise[index]);
+                      return itemExerciseActive(newListExercise[index], listController[index], _initializeVideoPlayerFuture[index]);
                     },
                     separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   ),
@@ -621,7 +667,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                   scrollDirection: Axis.vertical,
                   itemCount: listExerciseFiltered.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return itemExercise(listExerciseFiltered[index]);
+                    return itemExercise(listExerciseFiltered[index], listController[index], _initializeVideoPlayerFuture[index]);
                   },
                   separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 ),

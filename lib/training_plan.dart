@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/coaching.dart';
 import 'package:opitraining/schedule_choice.dart';
@@ -58,7 +59,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         index = 0;
         List<dynamic> exercisesList = trainingC['listExercise'];
         exercisesList.forEach((exercise) {
-          exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+          exercises.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
           index ++;
           if (index == exercisesList.length){
             training = Training(trainingC["title"], trainingC['description'], trainingC['url_image'], exercises);
@@ -87,7 +88,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
               if (trainings[key]["coaching"]) {
                 exercises = [];
                 trainings[key]["listExercise"].forEach((exercise) {
-                  exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+                  exercises.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
                 });
                 listCoachTraining.add(UserTraining(key,trainings[key]['title'], exercises));
               }
@@ -106,7 +107,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         trainings.forEach((key, value) {
           exercises = [];
           trainings[key]["listExercise"].forEach((exercise) {
-            exercises.add(Exercise(exercise["animatedImage"], Image.network(exercise["animatedImage"]), exercise["title"], exercise["info"], exercise["isRepetition"]));
+            exercises.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
           });
           listUserTraining.add(UserTraining(key,trainings[key]['title'], exercises));
         });

@@ -1,24 +1,23 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
-
 import 'package:intl/intl.dart';
+
 import 'ItemCalendar.dart';
 import 'app_bar.dart';
 import 'constant.dart';
 import 'main.dart';
 import 'my_drawer.dart';
 
-class Schedule extends StatefulWidget {
+class History extends StatefulWidget {
   @override
-  _ScheduleState createState() => _ScheduleState();
+  _HistoryState createState() => _HistoryState();
 }
 
-class _ScheduleState extends State<Schedule> {
+class _HistoryState extends State<History> {
 
   final dbToDo = FirebaseDatabase.instance.reference().child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_schedule).child(opi_dt_toDo);
 
-  List<ItemCalendar> toDo = [];
+  List<ItemCalendar> done = [];
 
   @override
   void initState() {
@@ -28,19 +27,19 @@ class _ScheduleState extends State<Schedule> {
     TimeOfDay time;
 
     dbToDo.once().then((DataSnapshot data) {
-      Map<dynamic,dynamic> toDo = data.value;
-      if (toDo != null) {
-        toDo.forEach((key, value) {
+      Map<dynamic,dynamic> done = data.value;
+      if (done != null) {
+        done.forEach((key, value) {
           day = DateTime.parse(value["day"]);
           time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
           setState(() {
-            this.toDo.add(ItemCalendar(key, time, day));
+            this.done.add(ItemCalendar(key, time, day));
           });
         });
       }
     });
 
-    toDo.sort((a,b) {
+    done.sort((a,b) {
       return a.compareTo(b);
     });
   }
@@ -82,14 +81,8 @@ class _ScheduleState extends State<Schedule> {
               children: [
                 IconButton(
                     onPressed: () {
-
-                    },
-                    icon: Icon(Icons.edit)
-                ),
-                IconButton(
-                    onPressed: () {
                       dbToDo.child(item.id).remove();
-                      toDo.remove(item);
+                      done.remove(item);
                       setState(() {});
                     },
                     icon: Icon(Icons.delete)
@@ -104,30 +97,30 @@ class _ScheduleState extends State<Schedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(title: "PLANNING", hasBackArrow: false),
+        appBar: MyAppBar(title: "HISTORIQUE", hasBackArrow: false),
         drawer: MyDrawer(),
         body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-              Expanded(
-                  child: Container(
-                    width: margeWidth(context),
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(8),
-                      itemCount: toDo.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return itemCalendar(toDo[index], "Classique");
-                      },
-                      separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                Expanded(
+                    child: Container(
+                      width: margeWidth(context),
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(8),
+                        itemCount: done.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container();
+                        },
+                        separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      ),
                     ),
-                  ),
-              )
-            ],
-          )
+                )
+              ],
+            )
         )
     );
   }
