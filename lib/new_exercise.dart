@@ -32,26 +32,28 @@ class _NewExerciseState extends State<NewExercise> {
     List<Exercise> exercises = [];
 
     db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userExercise).once().then((DataSnapshot data){
-      List<dynamic> values = data.value;
+      Map<dynamic,dynamic> values = data.value;
 
-      values.forEach((exercise) {
-        setState(() {
-          exercises.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+      if (values != null) {
+        values.forEach((key, value) {
+          setState(() {
+            exercises.add(Exercise(value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+          });
+          listController.add(VideoPlayerController.network(
+            value["animatedImage"],
+          ));
         });
-        listController.add(VideoPlayerController.network(
-          exercise["animatedImage"],
-        ));
-      });
 
-      listController.forEach((controller) {
-        _initializeVideoPlayerFuture.add(controller.initialize());
-        controller.setVolume(0);
-        controller.play();
-        controller.setLooping(true);
-      });
+        listController.forEach((controller) {
+          _initializeVideoPlayerFuture.add(controller.initialize());
+          controller.setVolume(0);
+          controller.play();
+          controller.setLooping(true);
+        });
 
-      listUserExercise.addAll(exercises);
-      listUserExerciseFiltered.addAll(exercises);
+        listUserExercise.addAll(exercises);
+        listUserExerciseFiltered.addAll(exercises);
+      }
     });
   }
 

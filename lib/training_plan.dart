@@ -79,23 +79,25 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
 
       Map<dynamic,dynamic> users = data.value;
 
-      users.forEach((key, value) {
-        Map<dynamic,dynamic> trainings = users[key]["userTraining"];
+      if (users != null) {
+        users.forEach((key, value) {
+          Map<dynamic,dynamic> trainings = users[key]["userTraining"];
 
-        if (key != uid) {
-          if (trainings != null) {
-            trainings.forEach((key, value) {
-              if (trainings[key]["coaching"]) {
-                exercises = [];
-                trainings[key]["listExercise"].forEach((exercise) {
-                  exercises.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
-                });
-                listCoachTraining.add(UserTraining(key,trainings[key]['title'], exercises));
-              }
-            });
+          if (key != uid) {
+            if (trainings != null) {
+              trainings.forEach((key, value) {
+                if (trainings[key]["coaching"]) {
+                  exercises = [];
+                  trainings[key]["listExercise"].forEach((exercise) {
+                    exercises.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+                  });
+                  listCoachTraining.add(UserTraining(key,trainings[key]['title'], exercises));
+                }
+              });
+            }
           }
-        }
-      });
+        });
+      }
     });
 
 

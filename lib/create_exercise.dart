@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:opitraining/new_exercise.dart';
 
 import 'app_bar.dart';
 import 'constant.dart';
@@ -14,9 +17,21 @@ class CreateExercise extends StatefulWidget {
 
 class _CreateExerciseState extends State<CreateExercise> {
 
-  TextEditingController controller;
+  TextEditingController controller = new TextEditingController();
   bool isChecked = true;
-  var sampleImage;
+  File file;
+  String url;
+
+  Future pickGalleryMedia(BuildContext context) async {
+    final String source = ModalRoute.of(context).settings.arguments;
+
+    final getMedia = source == "image"
+        ? ImagePicker().getImage
+        : ImagePicker().getVideo;
+
+    final media = await getMedia(source: ImageSource.gallery);
+    file = File(media.path);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,12 +103,12 @@ class _CreateExerciseState extends State<CreateExercise> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             ElevatedButton(
-              onPressed: () {
-                var tempImage = ImagePicker().getVideo(source: ImageSource.gallery);
-                setState(() {
-                  sampleImage = tempImage;
-                });
-                FirebaseStorage.instance.ref().child("Video/").child("myImage.jpg").putFile(sampleImage);
+              onPressed: () async {
+                await pickGalleryMedia(context);
+                setState(() {});
+                Reference ref = FirebaseStorage.instance.ref().child("Video/").child(DateTime.now().toIso8601String());
+                UploadTask uploadTask = ref.putFile(file);
+                url = await (await uploadTask).ref.getDownloadURL();
               },
               child: Text(
                 "UPLOAD VIDEO",
@@ -115,11 +130,15 @@ class _CreateExerciseState extends State<CreateExercise> {
               onPressed: () {
                 db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userExercise).push().set(
                   {
-                    "animatedImage" : sampleImage,
+                    "animatedImage" : url,
                     "info" : 20,
                     "isRepetition": isChecked,
-                    "title": controller
+                    "title": controller.text
                   }
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewExercise()),
                 );
               },
               child: Text(

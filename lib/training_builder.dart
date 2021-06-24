@@ -45,34 +45,51 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   List<VideoPlayerController> listController = [];
   List<Future<void>> _initializeVideoPlayerFuture = [];
 
+  List<VideoPlayerController> newListController = [];
+  List<Future<void>> _newInitializeVideoPlayerFuture = [];
+
   @override
   void initState(){
     super.initState();
-
-    List<Exercise> exercises = [];
 
     db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_exercises).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
 
       values.forEach((exercise) {
         setState(() {
-          exercises.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+          listExercise.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+          listExerciseFiltered.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
         });
         listController.add(VideoPlayerController.network(
           exercise["animatedImage"],
         ));
+        _initializeVideoPlayerFuture.add( listController[listController.length - 1].initialize());
+        listController[listController.length - 1].setVolume(0);
+        listController[listController.length - 1].play();
+        listController[listController.length - 1].setLooping(true);
       });
-
-      listController.forEach((controller) {
-        _initializeVideoPlayerFuture.add(controller.initialize());
-        controller.setVolume(0);
-        controller.play();
-        controller.setLooping(true);
-      });
-
-      listExercise.addAll(exercises);
-      listExerciseFiltered.addAll(exercises);
     });
+
+    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userExercise).once().then((DataSnapshot data){
+      Map<dynamic,dynamic> values = data.value;
+
+      if (values != null) {
+        values.forEach((key, value) {
+          setState(() {
+            listExercise.add(Exercise(value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+            listExerciseFiltered.add(Exercise(value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+          });
+          listController.add(VideoPlayerController.network(
+            value["animatedImage"],
+          ));
+          _initializeVideoPlayerFuture.add(listController[listController.length - 1].initialize());
+          listController[listController.length - 1].setVolume(0);
+          listController[listController.length - 1].play();
+          listController[listController.length - 1].setLooping(true);
+        });
+      }
+    });
+
   }
 
   Widget itemExercise(Exercise exercise, VideoPlayerController controller, Future<void> init) {
@@ -541,13 +558,15 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                           exercise.setInfo(value);
                         } else {
                           newListExercise.add(Exercise(exercise.url, exercise.exerciseTitle, value, exercise.getIsRepetition()));
+                          newListController.add(VideoPlayerController.network(
+                            exercise.url,
+                          ));
+                          _newInitializeVideoPlayerFuture.add(newListController[newListController.length - 1].initialize());
                         }
                         _isVisible = false;
                         value = defaultValue;
                         createTrainingButton = true;
-                        setState(() {
-
-                        });
+                        setState(() {});
                       },
                       child: Text(
                         "VALIDER",
@@ -615,7 +634,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     shrinkWrap: true,
                     itemCount: newListExercise.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return itemExerciseActive(newListExercise[index], listController[index], _initializeVideoPlayerFuture[index]);
+                      return itemExerciseActive(newListExercise[index], newListController[index], _newInitializeVideoPlayerFuture[index]);
                     },
                     separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   ),
