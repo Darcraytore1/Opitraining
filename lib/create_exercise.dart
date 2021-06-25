@@ -22,6 +22,8 @@ class _CreateExerciseState extends State<CreateExercise> {
   File file;
   String urlVideo;
   String urlImage;
+  double _progressImage = 0;
+  double _progressVideo = 0;
 
   Future pickVideoGalleryMedia(BuildContext context) async {
     final String source = ModalRoute.of(context).settings.arguments;
@@ -88,7 +90,7 @@ class _CreateExerciseState extends State<CreateExercise> {
                 ),
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             ListTile(
               title: const Text('Repetition'),
               leading: Radio<bool>(
@@ -113,12 +115,20 @@ class _CreateExerciseState extends State<CreateExercise> {
                 },
               ),
             ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             ElevatedButton(
               onPressed: () async {
                 await pickImageGalleryMedia(context);
                 setState(() {});
                 Reference ref = FirebaseStorage.instance.ref().child("Image/ExerciseImage/").child(DateTime.now().toIso8601String());
                 UploadTask uploadTask = ref.putFile(file);
+                uploadTask.snapshotEvents.listen((event) {
+                  setState(() {
+                    _progressImage = event.bytesTransferred.toDouble() / event.totalBytes.toDouble();
+                  });
+                  }).onError((error) {
+                    // do something to handle error
+                  });
                 urlImage = await (await uploadTask).ref.getDownloadURL();
               },
               child: Text(
@@ -136,13 +146,27 @@ class _CreateExerciseState extends State<CreateExercise> {
                   padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.025, horizontal: MediaQuery.of(context).size.width * 0.2)
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            Container(
+              width: margeWidth(context),
+              child: LinearProgressIndicator(
+                value: _progressImage,
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             ElevatedButton(
               onPressed: () async {
                 await pickVideoGalleryMedia(context);
                 setState(() {});
                 Reference ref = FirebaseStorage.instance.ref().child("Video/").child(DateTime.now().toIso8601String());
                 UploadTask uploadTask = ref.putFile(file);
+                uploadTask.snapshotEvents.listen((event) {
+                  setState(() {
+                    _progressVideo = event.bytesTransferred.toDouble() / event.totalBytes.toDouble();
+                  });
+                }).onError((error) {
+                  // do something to handle error
+                });
                 urlVideo = await (await uploadTask).ref.getDownloadURL();
               },
               child: Text(
@@ -158,6 +182,13 @@ class _CreateExerciseState extends State<CreateExercise> {
                       borderRadius: BorderRadius.circular(10)
                   ),
                   padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.025, horizontal: MediaQuery.of(context).size.width * 0.2)
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            Container(
+              width: margeWidth(context),
+              child: LinearProgressIndicator(
+                value: _progressVideo,
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),

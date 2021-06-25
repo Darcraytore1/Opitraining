@@ -21,8 +21,6 @@ class _NewExerciseState extends State<NewExercise> {
 
   List<Exercise> listUserExercise = [];
   List<Exercise> listUserExerciseFiltered = [];
-  List<VideoPlayerController> listController = [];
-  List<Future<void>> _initializeVideoPlayerFuture = [];
   TextEditingController _searchQueryController = TextEditingController();
 
   @override
@@ -39,16 +37,6 @@ class _NewExerciseState extends State<NewExercise> {
           setState(() {
             exercises.add(Exercise(value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
           });
-          listController.add(VideoPlayerController.network(
-            value["animatedImage"],
-          ));
-        });
-
-        listController.forEach((controller) {
-          _initializeVideoPlayerFuture.add(controller.initialize());
-          controller.setVolume(0);
-          controller.play();
-          controller.setLooping(true);
         });
 
         listUserExercise.addAll(exercises);
@@ -57,7 +45,7 @@ class _NewExerciseState extends State<NewExercise> {
     });
   }
 
-  Widget itemExercise(Exercise exercise, VideoPlayerController controller, Future<void> init) {
+  Widget itemExercise(Exercise exercise) {
     return Center (
       child: Container(
         width: MediaQuery.of(context).size.width*0.85,
@@ -70,30 +58,17 @@ class _NewExerciseState extends State<NewExercise> {
         ),
         child: Row(
           children: [
-            // gif
             Padding(
               padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.25,
                 height: MediaQuery.of(context).size.height * 0.10,
-                child: FutureBuilder(
-                  future: init,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      // If the VideoPlayerController has finished initialization, use
-                      // the data it provides to limit the aspect ratio of the video.
-                      return AspectRatio(
-                        aspectRatio: controller.value.aspectRatio,
-                        // Use the VideoPlayer widget to display the video.
-                        child: VideoPlayer(controller),
-                      );
-                    } else {
-                      // If the VideoPlayerController is still initializing, show a
-                      // loading spinner.
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
-                ),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(exercise.urlImage),
+                    fit: BoxFit.cover
+                  )
+                )
               ),
             ),
             Expanded(
@@ -211,7 +186,7 @@ class _NewExerciseState extends State<NewExercise> {
                 scrollDirection: Axis.vertical,
                 itemCount: listUserExerciseFiltered.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return itemExercise(listUserExerciseFiltered[index], listController[index], _initializeVideoPlayerFuture[index]);
+                  return itemExercise(listUserExerciseFiltered[index]);
                 },
                 separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               ),

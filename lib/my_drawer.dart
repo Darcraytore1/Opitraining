@@ -118,21 +118,6 @@ class MyDrawer extends StatelessWidget {
                             color: Color(fontColor1)
                         ),
                       ),
-                      SizedBox(height: 30),
-                      Text(
-                        "3",
-                        style: TextStyle(
-                            fontSize: lg,
-                            color: Color(fontColor1)
-                        ),
-                      ),
-                      Text(
-                        "Followers",
-                        style: TextStyle(
-                            fontSize: sm,
-                            color: Color(fontColor1)
-                        ),
-                      )
                     ],
                   ),
                   Container(

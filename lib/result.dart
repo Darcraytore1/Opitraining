@@ -7,11 +7,26 @@ import 'constant.dart';
 /// basic training
 
 class ResultTraining extends StatefulWidget {
+
+  final String title;
+  final int exerciseNumber;
+  final Duration totalTime;
+
+  ResultTraining({Key key, this.title, this.exerciseNumber, this.totalTime}) : super (key: key);
+
   @override
   _ResultTrainingState createState() => _ResultTrainingState();
 }
 
 class _ResultTrainingState extends State<ResultTraining> {
+
+  String _printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$twoDigitMinutes:$twoDigitSeconds";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,42 +38,9 @@ class _ResultTrainingState extends State<ResultTraining> {
             color: Color(mainColor),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05, left: MediaQuery.of(context).size.width * 0.02),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.arrow_back),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        Expanded(
-                          child: SizedBox()
-                        ),
-                        Text(
-                          "10",
-                          style: TextStyle(
-                            fontSize: xl,
-                            color: Color(fontColor1)
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.04, left: MediaQuery.of(context).size.width * 0.02),
-                          child: Icon(
-                            Icons.star_border,
-                            size: 30,
-                          ),
-                        )
-                      ],
-                    )
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Text(
-                  "Classic Completed",
+                  widget.title + " Complété",
                   style: TextStyle(
                     fontSize: xxl,
                     color: Color(fontColor1)
@@ -71,7 +53,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                     Column(
                       children: [
                         Text(
-                          "4",
+                          widget.exerciseNumber.toString(),
                           style: TextStyle(
                             fontSize: lg,
                             color: Color(fontColor1)
@@ -79,7 +61,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                         Text(
-                          "exercises",
+                          "exercices",
                           style: TextStyle(
                             color: Color(fontColor1)
                           ),
@@ -97,7 +79,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                         Text(
-                          "duration",
+                          "durée",
                           style: TextStyle(
                               color: Color(fontColor1)
                           ),
@@ -114,7 +96,7 @@ class _ResultTrainingState extends State<ResultTraining> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Creator : "
+                "Créateur : "
               ),
               TextButton(
                 onPressed: () {
@@ -127,43 +109,23 @@ class _ResultTrainingState extends State<ResultTraining> {
             ],
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-
-                },
-                child: Text(
-                  "ADD TO MY TRAININGS",
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TrainingPlans(indexTab: 0)),
+              );
+            },
+            child: Text(
+              "QUIT",
+            ),
+            style: ElevatedButton.styleFrom(
+                primary: Color(mainColor),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
                 ),
-                style: ElevatedButton.styleFrom(
-                    primary: Color(mainColor),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.07,MediaQuery.of(context).size.height * 0.025,MediaQuery.of(context).size.width * 0.07,MediaQuery.of(context).size.height * 0.025)
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TrainingPlans(indexTab: 0)),
-                  );
-                },
-                child: Text(
-                  "QUIT",
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Color(mainColor),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.07,MediaQuery.of(context).size.height * 0.025,MediaQuery.of(context).size.width * 0.07,MediaQuery.of(context).size.height * 0.025)
-                ),
-              )
-            ],
+                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.025, horizontal: MediaQuery.of(context).size.width * 0.4)
+            ),
           )
         ],
       ),

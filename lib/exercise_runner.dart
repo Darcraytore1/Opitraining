@@ -16,8 +16,10 @@ class ExerciseRunner extends StatefulWidget {
 
   final int indexExercise;
   final List<Exercise> listExercise;
+  final String title;
+  final Duration totalTime;
 
-  ExerciseRunner({Key key, this.indexExercise, this.listExercise}) : super (key: key);
+  ExerciseRunner({Key key, this.indexExercise, this.listExercise, this.title, this.totalTime}) : super (key: key);
 
   @override
   _ExerciseRunnerState createState() => _ExerciseRunnerState();
@@ -33,6 +35,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
 
   Timer _timer;
   int _start;
+  Duration totalTime;
 
   bool isRepetition() {
     if (widget.listExercise[widget.indexExercise].getIsRepetition()) return true;
@@ -43,7 +46,10 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
   void initState() {
     if (!isRepetition()) {
       _start = widget.listExercise[widget.indexExercise].getInfo();
+      //totalTime = Duration(seconds: (widget.totalTime.inSeconds + _start));
       startTimer();
+    } else {
+      //totalTime = Duration(seconds: (widget.totalTime.inSeconds + _start));
     }
 
     // Create an store the VideoPlayerController. The VideoPlayerController
@@ -82,14 +88,14 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
             if (widget.indexExercise == widget.listExercise.length - 1) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ResultTraining()),
+                MaterialPageRoute(builder: (context) => ResultTraining(title: widget.title, exerciseNumber: widget.listExercise.length, totalTime: totalTime)),
               );
             } else {
               int newIndexExercise = widget.indexExercise + 1;
 
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Rest(indexExercise: newIndexExercise)),
+                MaterialPageRoute(builder: (context) => Rest(indexExercise: newIndexExercise, totalTime: totalTime)),
               );
             }
           });
@@ -232,19 +238,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
           Container(
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05, left: MediaQuery.of(context).size.width * 0.03),
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          if (!isRepetition()) _timer.cancel();
-                          Navigator.pop(context);
-                        },
-                      )
-                  ),
-                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 FutureBuilder(
                   future: _initializeVideoPlayerFuture,
                   builder: (context, snapshot) {
@@ -296,13 +290,13 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
                           if (widget.indexExercise == widget.listExercise.length - 1) {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => ResultTraining()),
+                              MaterialPageRoute(builder: (context) => ResultTraining(title: widget.title, exerciseNumber: widget.listExercise.length, totalTime: totalTime)),
                             );
                           } else {
                             int newIndexExercise = widget.indexExercise + 1;
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Rest(indexExercise: newIndexExercise, listExercise: widget.listExercise)),
+                              MaterialPageRoute(builder: (context) => Rest(indexExercise: newIndexExercise, listExercise: widget.listExercise, title: widget.title, totalTime: totalTime)),
                             );
                           }
                         },

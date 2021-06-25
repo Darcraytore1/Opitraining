@@ -14,8 +14,10 @@ class Rest extends StatefulWidget {
 
   final int indexExercise;
   final List<Exercise> listExercise;
+  final String title;
+  final Duration totalTime;
 
-  Rest({Key key, this.indexExercise, this.listExercise}) : super (key: key);
+  Rest({Key key, this.indexExercise, this.listExercise, this.title, this.totalTime}) : super (key: key);
 
   @override
   _RestState createState() => _RestState();
@@ -83,19 +85,6 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
         color: Color(mainColor),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05, left: MediaQuery.of(context).size.width * 0.03),
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      _timer.cancel();
-                      Navigator.pop(context);
-                    },
-                  )
-              ),
-            ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.15),
             Text(
               "REST",
@@ -127,40 +116,12 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                /*
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      restTime += 20;
-                      controller.reset();
-                      controller.reverseDuration = Duration(seconds: restTime);
-                      controller.forward(from: restTime.toDouble());
-                      controller.reverse();
-                    });
-                  },
-                  child: Text(
-                    "+20s",
-                    style: TextStyle(
-                      fontSize: xxl,
-                      color: Color(fontColor2)
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.07,MediaQuery.of(context).size.height * 0.015,MediaQuery.of(context).size.width * 0.07,MediaQuery.of(context).size.height * 0.015)
-                  ),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                 */
                 ElevatedButton(
                   onPressed: () {
                     _timer.cancel();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ExerciseRunner(indexExercise: widget.indexExercise, listExercise: widget.listExercise)),
+                      MaterialPageRoute(builder: (context) => ExerciseRunner(indexExercise: widget.indexExercise, listExercise: widget.listExercise, title: widget.title, totalTime: widget.totalTime)),
                     );
                   },
                   child: Text(
