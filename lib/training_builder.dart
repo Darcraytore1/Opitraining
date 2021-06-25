@@ -3,19 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 import 'package:opitraining/training_plan.dart';
-import 'package:video_player/video_player.dart';
 
 import 'UserTraining.dart';
-import 'coaching.dart';
 import 'constant.dart';
 import 'main.dart';
-import 'constant.dart';
 
 /// This widget provide the capacity to create training, add exercise to your
 /// self training training and when tour are satisfied, you can set up his
 /// name and he's going to be in your list of training (training_plan).
 
 class TrainingBuilder extends StatefulWidget {
+
+  final UserTraining userTraining;
+  final bool isEdit;
+
+  TrainingBuilder({Key key, this.userTraining, this.isEdit}) : super (key: key);
+
   @override
   _TrainingBuilderState createState() => _TrainingBuilderState();
 }
@@ -35,6 +38,8 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   bool isEdit = false;
   bool isCoaching = false;
 
+  String textButtonEditCreate = "";
+
   TextEditingController controller = TextEditingController();
 
   List<Exercise> listExerciseFiltered = [];
@@ -45,6 +50,15 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   @override
   void initState(){
     super.initState();
+
+    if (widget.userTraining != null) newListExercise.addAll(widget.userTraining.listExercise);
+    if (!widget.isEdit) textButtonEditCreate = "CREER L'ENTRAINEMENT";
+    else {
+      textButtonEditCreate = "MODIFIER L'ENTRAINEMENT";
+      controller.text = widget.userTraining.title;
+    }
+
+    setState(() {});
 
     db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_exercises).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
@@ -242,7 +256,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
             });
           },
           child: Text(
-            "CREER L'ENTRAINEMENT",
+            textButtonEditCreate,
             style: TextStyle(
                 fontSize: lg,
                 color: Color(fontColor1)
@@ -253,7 +267,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)
               ),
-              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.2,MediaQuery.of(context).size.height * 0.025,MediaQuery.of(context).size.width * 0.2,MediaQuery.of(context).size.height * 0.025)
+              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.025, horizontal: MediaQuery.of(context).size.width * 0.1)
           ),
         ),
       );
@@ -388,14 +402,21 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                           newListExercise.forEach((exercise) {
                             jsonListExercise.add(exercise.json());
                           });
-
-                          db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).push().set(<String,dynamic>{
-                            'title': controller.text,
-                            'coaching': isCoaching,
-                            'listExercise': jsonListExercise
-                          });
-
-
+                          
+                          if (widget.isEdit) {
+                            db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).child(widget.userTraining.id).set(<String,dynamic>{
+                              'title': controller.text,
+                              'coaching': isCoaching,
+                              'listExercise': jsonListExercise
+                            });
+                          } else {
+                            db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).push().set(<String,dynamic>{
+                              'title': controller.text,
+                              'coaching': isCoaching,
+                              'listExercise': jsonListExercise
+                            });
+                          }
+                          
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => TrainingPlans(indexTab: 0)),

@@ -70,8 +70,8 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
   void dispose() {
     // Ensure disposing of the VideoPlayerController to free up resources.
 
-    _timer.cancel();
     _videController.dispose();
+    _timer.cancel();
     super.dispose();
   }
 

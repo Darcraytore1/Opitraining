@@ -333,7 +333,10 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
             ),
             IconButton(
               onPressed: () {
-                // Edit training
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TrainingBuilder(userTraining: userTraining, isEdit: true)),
+                );
               },
               icon: Icon(Icons.edit),
             ),
@@ -359,7 +362,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => TrainingBuilder()),
+            MaterialPageRoute(builder: (context) => TrainingBuilder(isEdit: false)),
           );
         },
         child: Icon(Icons.add),
