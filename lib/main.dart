@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'MenuItem.dart';
@@ -14,7 +15,9 @@ final List<String> listItem = [];
 final List<String> listBottomItems = [];
 String pseudo = "";
 String uid = "";
-
+String imgCoachUrl = "";
+String imgUserUrl = "";
+String imgBaseUrl = "";
 
 Future<void> main() async {
 
@@ -174,6 +177,26 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                   db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).once().then((DataSnapshot data){
                     Map<dynamic, dynamic> userInfo = data.value;
                     pseudo = userInfo["user_info"]["pseudo"];
+                  });
+
+                  // Load coach and user image (url link)
+
+                  imgBaseUrl = await FirebaseStorage.instance
+                      .ref('Image/UserImage/profile_vide.png')
+                      .getDownloadURL();
+
+                  db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).once().then((DataSnapshot data) async {
+                    Map<dynamic, dynamic> userInfo = data.value;
+                    imgUserUrl = userInfo["user_info"]["image"];
+                    imgCoachUrl = userInfo["coach_info"]["image"];
+
+                    if (imgUserUrl == null) {
+                      imgUserUrl = imgBaseUrl;
+                    }
+
+                    if (imgCoachUrl == null) {
+                      imgCoachUrl = imgBaseUrl;
+                    }
                   });
 
                   error = "";

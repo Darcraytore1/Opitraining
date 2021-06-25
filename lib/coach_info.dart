@@ -32,7 +32,9 @@ class _CoachInfoState extends State<CoachInfo> {
                   color: Colors.white,
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                      image: AssetImage('images/ronald.jpg'),
+                      image: NetworkImage(
+                        widget.coach.urlImage
+                      ),
                       fit: BoxFit.cover
                   )
               ),

@@ -48,7 +48,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
     var dbPathFirebase = db.child(opi_cf_configuration).child(opi_cf_pathFirebaseUserSurvey);
     var dbUser = db.child(opi_dt_data).child(opi_dt_users).child(uid);
 
-    await dbPathFirebase.once().then((DataSnapshot data) {
+    await dbPathFirebase.once().then((DataSnapshot data) async {
       // List path firebase for coach info
       List<dynamic> listPathFirebase = data.value;
 
@@ -58,7 +58,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
         });
       });
 
-      dbUserSurvey.once().then((DataSnapshot data) {
+      await dbUserSurvey.once().then((DataSnapshot data) {
 
         // List of text field name
         List<dynamic> accountItems = data.value;
@@ -66,6 +66,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
         accountItems.forEach((field) {
           setState(() {
             this.accountItems.add(field);
+            listController.add(TextEditingController());
           });
         });
 
@@ -82,7 +83,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
               text = user["user_info"][this.listPathFirebase[i]].toString();
             }
             setState(() {
-              listController.add(TextEditingController(text: text));
+              listController[i].text = text;
             });
           }
         });
@@ -220,7 +221,9 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
                         color: Colors.white,
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: AssetImage('images/shogi.jpg'),
+                            image: NetworkImage(
+                              imgUserUrl
+                            ),
                             fit: BoxFit.cover
                         )
                     ),

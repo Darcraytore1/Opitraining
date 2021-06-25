@@ -51,17 +51,17 @@ class MyDrawer extends StatelessWidget {
         );
       },
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children : [
-            icon,
-            Text(
-              itemName,
-              style: TextStyle(
-                  color: Color(fontColor1)
-              ),
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children : [
+          icon,
+          Text(
+            itemName,
+            style: TextStyle(
+                color: Color(fontColor1)
             ),
-          ]
+          ),
+        ]
       ),
     );
   }
@@ -152,9 +152,9 @@ class MyDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  itemBottomDrawer(listBottomItems[0], Icon(Icons.share), Contact(), context),
-                  itemBottomDrawer(listBottomItems[1], Icon(Icons.settings), Settings(), context),
-                  logOut(listBottomItems[2], Icon(Icons.logout), OpitrainingLogin(), context),
+                  //itemBottomDrawer(listBottomItems[0], Icon(Icons.share), Contact(), context),
+                  itemBottomDrawer(listBottomItems[0], Icon(Icons.settings), Settings(), context),
+                  logOut(listBottomItems[1], Icon(Icons.logout), OpitrainingLogin(), context),
                 ],
               ),
             ),

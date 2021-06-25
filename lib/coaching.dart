@@ -4,6 +4,7 @@ import 'package:opitraining/coach_info.dart';
 
 import 'Coach.dart';
 import 'constant.dart';
+import 'main.dart';
 
 
 /// This widget present the differents coach presents in the db, there is a option
@@ -28,6 +29,7 @@ class _CoachingState extends State<Coaching> {
     db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).once().then((DataSnapshot data) {
 
       Map<dynamic,dynamic> users = data.value;
+      String urlImageAccount = "";
 
       users.forEach((key, value) {
         if (users[key]["is_coach"]) {
@@ -37,8 +39,13 @@ class _CoachingState extends State<Coaching> {
               dayList.add(key);
             }
           });
+          if (users[key]["coach_info"]["image"] == null) {
+            urlImageAccount = imgBaseUrl;
+          } else {
+            urlImageAccount = users[key]["coach_info"]["image"];
+          }
           setState(() {
-            coachList.add(Coach(users[key]["coach_info"]["first_name"], users[key]["coach_info"]["name"], users[key]["coach_info"]["city"], int.parse(users[key]["coach_info"]["price"]), dayList, users[key]["coach_info"]["phone"], users[key]["coach_info"]["description"], users[key]["coach_info"]["email"]));
+            coachList.add(Coach(users[key]["coach_info"]["first_name"], users[key]["coach_info"]["name"], users[key]["coach_info"]["city"], int.parse(users[key]["coach_info"]["price"]), dayList, users[key]["coach_info"]["phone"], users[key]["coach_info"]["description"], users[key]["coach_info"]["email"], urlImageAccount));
           });
         }
       });
@@ -73,7 +80,9 @@ class _CoachingState extends State<Coaching> {
                         color: Colors.white,
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: AssetImage('images/ronald.jpg'),
+                            image: NetworkImage(
+                              coach.urlImage
+                            ),
                             fit: BoxFit.cover
                         )
                     ),

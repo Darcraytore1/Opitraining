@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'AccountItem.dart';
 import 'constant.dart';
@@ -17,6 +20,8 @@ class CoachAccount extends StatefulWidget {
 
 class _CoachAccountState extends State<CoachAccount> {
 
+  File file;
+
   bool isChecked = false;
 
   final List<String> listDay = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
@@ -29,8 +34,6 @@ class _CoachAccountState extends State<CoachAccount> {
 
   List<TextEditingController> listController = [];
 
-  String imgUrl = "";
-
   final db = FirebaseDatabase.instance.reference().child(opi_pathFirebase);
   final dbMyUser = FirebaseDatabase.instance.reference().child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid);
 
@@ -38,9 +41,8 @@ class _CoachAccountState extends State<CoachAccount> {
   void initState() {
 
     super.initState();
-    // Load content textfield
 
-    downloadURLExample();
+    // Load content textfield
 
     db.once().then((DataSnapshot data) {
 
@@ -117,20 +119,16 @@ class _CoachAccountState extends State<CoachAccount> {
     });
   }
 
-  Future<void> downloadURLExample() async {
+  Future pickImageGalleryMedia(BuildContext context) async {
+    final String source = ModalRoute.of(context).settings.arguments;
 
-    imgUrl = await FirebaseStorage.instance
-        .ref('Image/UserImage/ronald.jpg')
-        .getDownloadURL();
-    print(imgUrl);
+    final getMedia = source == "image"
+        ? ImagePicker().getVideo
+        : ImagePicker().getImage;
 
-    setState(() {});
-
-    // Within your widgets:
-    // Image.network(downloadURL);
+    final media = await getMedia(source: ImageSource.gallery);
+    file = File(media.path);
   }
-
-
 
   Widget itemDay(String day, int index) {
     return GestureDetector(
@@ -261,24 +259,30 @@ class _CoachAccountState extends State<CoachAccount> {
                 Container(
                   width: 120,
                   height: 120,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
+                  decoration: new BoxDecoration(
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: NetworkImage(imgUrl),
-                          fit: BoxFit.cover
-                      )
-                  ),
+                      image: new DecorationImage(
+                        image: NetworkImage(imgCoachUrl),
+                        fit: BoxFit.cover,
+                      )),
                 ),
                 TextButton(
-                    onPressed: () {
-
+                    onPressed: () async {
+                      await pickImageGalleryMedia(context);
+                      setState(() {});
+                      Reference ref = FirebaseStorage.instance.ref().child("Image/UserImage/").child(DateTime.now().toIso8601String());
+                      UploadTask uploadTask = ref.putFile(file);
+                      imgCoachUrl = await (await uploadTask).ref.getDownloadURL();
+                      dbMyUser.child(opi_dt_coachInfo).child("image").set(
+                        imgCoachUrl
+                      );
+                      setState(() {});
                     },
                     child: Text(
-                        "Change profile photo",
-                        style: TextStyle(
-                            fontSize: lg
-                        )
+                      "Changer la photo de profile",
+                      style: TextStyle(
+                          fontSize: lg
+                      )
                     )
                 ),
                 Expanded(

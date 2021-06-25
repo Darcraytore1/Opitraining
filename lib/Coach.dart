@@ -8,8 +8,9 @@ class Coach {
   String phone;
   String description;
   String email;
+  String urlImage;
 
-  Coach(String firstName, String name, String city, int pricePerHour, List<String> dayAvailable, String phone, String description, String email) {
+  Coach(String firstName, String name, String city, int pricePerHour, List<String> dayAvailable, String phone, String description, String email, String urlImage) {
     this.firstName = firstName;
     this.name = name;
     this.city = city;
@@ -18,6 +19,7 @@ class Coach {
     this.phone = phone;
     this.description = description;
     this.email = email;
+    this.urlImage = urlImage;
   }
 
   String getFirstName() {
@@ -52,6 +54,10 @@ class Coach {
     return email;
   }
 
+  String getUrlImage() {
+    return urlImage;
+  }
+
   String toStringDayAvailable() {
     if (dayAvailable.length == 7) return "Tous les jours de la semaine";
     else {
@@ -75,7 +81,8 @@ class Coach {
       "name": name,
       "price": pricePerHour,
       "phone": phone,
-      "description": description
+      "description": description,
+      "image" : urlImage
     };
   }
 }
