@@ -32,10 +32,12 @@ class _ScheduleState extends State<Schedule> {
       if (toDo != null) {
         toDo.forEach((key, value) {
           day = DateTime.parse(value["day"]);
-          time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
-          setState(() {
-            this.toDo.add(ItemCalendar(key, time, day));
-          });
+          if (day.isAfter(DateTime.now())) {
+            time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
+            setState(() {
+              this.toDo.add(ItemCalendar(key, time, day, value["title"]));
+            });
+          }
         });
       }
     });
@@ -57,24 +59,27 @@ class _ScheduleState extends State<Schedule> {
           children: [
             Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02, left: MediaQuery.of(context).size.width * 0.15),
-              child: Column(
-                children: [
-                  Text(
-                    DateFormat('dd/MM/yyyy').format(item.getDay())+ ", " + "${item.getHour().format(context)}",
-                    style: TextStyle(
-                        color: Color(fontColor1),
-                        fontSize: sm
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Column(
+                  children: [
+                    Text(
+                      DateFormat('dd/MM/yyyy').format(item.getDay())+ ", " + "${item.getHour().format(context)}",
+                      style: TextStyle(
+                          color: Color(fontColor1),
+                          fontSize: sm
+                      ),
                     ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                  Text(
-                    title,
-                    style: TextStyle(
-                        color: Color(fontColor1),
-                        fontSize: lg
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                    Text(
+                      title,
+                      style: TextStyle(
+                          color: Color(fontColor1),
+                          fontSize: lg
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Expanded(child: SizedBox()),
@@ -120,7 +125,7 @@ class _ScheduleState extends State<Schedule> {
                       padding: const EdgeInsets.all(8),
                       itemCount: toDo.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return itemCalendar(toDo[index], "Classique");
+                        return itemCalendar(toDo[index],toDo[index].title);
                       },
                       separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     ),

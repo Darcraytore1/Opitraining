@@ -16,6 +16,11 @@ import 'my_drawer.dart';
 /// moment where the user is going to make one or another exercise.
 
 class ScheduleChoice extends StatefulWidget {
+
+  final String title;
+
+  ScheduleChoice({Key key, this.title}) : super (key: key);
+
   @override
   _ScheduleStateChoice createState() => _ScheduleStateChoice();
 }
@@ -41,7 +46,7 @@ class _ScheduleStateChoice extends State<ScheduleChoice> {
           day = DateTime.parse(value["day"]);
           time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
           setState(() {
-            this.toDo.add(ItemCalendar(key, time, day));
+            this.toDo.add(ItemCalendar(key, time, day, value["title"]));
           });
         });
       }
@@ -64,25 +69,28 @@ class _ScheduleStateChoice extends State<ScheduleChoice> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02, left: MediaQuery.of(context).size.width * 0.15),
-            child: Column(
-              children: [
-                Text(
-                  DateFormat('dd/MM/yyyy').format(item.getDay())+ ", " + "${item.getHour().format(context)}",
-                  style: TextStyle(
-                      color: Color(fontColor1),
-                      fontSize: sm
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.4,
+              child: Column(
+                children: [
+                  Text(
+                    DateFormat('dd/MM/yyyy').format(item.getDay())+ ", " + "${item.getHour().format(context)}",
+                    style: TextStyle(
+                        color: Color(fontColor1),
+                        fontSize: sm
+                    ),
                   ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                Text(
-                  title,
-                  style: TextStyle(
-                      color: Color(fontColor1),
-                      fontSize: lg
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                  Text(
+                    title,
+                    style: TextStyle(
+                        color: Color(fontColor1),
+                        fontSize: lg
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            )
           ),
           Expanded(child: SizedBox()),
           Column(
@@ -134,7 +142,7 @@ class _ScheduleStateChoice extends State<ScheduleChoice> {
                   if (_time != null) {
 
                     DatabaseReference newRef = dbToDo.push();
-                    toDo.add(ItemCalendar(newRef.key,_time, selectedDay));
+                    toDo.add(ItemCalendar(newRef.key,_time, selectedDay, widget.title));
                     toDo.sort((a,b) {
                       return a.compareTo(b);
                     });
@@ -145,7 +153,8 @@ class _ScheduleStateChoice extends State<ScheduleChoice> {
                           "time" : {
                             "hour" : _time.hour,
                             "minute" : _time.minute
-                          }
+                          },
+                          "title": widget.title
                         }
                     );
                   }
@@ -167,32 +176,11 @@ class _ScheduleStateChoice extends State<ScheduleChoice> {
               padding: const EdgeInsets.all(8),
               itemCount: toDo.length,
               itemBuilder: (BuildContext context, int index) {
-                return itemCalendar(toDo[index], "Classique");
+                return itemCalendar(toDo[index], toDo[index].title);
               },
               separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             ),
           ),
-          /*
-          Text(
-            "Fait",
-            style: TextStyle(
-                color: Color(mainColor),
-                fontSize: lg
-            ),
-          ),
-          Container(
-            width: margeWidth(context),
-            height:  MediaQuery.of(context).size.height * 0.15,
-            child: ListView.separated(
-              padding: const EdgeInsets.all(8),
-              itemCount: done.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container();
-              },
-              separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-            ),
-          ),
-           */
         ],
       )
     );

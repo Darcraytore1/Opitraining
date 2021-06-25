@@ -5,11 +5,13 @@ class ItemCalendar {
   String id;
   TimeOfDay hour;
   DateTime day;
+  String title;
 
-  ItemCalendar(String id, TimeOfDay hour, DateTime day) {
+  ItemCalendar(String id, TimeOfDay hour, DateTime day, String title) {
     this.id = id;
     this.hour = hour;
     this.day = day;
+    this.title = title;
   }
 
   TimeOfDay getHour() {
@@ -22,6 +24,10 @@ class ItemCalendar {
 
   String getId() {
     return id;
+  }
+
+  String getTitle() {
+    return title;
   }
 
   int compareTo(ItemCalendar b) {

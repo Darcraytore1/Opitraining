@@ -18,6 +18,8 @@ String uid = "";
 String imgCoachUrl = "";
 String imgUserUrl = "";
 String imgBaseUrl = "";
+String urlNoImgChoose = "";
+String urlNoVideoChoose = "";
 
 Future<void> main() async {
 
@@ -25,9 +27,9 @@ Future<void> main() async {
   await Firebase.initializeApp();
   final db = FirebaseDatabase.instance.reference();
 
-  await initTheme();
-
   // Load theme of the application so load variable of constant file
+
+  await initTheme();
 
 
   // Load items of the drawer menu
@@ -198,6 +200,18 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                       imgCoachUrl = imgBaseUrl;
                     }
                   });
+
+                  // Load img and video for person who don't choose any image or video
+
+                  urlNoImgChoose = await FirebaseStorage.instance
+                      .ref('Image/ExerciseImage/no_image.png')
+                      .getDownloadURL();
+
+                  urlNoVideoChoose = await FirebaseStorage.instance
+                      .ref('Video/no_video.mp4')
+                      .getDownloadURL();
+
+                  print(urlNoVideoChoose);
 
                   error = "";
                   emailController.text = "";

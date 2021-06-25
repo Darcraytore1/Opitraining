@@ -239,23 +239,26 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
             child: Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                FutureBuilder(
-                  future: _initializeVideoPlayerFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      // If the VideoPlayerController has finished initialization, use
-                      // the data it provides to limit the aspect ratio of the video.
-                      return AspectRatio(
-                        aspectRatio: _videController.value.aspectRatio,
-                        // Use the VideoPlayer widget to display the video.
-                        child: VideoPlayer(_videController),
-                      );
-                    } else {
-                      // If the VideoPlayerController is still initializing, show a
-                      // loading spinner.
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.60,
+                  child : FutureBuilder(
+                    future: _initializeVideoPlayerFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        // If the VideoPlayerController has finished initialization, use
+                        // the data it provides to limit the aspect ratio of the video.
+                        return AspectRatio(
+                          aspectRatio: _videController.value.aspectRatio,
+                          // Use the VideoPlayer widget to display the video.
+                          child: VideoPlayer(_videController),
+                        );
+                      } else {
+                        // If the VideoPlayerController is still initializing, show a
+                        // loading spinner.
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 Text(

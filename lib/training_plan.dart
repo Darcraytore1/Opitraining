@@ -216,7 +216,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => ScheduleChoice()),
+                            MaterialPageRoute(builder: (context) => ScheduleChoice(title: training.title)),
                           );
                         },
                         icon: Icon(Icons.add_alarm)
@@ -322,6 +322,15 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         child: Row(
           children: [
             Expanded(child: SizedBox()),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ScheduleChoice(title: userTraining.title)),
+                  );
+                },
+                icon: Icon(Icons.add_alarm)
+            ),
             IconButton(
               onPressed: () {
                 // Edit training

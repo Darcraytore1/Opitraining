@@ -61,8 +61,8 @@ class _NewExerciseState extends State<NewExercise> {
             Padding(
               padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.25,
-                height: MediaQuery.of(context).size.height * 0.10,
+                width: 80,
+                height: 80,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(exercise.urlImage),

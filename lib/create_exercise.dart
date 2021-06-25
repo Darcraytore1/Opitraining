@@ -134,7 +134,7 @@ class _CreateExerciseState extends State<CreateExercise> {
               child: Text(
                 "UPLOAD IMAGE",
                 style: TextStyle(
-                    fontSize: lg,
+                    fontSize: med,
                     color: Color(fontColor1)
                 ),
               ),
@@ -143,7 +143,7 @@ class _CreateExerciseState extends State<CreateExercise> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
-                  padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.025, horizontal: MediaQuery.of(context).size.width * 0.2)
+                  padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.020, horizontal: MediaQuery.of(context).size.width * 0.15)
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
@@ -172,7 +172,7 @@ class _CreateExerciseState extends State<CreateExercise> {
               child: Text(
                 "UPLOAD VIDEO",
                 style: TextStyle(
-                    fontSize: lg,
+                    fontSize: med,
                     color: Color(fontColor1)
                 ),
               ),
@@ -181,7 +181,7 @@ class _CreateExerciseState extends State<CreateExercise> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
-                  padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.025, horizontal: MediaQuery.of(context).size.width * 0.2)
+                  padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.020, horizontal: MediaQuery.of(context).size.width * 0.15)
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
@@ -194,6 +194,8 @@ class _CreateExerciseState extends State<CreateExercise> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             ElevatedButton(
               onPressed: () {
+                if (urlImage == null) urlImage = urlNoImgChoose;
+                if (urlVideo == null) urlVideo = urlNoVideoChoose;
                 db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userExercise).push().set(
                   {
                     "animatedImage" : urlImage,

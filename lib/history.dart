@@ -31,10 +31,12 @@ class _HistoryState extends State<History> {
       if (done != null) {
         done.forEach((key, value) {
           day = DateTime.parse(value["day"]);
-          time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
-          setState(() {
-            this.done.add(ItemCalendar(key, time, day));
-          });
+          if (day.isBefore(DateTime.now())) {
+            time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
+            setState(() {
+              this.done.add(ItemCalendar(key, time, day, done["title"]));
+            });
+          }
         });
       }
     });
@@ -56,24 +58,27 @@ class _HistoryState extends State<History> {
           children: [
             Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02, left: MediaQuery.of(context).size.width * 0.15),
-              child: Column(
-                children: [
-                  Text(
-                    DateFormat('dd/MM/yyyy').format(item.getDay())+ ", " + "${item.getHour().format(context)}",
-                    style: TextStyle(
-                        color: Color(fontColor1),
-                        fontSize: sm
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Column(
+                  children: [
+                    Text(
+                      DateFormat('dd/MM/yyyy').format(item.getDay())+ ", " + "${item.getHour().format(context)}",
+                      style: TextStyle(
+                          color: Color(fontColor1),
+                          fontSize: sm
+                      ),
                     ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                  Text(
-                    title,
-                    style: TextStyle(
-                        color: Color(fontColor1),
-                        fontSize: lg
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                    Text(
+                      title,
+                      style: TextStyle(
+                          color: Color(fontColor1),
+                          fontSize: lg
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Expanded(child: SizedBox()),
