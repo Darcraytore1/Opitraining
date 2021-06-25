@@ -50,7 +50,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
     // offers several different constructors to play videos from assets, files,
     // or the internet.
     _videController = VideoPlayerController.network(
-      widget.listExercise[widget.indexExercise].url,
+      widget.listExercise[widget.indexExercise].urlVideo,
     );
 
     _initializeVideoPlayerFuture = _videController.initialize();

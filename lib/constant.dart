@@ -60,8 +60,8 @@ double builderTime;
 
 // I load the theme of the application from the firebase db
 
-void initTheme() {
-  themeRef.once().then((DataSnapshot data) {
+Future<void> initTheme() async {
+  await themeRef.once().then((DataSnapshot data) {
 
     Map<dynamic,dynamic> theme = data.value;
 
@@ -87,7 +87,7 @@ void initTheme() {
     xl = fontSizes["xl"].toDouble();
     xxl = fontSizes["xxl"].toDouble();
     builderTime = fontSizes["builder_time"].toDouble();
-
+    return;
   });
 }
 

@@ -37,7 +37,7 @@ class _NewExerciseState extends State<NewExercise> {
       if (values != null) {
         values.forEach((key, value) {
           setState(() {
-            exercises.add(Exercise(value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+            exercises.add(Exercise(value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
           });
           listController.add(VideoPlayerController.network(
             value["animatedImage"],

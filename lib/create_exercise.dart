@@ -20,14 +20,26 @@ class _CreateExerciseState extends State<CreateExercise> {
   TextEditingController controller = new TextEditingController();
   bool isChecked = true;
   File file;
-  String url;
+  String urlVideo;
+  String urlImage;
 
-  Future pickGalleryMedia(BuildContext context) async {
+  Future pickVideoGalleryMedia(BuildContext context) async {
     final String source = ModalRoute.of(context).settings.arguments;
 
     final getMedia = source == "image"
         ? ImagePicker().getImage
         : ImagePicker().getVideo;
+
+    final media = await getMedia(source: ImageSource.gallery);
+    file = File(media.path);
+  }
+
+  Future pickImageGalleryMedia(BuildContext context) async {
+    final String source = ModalRoute.of(context).settings.arguments;
+
+    final getMedia = source == "image"
+        ? ImagePicker().getVideo
+        : ImagePicker().getImage;
 
     final media = await getMedia(source: ImageSource.gallery);
     file = File(media.path);
@@ -101,14 +113,37 @@ class _CreateExerciseState extends State<CreateExercise> {
                 },
               ),
             ),
+            ElevatedButton(
+              onPressed: () async {
+                await pickImageGalleryMedia(context);
+                setState(() {});
+                Reference ref = FirebaseStorage.instance.ref().child("Image/ExerciseImage/").child(DateTime.now().toIso8601String());
+                UploadTask uploadTask = ref.putFile(file);
+                urlImage = await (await uploadTask).ref.getDownloadURL();
+              },
+              child: Text(
+                "UPLOAD IMAGE",
+                style: TextStyle(
+                    fontSize: lg,
+                    color: Color(fontColor1)
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                  primary: Color(mainColor),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.025, horizontal: MediaQuery.of(context).size.width * 0.2)
+              ),
+            ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             ElevatedButton(
               onPressed: () async {
-                await pickGalleryMedia(context);
+                await pickVideoGalleryMedia(context);
                 setState(() {});
                 Reference ref = FirebaseStorage.instance.ref().child("Video/").child(DateTime.now().toIso8601String());
                 UploadTask uploadTask = ref.putFile(file);
-                url = await (await uploadTask).ref.getDownloadURL();
+                urlVideo = await (await uploadTask).ref.getDownloadURL();
               },
               child: Text(
                 "UPLOAD VIDEO",
@@ -130,7 +165,8 @@ class _CreateExerciseState extends State<CreateExercise> {
               onPressed: () {
                 db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userExercise).push().set(
                   {
-                    "animatedImage" : url,
+                    "animatedImage" : urlImage,
+                    "video" : urlVideo,
                     "info" : 20,
                     "isRepetition": isChecked,
                     "title": controller.text

@@ -42,12 +42,6 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
   List<Exercise> listExercise = [];
 
-  List<VideoPlayerController> listController = [];
-  List<Future<void>> _initializeVideoPlayerFuture = [];
-
-  List<VideoPlayerController> newListController = [];
-  List<Future<void>> _newInitializeVideoPlayerFuture = [];
-
   @override
   void initState(){
     super.initState();
@@ -57,16 +51,9 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
       values.forEach((exercise) {
         setState(() {
-          listExercise.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
-          listExerciseFiltered.add(Exercise(exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+          listExercise.add(Exercise(exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+          listExerciseFiltered.add(Exercise(exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
         });
-        listController.add(VideoPlayerController.network(
-          exercise["animatedImage"],
-        ));
-        _initializeVideoPlayerFuture.add( listController[listController.length - 1].initialize());
-        listController[listController.length - 1].setVolume(0);
-        listController[listController.length - 1].play();
-        listController[listController.length - 1].setLooping(true);
       });
     });
 
@@ -76,23 +63,16 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
       if (values != null) {
         values.forEach((key, value) {
           setState(() {
-            listExercise.add(Exercise(value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
-            listExerciseFiltered.add(Exercise(value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+            listExercise.add(Exercise(value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+            listExerciseFiltered.add(Exercise(value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
           });
-          listController.add(VideoPlayerController.network(
-            value["animatedImage"],
-          ));
-          _initializeVideoPlayerFuture.add(listController[listController.length - 1].initialize());
-          listController[listController.length - 1].setVolume(0);
-          listController[listController.length - 1].play();
-          listController[listController.length - 1].setLooping(true);
         });
       }
     });
 
   }
 
-  Widget itemExercise(Exercise exercise, VideoPlayerController controller, Future<void> init) {
+  Widget itemExercise(Exercise exercise) {
     return Center (
       child: InkWell(
         onTap: () {
@@ -119,31 +99,11 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.25,
                   height: MediaQuery.of(context).size.height * 0.10,
-                  /*
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: exercise.getAnimatedImage().image,
+                        image: NetworkImage(exercise.urlImage),
                         fit: BoxFit.fill
                     ),
-                  ),
-                   */
-                  child: FutureBuilder(
-                    future: init,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        // If the VideoPlayerController has finished initialization, use
-                        // the data it provides to limit the aspect ratio of the video.
-                        return AspectRatio(
-                          aspectRatio: controller.value.aspectRatio,
-                          // Use the VideoPlayer widget to display the video.
-                          child: VideoPlayer(controller),
-                        );
-                      } else {
-                        // If the VideoPlayerController is still initializing, show a
-                        // loading spinner.
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    },
                   ),
                 ),
               ),
@@ -184,7 +144,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
     return _printDuration(Duration(seconds: exercise.getInfo()));
   }
 
-  Widget itemExerciseActive(Exercise exercise, VideoPlayerController controller, Future<void> init) {
+  Widget itemExerciseActive(Exercise exercise) {
     return Center (
       child: Container(
         width: MediaQuery.of(context).size.width*0.85,
@@ -203,25 +163,12 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.25,
                 height: MediaQuery.of(context).size.height * 0.10,
-                child: FutureBuilder(
-                  future: init,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      // If the VideoPlayerController has finished initialization, use
-                      // the data it provides to limit the aspect ratio of the video.
-                      return AspectRatio(
-                        aspectRatio: controller.value.aspectRatio,
-                        // Use the VideoPlayer widget to display the video.
-                        child: VideoPlayer(controller),
-                      );
-                    } else {
-                      // If the VideoPlayerController is still initializing, show a
-                      // loading spinner.
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
-                ),
-
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(exercise.urlImage),
+                    fit: BoxFit.fill
+                  )
+                )
               ),
             ),
             Expanded(
@@ -557,11 +504,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         if (isEdit) {
                           exercise.setInfo(value);
                         } else {
-                          newListExercise.add(Exercise(exercise.url, exercise.exerciseTitle, value, exercise.getIsRepetition()));
-                          newListController.add(VideoPlayerController.network(
-                            exercise.url,
-                          ));
-                          _newInitializeVideoPlayerFuture.add(newListController[newListController.length - 1].initialize());
+                          newListExercise.add(Exercise(exercise.urlVideo, exercise.urlImage, exercise.exerciseTitle, value, exercise.getIsRepetition()));
                         }
                         _isVisible = false;
                         value = defaultValue;
@@ -634,7 +577,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                     shrinkWrap: true,
                     itemCount: newListExercise.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return itemExerciseActive(newListExercise[index], newListController[index], _newInitializeVideoPlayerFuture[index]);
+                      return itemExerciseActive(newListExercise[index]);
                     },
                     separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   ),
@@ -686,7 +629,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                   scrollDirection: Axis.vertical,
                   itemCount: listExerciseFiltered.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return itemExercise(listExerciseFiltered[index], listController[index], _initializeVideoPlayerFuture[index]);
+                    return itemExercise(listExerciseFiltered[index]);
                   },
                   separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 ),

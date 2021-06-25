@@ -16,15 +16,15 @@ String pseudo = "";
 String uid = "";
 
 
-void main() async {
+Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final db = FirebaseDatabase.instance.reference();
 
-  // Load theme of the application so load variable of constant file
+  await initTheme();
 
-  initTheme();
+  // Load theme of the application so load variable of constant file
 
 
   // Load items of the drawer menu
@@ -59,9 +59,6 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
         title: 'Opitraining',
-        routes: {
-          '/training': (context) => TrainingPlans(indexTab: 0),
-        },
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -101,9 +98,8 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
 
   @override
   void initState() {
-    super.initState();
-
     _signOut();
+    super.initState();
   }
 
   Future<void> _signOut() async {

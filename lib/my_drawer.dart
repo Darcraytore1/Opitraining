@@ -9,9 +9,6 @@ import 'history.dart';
 import 'main.dart';
 import 'training_plan.dart';
 import 'my_account.dart';
-import 'schedule_choice.dart';
-import 'report.dart';
-import 'reminder.dart';
 
 class MyDrawer extends StatelessWidget {
 
