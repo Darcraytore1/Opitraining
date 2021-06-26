@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'MenuItem.dart';
 import 'constant.dart';
 import 'my_text_fields.dart';
 import 'opitraining_sign_up.dart';
@@ -15,11 +14,11 @@ final List<String> listItem = [];
 final List<String> listBottomItems = [];
 String pseudo = "";
 String uid = "";
-String imgCoachUrl = "";
-String imgUserUrl = "";
-String imgBaseUrl = "";
-String urlNoImgChoose = "";
-String urlNoVideoChoose = "";
+String imgCoachUrl;
+String imgUserUrl;
+String imgBaseUrl;
+String urlNoImgChoose;
+String urlNoVideoChoose;
 
 Future<void> main() async {
 
@@ -189,8 +188,9 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
 
                   db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).once().then((DataSnapshot data) async {
                     Map<dynamic, dynamic> userInfo = data.value;
+
+                    if (userInfo["coach_info"] != null) imgCoachUrl = userInfo["coach_info"]["image"];
                     imgUserUrl = userInfo["user_info"]["image"];
-                    imgCoachUrl = userInfo["coach_info"]["image"];
 
                     if (imgUserUrl == null) {
                       imgUserUrl = imgBaseUrl;
@@ -199,6 +199,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                     if (imgCoachUrl == null) {
                       imgCoachUrl = imgBaseUrl;
                     }
+
                   });
 
                   // Load img and video for person who don't choose any image or video
@@ -210,8 +211,6 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                   urlNoVideoChoose = await FirebaseStorage.instance
                       .ref('Video/no_video.mp4')
                       .getDownloadURL();
-
-                  print(urlNoVideoChoose);
 
                   error = "";
                   emailController.text = "";

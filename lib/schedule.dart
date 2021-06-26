@@ -1,6 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 import 'package:intl/intl.dart';
 import 'ItemCalendar.dart';
@@ -32,7 +31,7 @@ class _ScheduleState extends State<Schedule> {
       if (toDo != null) {
         toDo.forEach((key, value) {
           day = DateTime.parse(value["day"]);
-          if (day.isAfter(DateTime.now())) {
+          if (day.add(Duration(hours: value["time"]["hour"], minutes: value["time"]["minute"])).isAfter(DateTime.now())) {
             time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
             setState(() {
               this.toDo.add(ItemCalendar(key, time, day, value["title"]));

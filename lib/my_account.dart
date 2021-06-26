@@ -1,8 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/coach_account.dart';
-import 'AccountItem.dart';
 import 'constant.dart';
 import 'main.dart';
 import 'my_drawer.dart';
@@ -30,8 +28,6 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
 
   @override
   void initState() {
-    super.initState();
-
     _tabController = TabController(
         length: 2,
         vsync: this,
@@ -40,6 +36,8 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
     _tabController.addListener(_handleTabIndex);
 
     loadInfo();
+
+    super.initState();
   }
 
 
@@ -120,6 +118,9 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
             ),
             child: new TextField(
               onChanged: (value) {
+                if (itemName == "Pseudo") {
+                  pseudo = value;
+                }
                 dbMyUser.child(opi_dt_userInfo).child(listPathFirebase[index]).set(
                     value
                 );
@@ -184,36 +185,7 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row (
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        "Personnalise ton compte",
-                        style: TextStyle(
-                          fontSize: lg,
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-
-                        },
-                        child: Text(
-                          "Follows",
-                          style: TextStyle(
-                              fontSize: lg,
-                              color: Color(fontColor2)
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(secondaryColor),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Container(
                     width: 120,
                     height: 120,

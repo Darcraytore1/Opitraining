@@ -31,7 +31,7 @@ class _HistoryState extends State<History> {
       if (done != null) {
         done.forEach((key, value) {
           day = DateTime.parse(value["day"]);
-          if (day.isBefore(DateTime.now())) {
+          if (day.add(Duration(hours: value["time"]["hour"], minutes: value["time"]["minute"])).isBefore(DateTime.now())) {
             time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
             setState(() {
               this.done.add(ItemCalendar(key, time, day, done["title"]));

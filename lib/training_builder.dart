@@ -65,8 +65,8 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
       values.forEach((exercise) {
         setState(() {
-          listExercise.add(Exercise(exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
-          listExerciseFiltered.add(Exercise(exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+          listExercise.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+          listExerciseFiltered.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
         });
       });
     });
@@ -77,8 +77,8 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
       if (values != null) {
         values.forEach((key, value) {
           setState(() {
-            listExercise.add(Exercise(value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
-            listExerciseFiltered.add(Exercise(value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+            listExercise.add(Exercise("",value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+            listExerciseFiltered.add(Exercise("",value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
           });
         });
       }
@@ -525,7 +525,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         if (isEdit) {
                           exercise.setInfo(value);
                         } else {
-                          newListExercise.add(Exercise(exercise.urlVideo, exercise.urlImage, exercise.exerciseTitle, value, exercise.getIsRepetition()));
+                          newListExercise.add(Exercise("",exercise.urlVideo, exercise.urlImage, exercise.exerciseTitle, value, exercise.getIsRepetition()));
                         }
                         _isVisible = false;
                         value = defaultValue;

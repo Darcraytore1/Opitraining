@@ -58,6 +58,11 @@ double xl;
 double xxl;
 double builderTime;
 
+// Text
+
+String opi_str_titleLoginPage;
+
+
 // I load the theme of the application from the firebase db
 
 Future<void> initTheme() async {

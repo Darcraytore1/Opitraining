@@ -87,7 +87,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.15),
             Text(
-              "REST",
+              "REPOS",
               style: TextStyle(
                 fontSize: xxl,
                 color: Color(fontColor1)
@@ -125,7 +125,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
                     );
                   },
                   child: Text(
-                    "SKIP",
+                    "PASSER",
                     style: TextStyle(
                         fontSize: xxl,
                         color: Color(fontColor2)

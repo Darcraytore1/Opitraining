@@ -23,7 +23,6 @@ class _CoachingState extends State<Coaching> {
 
   @override
   void initState() {
-    super.initState();
 
     List<String> dayList = [];
     db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).once().then((DataSnapshot data) {
@@ -50,6 +49,8 @@ class _CoachingState extends State<Coaching> {
         }
       });
     });
+
+    super.initState();
   }
 
   Widget coachItem(Coach coach) {
@@ -117,11 +118,11 @@ class _CoachingState extends State<Coaching> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
-                      "Price : " + " " + coach.getPricePerHour().toString() + "\$ " + " par heure"
+                      "Prix : " + " " + coach.getPricePerHour().toString() + "\$ " + " par heure"
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
-                      "Equipment : " + "Dumbbells, traction bar, iron bar and weight"
+                      "Equipement : " + "Dumbbells, traction bar, iron bar and weight"
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 ],

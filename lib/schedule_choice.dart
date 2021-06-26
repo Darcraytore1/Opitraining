@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:intl/intl.dart';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -44,10 +43,12 @@ class _ScheduleStateChoice extends State<ScheduleChoice> {
       if (toDo != null) {
         toDo.forEach((key, value) {
           day = DateTime.parse(value["day"]);
-          time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
-          setState(() {
-            this.toDo.add(ItemCalendar(key, time, day, value["title"]));
-          });
+          if (day.add(Duration(hours: value["time"]["hour"], minutes: value["time"]["minute"])).isAfter(DateTime.now())) {
+            time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
+            setState(() {
+              this.toDo.add(ItemCalendar(key, time, day, value["title"]));
+            });
+          }
         });
       }
     });

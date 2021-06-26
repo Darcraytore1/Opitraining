@@ -1,9 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/create_exercise.dart';
 import 'package:opitraining/start_menu_exercise.dart';
-import 'package:video_player/video_player.dart';
 
 import 'constant.dart';
 import 'main.dart';
@@ -35,7 +34,7 @@ class _NewExerciseState extends State<NewExercise> {
       if (values != null) {
         values.forEach((key, value) {
           setState(() {
-            exercises.add(Exercise(value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+            exercises.add(Exercise(key, value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
           });
         });
 
@@ -99,7 +98,10 @@ class _NewExerciseState extends State<NewExercise> {
                 ),
                 IconButton(
                     onPressed: () {
-
+                      db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userExercise).child(exercise.id).remove();
+                      listUserExercise.remove(exercise);
+                      listUserExerciseFiltered.remove(exercise);
+                      setState(() {});
                     },
                     icon: Icon(Icons.delete)
                 ),

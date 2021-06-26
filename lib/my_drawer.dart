@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:opitraining/contact.dart';
 import 'package:opitraining/new_exercise.dart';
 import 'package:opitraining/schedule.dart';
 import 'package:opitraining/settings.dart';

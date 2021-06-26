@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'AccountItem.dart';
 import 'constant.dart';
 import 'main.dart';
 
@@ -40,8 +39,6 @@ class _CoachAccountState extends State<CoachAccount> {
   @override
   void initState() {
 
-    super.initState();
-
     // Load content textfield
 
     db.once().then((DataSnapshot data) {
@@ -73,50 +70,59 @@ class _CoachAccountState extends State<CoachAccount> {
       // Initialize value of textField with content of db
       String text = "";
 
-      for (int i = 0; i < this.listPathFirebase.length; i++) {
-        if (user["coach_info"][this.listPathFirebase[i]] == null) {
-          text = "";
-        } else {
-          text =  user["coach_info"][this.listPathFirebase[i]].toString();
+      this.listPathFirebase.forEach((element) {
+        this.listController.add(TextEditingController());
+      });
+      setState(() {});
+
+      if (user["coach_info"] != null) {
+        for (int i = 0; i < this.listPathFirebase.length; i++) {
+          if (user["coach_info"][this.listPathFirebase[i]] == null) {
+            text = "";
+          } else {
+            text = user["coach_info"][this.listPathFirebase[i]].toString();
+          }
+          setState(() {
+            listController[i].text = text;
+          });
         }
-        setState(() {
-          listController.add(TextEditingController(text: text));
+
+        Map<dynamic, dynamic> dayAvailable = user["coach_info"]["availability"];
+        dayAvailable.forEach((key, value) {
+          switch (key) {
+            case ("Lun"):
+              isSelected[0] = value;
+              break;
+
+            case ("Mar"):
+              isSelected[1] = value;
+              break;
+
+            case ("Mer"):
+              isSelected[2] = value;
+              break;
+
+            case ("Jeu"):
+              isSelected[3] = value;
+              break;
+
+            case ("Ven"):
+              isSelected[4] = value;
+              break;
+
+            case ("Sam"):
+              isSelected[5] = value;
+              break;
+
+            case ("Dim"):
+              isSelected[6] = value;
+              break;
+          }
         });
       }
-
-      Map<dynamic,dynamic> dayAvailable = user["coach_info"]["availability"];
-      dayAvailable.forEach((key,value) {
-        switch (key) {
-          case ("Lun"):
-            isSelected[0] = value;
-            break;
-
-          case ("Mar"):
-            isSelected[1] = value;
-            break;
-
-          case ("Mer"):
-            isSelected[2] = value;
-            break;
-
-          case ("Jeu"):
-            isSelected[3] = value;
-            break;
-
-          case ("Ven"):
-            isSelected[4] = value;
-            break;
-
-          case ("Sam"):
-            isSelected[5] = value;
-            break;
-
-          case ("Dim"):
-            isSelected[6] = value;
-            break;
-        }
-      });
     });
+
+    super.initState();
   }
 
   Future pickImageGalleryMedia(BuildContext context) async {
@@ -246,10 +252,31 @@ class _CoachAccountState extends State<CoachAccount> {
                         checkColor: Colors.white,
                         value: isChecked,
                         onChanged: (bool value) {
-                          setState(() {
+                          bool isCompleted = true;
+
+                          listController.forEach((controller) {
+                            if (controller.text == "" || controller.text == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "Toutes les informations ne sont pas remplis"
+                                    ),
+                                    action: SnackBarAction(
+                                      label: "X",
+                                      onPressed: () {},
+                                    ),
+                                  )
+                              );
+                              isCompleted = false;
+                            }
+                          });
+
+                          if (isCompleted) {
                             isChecked = value;
                             dbMyUser.child(opi_dt_isCoachP).set(value);
-                          });
+                          }
+
+                          setState(() {});
                           // Here change isCoach to tru
                         }
                     )
@@ -262,7 +289,9 @@ class _CoachAccountState extends State<CoachAccount> {
                   decoration: new BoxDecoration(
                       shape: BoxShape.circle,
                       image: new DecorationImage(
-                        image: NetworkImage(imgCoachUrl),
+                        image: NetworkImage(
+                            imgCoachUrl,
+                        ),
                         fit: BoxFit.cover,
                       )),
                 ),

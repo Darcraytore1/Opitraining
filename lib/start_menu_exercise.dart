@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/exercise_runner.dart';
 import 'package:opitraining/my_drawer.dart';
-import 'package:video_player/video_player.dart';
 
 import 'constant.dart';
 
 class Exercise {
 
+  String id;
   String urlVideo;
   String urlImage;
   String exerciseTitle;
   int info;
   bool isRepetition;
 
-  Exercise(String urlVideo, String urlImage, String exerciseTitle, int info, bool isRepetition ) {
+  Exercise(String id, String urlVideo, String urlImage, String exerciseTitle, int info, bool isRepetition ) {
+    this.id = id;
     this.urlVideo = urlVideo;
     this.urlImage = urlImage;
     this.exerciseTitle = exerciseTitle;
@@ -27,6 +28,10 @@ class Exercise {
     return animatedImage;
   }
    */
+
+  String getId() {
+    return id;
+  }
 
   String getUrlVideo() {
     return urlVideo;
