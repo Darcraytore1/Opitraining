@@ -59,6 +59,7 @@ class Coach {
   }
 
   String toStringDayAvailable() {
+    if (dayAvailable.isEmpty) return "Non précisé";
     if (dayAvailable.length == 7) return "Tous les jours de la semaine";
     else {
       String days = "";

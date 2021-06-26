@@ -4,14 +4,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:opitraining/ItemDrawer.dart';
 import 'constant.dart';
 import 'my_text_fields.dart';
 import 'opitraining_sign_up.dart';
 import 'training_plan.dart';
 
 // Items of drawer menu
-final List<String> listItem = [];
-final List<String> listBottomItems = [];
+final List<ItemDrawer> listItem = [];
+final List<ItemDrawer> listBottomItems = [];
 String pseudo = "";
 String uid = "";
 String imgCoachUrl;
@@ -36,14 +37,14 @@ Future<void> main() async {
   db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_drawerMenu).child(opi_cf_items).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
-      listItem.add(item);
+      listItem.add(ItemDrawer(item["title"], IconData(item["data"], fontFamily: "MaterialIcons")));
     });
   });
 
   db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_drawerMenu).child(opi_cf_bottomItems).once().then((DataSnapshot data) {
     List<dynamic> values = data.value;
     values.forEach((item) {
-      listBottomItems.add(item);
+      listBottomItems.add(ItemDrawer(item["title"], IconData(item["data"], fontFamily: "MaterialIcons")));
     });
   });
 

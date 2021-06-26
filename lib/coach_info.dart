@@ -47,24 +47,24 @@ class _CoachInfoState extends State<CoachInfo> {
                 fontSize: lg
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
+                    "Description :",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: med
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  Text(
                       widget.coach.getDescription()
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  Text(
-                    "Equipment owned :"
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  Text(
-                      "Dumbbells, traction bar, iron bar and weights"
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.85,
                     decoration: BoxDecoration(
@@ -78,19 +78,19 @@ class _CoachInfoState extends State<CoachInfo> {
                         children: [
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "City : " + widget.coach.getCity()
+                              "Ville : " + widget.coach.getCity()
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "Availabity : " + widget.coach.toStringDayAvailable()
+                              "Jour de disponible : " + widget.coach.toStringDayAvailable()
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "Price : " + widget.coach.getPricePerHour().toString() +"\$ " + "per hour"
+                              "Prix : " + widget.coach.getPricePerHour().toString() +"€ " + "par heure"
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                              "Phone : " + widget.coach.getPhone()
+                              "Téléphone : " + widget.coach.getPhone()
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(

@@ -121,10 +121,6 @@ class _CoachingState extends State<Coaching> {
                       "Prix : " + " " + coach.getPricePerHour().toString() + "\$ " + " par heure"
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  Text(
-                      "Equipement : " + "Dumbbells, traction bar, iron bar and weight"
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 ],
               ),
             )
