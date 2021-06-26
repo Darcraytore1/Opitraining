@@ -390,7 +390,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
           ],
         ),
         title: Text(
-          "ENTRAINEMENTS",
+          opiStrTitleTrainingPage,
           style: TextStyle(
               color: Color(fontColor2)
           ),

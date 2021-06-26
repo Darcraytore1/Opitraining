@@ -48,33 +48,35 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: "SETTINGS", hasBackArrow: false),
+      appBar: MyAppBar(title: opiStrTitleSettingsPage, hasBackArrow: false),
       drawer: MyDrawer(),
       body: Column(
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.05),
           Text(
-            "WORKOUT",
+            "ENTRAINEMENT",
             style: TextStyle(
                 fontSize: lg,
                 color: Color(mainColor)
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-          itemSetting("Training rest", Icon(Icons.title)),
+          itemSetting("Temps de repos", Icon(Icons.title)),
           SizedBox(height: MediaQuery.of(context).size.height * 0.08),
           Text(
-            "GENERAL SETTINGS",
+            "PARAMETRES GENERAUX",
             style: TextStyle(
                 fontSize: lg,
                 color: Color(mainColor)
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-          itemSetting("Language options", Icon(Icons.language)),
+          itemSetting("Langue", Icon(Icons.language)),
           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          /*
           itemSetting("Keep the screen on", Icon(Icons.phone_android)),
           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+           */
         ]
       ),
     );

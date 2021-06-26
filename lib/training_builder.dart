@@ -116,7 +116,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(exercise.urlImage),
-                        fit: BoxFit.fill
+                        fit: BoxFit.scaleDown
                     ),
                   ),
                 ),
@@ -180,7 +180,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(exercise.urlImage),
-                    fit: BoxFit.fill
+                    fit: BoxFit.scaleDown
                   )
                 )
               ),
@@ -579,7 +579,7 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: "CREATEUR D'ENTRAINEMENT", hasBackArrow: true),
+      appBar: MyAppBar(title: opiStrTitleTrainingBuilderPage, hasBackArrow: true),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -58,9 +58,18 @@ double xl;
 double xxl;
 double builderTime;
 
-// Text
+// Text page title
 
-String opi_str_titleLoginPage;
+String opiStrTitleLoginPage;
+String opiStrTitleSignUpPage;
+String opiStrTitleTrainingPage;
+String opiStrTitleTrainingBuilderPage;
+String opiStrTitleExerciseBuilderPage;
+String opiStrTitleMyAccountPage;
+String opiStrTitlePlanningPage;
+String opiStrTitleHistoryPage;
+String opiStrTitleSettingsPage;
+
 
 
 // I load the theme of the application from the firebase db
@@ -92,6 +101,18 @@ Future<void> initTheme() async {
     xl = fontSizes["xl"].toDouble();
     xxl = fontSizes["xxl"].toDouble();
     builderTime = fontSizes["builder_time"].toDouble();
+
+    Map<dynamic,dynamic> pageTitle = theme["Textes"]["pageTitle"];
+
+    opiStrTitleLoginPage = pageTitle["login"];
+    opiStrTitleSignUpPage = pageTitle["signUp"];
+    opiStrTitleTrainingPage = pageTitle["training"];
+    opiStrTitleTrainingBuilderPage = pageTitle["trainingBuilder"];
+    opiStrTitleExerciseBuilderPage = pageTitle["exerciseBuilder"];
+    opiStrTitleMyAccountPage = pageTitle["myAccount"];
+    opiStrTitlePlanningPage = pageTitle["schedule"];
+    opiStrTitleHistoryPage = pageTitle["history"];
+    opiStrTitleSettingsPage = pageTitle["settings"];
     return;
   });
 }

@@ -26,7 +26,7 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: "INSCRIPTION", hasBackArrow: true),
+      appBar: MyAppBar(title: opiStrTitleSignUpPage, hasBackArrow: true),
       body: Center (
         child: Column (
           mainAxisAlignment: MainAxisAlignment.center,

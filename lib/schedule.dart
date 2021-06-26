@@ -108,7 +108,7 @@ class _ScheduleState extends State<Schedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(title: "PLANNING", hasBackArrow: false),
+        appBar: MyAppBar(title: opiStrTitlePlanningPage, hasBackArrow: false),
         drawer: MyDrawer(),
         body: Container(
           width: MediaQuery.of(context).size.width,

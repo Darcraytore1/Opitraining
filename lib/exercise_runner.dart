@@ -92,10 +92,10 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
               );
             } else {
               int newIndexExercise = widget.indexExercise + 1;
-
+              _videController.dispose();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Rest(indexExercise: newIndexExercise, totalTime: totalTime)),
+                MaterialPageRoute(builder: (context) => Rest(indexExercise: newIndexExercise, listExercise: widget.listExercise, totalTime: totalTime)),
               );
             }
           });

@@ -117,7 +117,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
       appBar: AppBar(
         title:
           Text(
-              "OPITRAINING",
+              opiStrTitleLoginPage,
               style: TextStyle(
                 color: Color(fontColor2)
               ),
@@ -211,6 +211,8 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                   urlNoVideoChoose = await FirebaseStorage.instance
                       .ref('Video/no_video.mp4')
                       .getDownloadURL();
+
+
 
                   error = "";
                   emailController.text = "";

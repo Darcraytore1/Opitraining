@@ -118,7 +118,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(exercise.urlImage),
-                    fit: BoxFit.fill
+                    fit: BoxFit.scaleDown
                   )
                 )
               ),

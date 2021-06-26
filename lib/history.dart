@@ -102,7 +102,7 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(title: "HISTORIQUE", hasBackArrow: false),
+        appBar: MyAppBar(title: opiStrTitleHistoryPage, hasBackArrow: false),
         drawer: MyDrawer(),
         body: Container(
             width: MediaQuery.of(context).size.width,

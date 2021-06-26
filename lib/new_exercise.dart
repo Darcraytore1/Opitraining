@@ -65,7 +65,7 @@ class _NewExerciseState extends State<NewExercise> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(exercise.urlImage),
-                    fit: BoxFit.cover
+                    fit: BoxFit.scaleDown
                   )
                 )
               ),
@@ -141,7 +141,7 @@ class _NewExerciseState extends State<NewExercise> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: "CREER EXERCICE", hasBackArrow: false),
+      appBar: MyAppBar(title: opiStrTitleExerciseBuilderPage, hasBackArrow: false),
       drawer: MyDrawer(),
       body: Container(
         width: MediaQuery.of(context).size.width,
