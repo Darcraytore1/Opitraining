@@ -5,6 +5,7 @@ import 'package:opitraining/exercise_runner.dart';
 import 'package:opitraining/start_menu_exercise.dart';
 
 import 'constant.dart';
+import 'main.dart';
 
 /// This widget provide a rest time to the user between each exercise, with
 /// a circular bar progress to see the time who stay to the user before to pass
@@ -27,7 +28,6 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
 
   AnimationController controller;
   Timer _timer;
-  int advisedTime = 20;
   int restTime = 0;
 
   void startTimer() {
@@ -65,6 +65,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
 
   @override
   void dispose() {
+    _timer.cancel();
     controller.dispose();
     super.dispose();
   }

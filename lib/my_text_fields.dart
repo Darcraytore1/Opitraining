@@ -23,7 +23,13 @@ class _MyTextFieldsState extends State<MyTextFields> {
         data: ThemeData (
           primaryColor: Color(mainColor),
         ),
-        child: new TextField(
+        child: new TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Veuillez rentrez un " + placeholder;
+            }
+            return null;
+          },
           controller: controller,
           obscureText: isPassword,
           enableSuggestions: !isPassword,

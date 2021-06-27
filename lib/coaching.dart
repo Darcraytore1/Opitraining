@@ -19,6 +19,7 @@ class _CoachingState extends State<Coaching> {
 
   TextEditingController _searchQueryController = TextEditingController();
   List<Coach> coachList = [];
+  List<Coach> coachListFiltered = [];
   final db = FirebaseDatabase.instance.reference();
 
   @override
@@ -43,14 +44,40 @@ class _CoachingState extends State<Coaching> {
           } else {
             urlImageAccount = users[key]["coach_info"]["image"];
           }
-          setState(() {
-            coachList.add(Coach(users[key]["coach_info"]["first_name"], users[key]["coach_info"]["name"], users[key]["coach_info"]["city"], int.parse(users[key]["coach_info"]["price"]), dayList, users[key]["coach_info"]["phone"], users[key]["coach_info"]["description"], users[key]["coach_info"]["email"], urlImageAccount));
-          });
+          coachList.add(Coach(users[key]["coach_info"]["first_name"], users[key]["coach_info"]["name"], users[key]["coach_info"]["city"], int.parse(users[key]["coach_info"]["price"]), dayList, users[key]["coach_info"]["phone"], users[key]["coach_info"]["description"], users[key]["coach_info"]["email"], urlImageAccount));
+          coachListFiltered.add(Coach(users[key]["coach_info"]["first_name"], users[key]["coach_info"]["name"], users[key]["coach_info"]["city"], int.parse(users[key]["coach_info"]["price"]), dayList, users[key]["coach_info"]["phone"], users[key]["coach_info"]["description"], users[key]["coach_info"]["email"], urlImageAccount));
+          setState(() {});
         }
       });
     });
 
     super.initState();
+  }
+
+  // For filter coaching
+
+  void filterSearchResults(String query) {
+
+    List<Coach> dummySearchList = [];
+    dummySearchList.addAll(coachList);
+
+    if(query.isNotEmpty) {
+      List<Coach> dummyListData = [];
+      dummySearchList.forEach((item) {
+        if(item.firstName.toLowerCase().contains(query.toLowerCase()) || item.name.toLowerCase().contains(query.toLowerCase()) ||
+            item.description.toLowerCase().contains(query.toLowerCase()) || item.city.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      });
+      coachListFiltered.clear();
+      coachListFiltered.addAll(dummyListData);
+      setState(() {});
+      return;
+    } else {
+      coachListFiltered.clear();
+      coachListFiltered.addAll(coachList);
+      setState(() {});
+    }
   }
 
   Widget coachItem(Coach coach) {
@@ -118,7 +145,7 @@ class _CoachingState extends State<Coaching> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
-                      "Prix : " + " " + coach.getPricePerHour().toString() + "\$ " + " par heure"
+                      "Prix : " + " " + coach.getPricePerHour().toString() + "\€ " + " par heure"
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 ],
@@ -138,6 +165,9 @@ class _CoachingState extends State<Coaching> {
         Padding(
           child: TextField(
             controller: _searchQueryController,
+            onChanged: (value) {
+              filterSearchResults(value);
+            },
             decoration: InputDecoration(
               suffixIcon: Icon(Icons.search),
               fillColor: Color(tertiaryColor).withOpacity(0.35),
@@ -168,9 +198,9 @@ class _CoachingState extends State<Coaching> {
         Expanded(
           child: ListView.separated(
             padding: const EdgeInsets.all(8),
-            itemCount: coachList.length,
+            itemCount: coachListFiltered.length,
             itemBuilder: (BuildContext context, int index) {
-              return coachItem(coachList[index]);
+              return coachItem(coachListFiltered[index]);
             },
             separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
           ),

@@ -83,7 +83,6 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
         });
       }
     });
-
   }
 
   Widget itemExercise(Exercise exercise) {
@@ -226,9 +225,9 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         ),
                         IconButton(
                           onPressed: () {
-                            setState(() {
-                              newListExercise.remove(exercise);
-                            });
+                            newListExercise.remove(exercise);
+                            if (newListExercise.isEmpty) createTrainingButton = false;
+                            setState(() {});
                           },
                           icon: Icon(Icons.delete),
                         ),

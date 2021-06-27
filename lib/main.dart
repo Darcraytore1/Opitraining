@@ -20,6 +20,7 @@ String imgUserUrl;
 String imgBaseUrl;
 String urlNoImgChoose;
 String urlNoVideoChoose;
+int advisedTime;
 
 Future<void> main() async {
 
@@ -183,6 +184,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                   db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).once().then((DataSnapshot data){
                     Map<dynamic, dynamic> userInfo = data.value;
                     pseudo = userInfo["user_info"]["pseudo"];
+                    advisedTime = userInfo["user_info"]["restTime"];
                   });
 
                   // Load coach and user image (url link)

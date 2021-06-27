@@ -24,7 +24,6 @@ class _NewExerciseState extends State<NewExercise> {
 
   @override
   void initState(){
-    super.initState();
 
     List<Exercise> exercises = [];
 
@@ -33,15 +32,15 @@ class _NewExerciseState extends State<NewExercise> {
 
       if (values != null) {
         values.forEach((key, value) {
-          setState(() {
-            exercises.add(Exercise(key, value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
-          });
+          exercises.add(Exercise(key, value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+          setState(() {});
         });
 
         listUserExercise.addAll(exercises);
         listUserExerciseFiltered.addAll(exercises);
       }
     });
+    super.initState();
   }
 
   Widget itemExercise(Exercise exercise) {
@@ -92,7 +91,10 @@ class _NewExerciseState extends State<NewExercise> {
               children: [
                 IconButton(
                     onPressed: () {
-
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CreateExercise(exercise: exercise)),
+                      );
                     },
                     icon: Icon(Icons.edit)
                 ),
