@@ -23,6 +23,8 @@ String urlNoVideoChoose;
 
 Future<void> main() async {
 
+  // Initialization with firebase
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final db = FirebaseDatabase.instance.reference();
@@ -156,6 +158,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.028),
             MyTextFields(placeholder: "Mot de passe", controller: passwordController, isPassword: true),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+            /*
             Container(
               alignment: Alignment.centerRight,
               width: margeWidth(context),
@@ -166,6 +169,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                 ),
               ),
             ),
+             */
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             ElevatedButton(
                 onPressed: () async {
@@ -221,7 +225,8 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => TrainingPlans(indexTab: 0)
+                      builder: (context) => TrainingPlans(indexTab: 0),
+                      settings: RouteSettings(name: "/trainingPlan")
                     ),
                   );
                   } on FirebaseAuthException catch (e) {

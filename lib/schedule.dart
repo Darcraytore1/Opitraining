@@ -21,7 +21,6 @@ class _ScheduleState extends State<Schedule> {
 
   @override
   void initState() {
-    super.initState();
 
     DateTime day;
     TimeOfDay time;
@@ -44,6 +43,8 @@ class _ScheduleState extends State<Schedule> {
     toDo.sort((a,b) {
       return a.compareTo(b);
     });
+
+    super.initState();
   }
 
   Widget itemCalendar(ItemCalendar item, String title) {
@@ -86,7 +87,7 @@ class _ScheduleState extends State<Schedule> {
               children: [
                 IconButton(
                     onPressed: () {
-
+                      setTime(item);
                     },
                     icon: Icon(Icons.edit)
                 ),
@@ -103,6 +104,26 @@ class _ScheduleState extends State<Schedule> {
           ],
         )
     );
+  }
+  
+  void setTime(ItemCalendar item) async {
+    TimeOfDay _time;
+
+    _time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: 20, minute: 00),
+    );
+    
+    if (_time != null) {
+      item.hour = _time;
+      dbToDo.child(item.id).child("time").set(
+        {
+          "hour": _time.hour,
+          "minute": _time.minute
+        }
+      );
+      setState(() {});
+    }
   }
 
   @override

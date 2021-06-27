@@ -71,7 +71,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
     // Ensure disposing of the VideoPlayerController to free up resources.
 
     _videController.dispose();
-    _timer.cancel();
+    if (!isRepetition()) _timer.cancel();
     super.dispose();
   }
 
@@ -95,7 +95,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
               _videController.dispose();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Rest(indexExercise: newIndexExercise, listExercise: widget.listExercise, totalTime: totalTime)),
+                MaterialPageRoute(builder: (context) => Rest(title: widget.title, indexExercise: newIndexExercise, listExercise: widget.listExercise, totalTime: totalTime)),
               );
             }
           });
@@ -202,26 +202,22 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.12),
               InkWell(
                   onTap: () {
-
+                    Navigator.popUntil(
+                        context, 
+                        ModalRoute.withName('/trainingPlan')
+                    );
                   },
-                  child: itemPauseOptions("QUIT")
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              InkWell(
-                  onTap: () {
-
-                  },
-                  child: itemPauseOptions("RESTART THIS EXERCISE")
+                  child: itemPauseOptions("QUITTER")
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               InkWell(
                   onTap: () {
                     _isOpaque = !_isOpaque;
-                    setState(() {
-                      startTimer();
-                    });
+                    startTimer();
+                    _videController.play();
+                    setState(() {});
                   },
-                  child: itemPauseOptions("RESUME")
+                  child: itemPauseOptions("REPRENDRE")
               ),
             ],
           ),
@@ -278,6 +274,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
                         icon: Icon(Icons.pause),
                         onPressed: () {
                           if (!isRepetition()) _timer.cancel();
+                          _videController.pause();
                           _isVisible = !_isVisible;
                           _isOpaque = !_isOpaque;
                           setState(() {});
@@ -288,7 +285,8 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
                       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.08),
                       child: ElevatedButton(
                         onPressed: () {
-                          _videController.dispose();
+                          //_videController.dispose();
+                          _videController.pause();
                           if (!isRepetition()) _timer.cancel();
                           if (widget.indexExercise == widget.listExercise.length - 1) {
                             Navigator.push(

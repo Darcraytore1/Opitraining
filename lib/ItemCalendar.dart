@@ -18,6 +18,10 @@ class ItemCalendar {
     return hour;
   }
 
+  void setHour(TimeOfDay hour) {
+    this.hour = hour;
+  }
+
   DateTime getDay() {
     return day;
   }

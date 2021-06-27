@@ -92,6 +92,7 @@ class _ResultTrainingState extends State<ResultTraining> {
             )
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          /*
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -108,12 +109,19 @@ class _ResultTrainingState extends State<ResultTraining> {
               )
             ],
           ),
+           */
           SizedBox(height: MediaQuery.of(context).size.height * 0.04),
           ElevatedButton(
             onPressed: () {
+              /*
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => TrainingPlans(indexTab: 0)),
+              );
+               */
+              Navigator.popUntil(
+                  context,
+                  ModalRoute.withName('/trainingPlan')
               );
             },
             child: Text(

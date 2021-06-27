@@ -21,7 +21,6 @@ class _HistoryState extends State<History> {
 
   @override
   void initState() {
-    super.initState();
 
     DateTime day;
     TimeOfDay time;
@@ -34,7 +33,7 @@ class _HistoryState extends State<History> {
           if (day.add(Duration(hours: value["time"]["hour"], minutes: value["time"]["minute"])).isBefore(DateTime.now())) {
             time = TimeOfDay(hour: value["time"]["hour"], minute: value["time"]["minute"]);
             setState(() {
-              this.done.add(ItemCalendar(key, time, day, done["title"]));
+              this.done.add(ItemCalendar(key, time, day, value["title"]));
             });
           }
         });
@@ -44,6 +43,8 @@ class _HistoryState extends State<History> {
     done.sort((a,b) {
       return a.compareTo(b);
     });
+
+    super.initState();
   }
 
   Widget itemCalendar(ItemCalendar item, String title) {
@@ -57,7 +58,7 @@ class _HistoryState extends State<History> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02, left: MediaQuery.of(context).size.width * 0.15),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02, left: MediaQuery.of(context).size.width * 0.15, bottom: MediaQuery.of(context).size.height * 0.03),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: Column(
@@ -82,17 +83,17 @@ class _HistoryState extends State<History> {
               ),
             ),
             Expanded(child: SizedBox()),
-            Column(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      dbToDo.child(item.id).remove();
-                      done.remove(item);
-                      setState(() {});
-                    },
-                    icon: Icon(Icons.delete)
-                ),
-              ],
+            Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: IconButton(
+                  onPressed: () {
+                    dbToDo.child(item.id).remove();
+                    done.remove(item);
+                    setState(() {});
+                  },
+                  icon: Icon(Icons.delete)
+              ),
             )
           ],
         )
@@ -118,7 +119,7 @@ class _HistoryState extends State<History> {
                         padding: const EdgeInsets.all(8),
                         itemCount: done.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container();
+                          return itemCalendar(done[index],done[index].title);
                         },
                         separatorBuilder: (BuildContext context, int index) => SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       ),
