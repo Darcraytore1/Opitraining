@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:opitraining/app_bar.dart';
 import 'package:opitraining/create_exercise.dart';
@@ -32,7 +33,7 @@ class _NewExerciseState extends State<NewExercise> {
 
       if (values != null) {
         values.forEach((key, value) {
-          exercises.add(Exercise(key, value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+          exercises.add(Exercise(key, value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"], value["restTime"]));
           setState(() {});
         });
 
@@ -100,6 +101,16 @@ class _NewExerciseState extends State<NewExercise> {
                 ),
                 IconButton(
                     onPressed: () {
+                      if (exercise.urlImage != "https://firebasestorage.googleapis.com/v0/b/opitraining-91a90.appspot.com/o/Image%2FExerciseImage%2Fno_image.png?alt=media&token=72886250-7fc0-41dc-a9dc-ee8b88637e38") {
+                        FirebaseStorage.instance.refFromURL(exercise.urlImage).delete().then((value) {
+                          print("sucess");
+                        });
+                      }
+                      if (exercise.urlVideo != "https://firebasestorage.googleapis.com/v0/b/opitraining-91a90.appspot.com/o/Video%2Fno_video.mp4?alt=media&token=2f4bab62-4637-4d97-bc01-e985dde4a02c") {
+                        FirebaseStorage.instance.refFromURL(exercise.urlVideo).delete().then((value) {
+                          print("sucess");
+                        });
+                      }
                       db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userExercise).child(exercise.id).remove();
                       listUserExercise.remove(exercise);
                       listUserExerciseFiltered.remove(exercise);

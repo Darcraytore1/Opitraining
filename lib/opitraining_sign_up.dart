@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:opitraining/app_bar.dart';
@@ -66,12 +67,15 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                       try {
                         UserCredential userCredential = await FirebaseAuth
                             .instance.createUserWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text
+                            email: emailController.text.replaceAll(new RegExp(r"\s+"), ""),
+                            password: passwordController.text.replaceAll(new RegExp(r"\s+"), "")
                         );
+
+                        print("plouf");
 
                         uid = userCredential.user.uid;
                         pseudo = pseudoController.text;
+                        advisedTime = 20;
 
                         final db = FirebaseDatabase.instance.reference();
 
@@ -86,26 +90,57 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
 
                         UserCredential user = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
-                          email: emailController.text,
-                          password: passwordController.text,
+                          email: emailController.text.replaceAll(new RegExp(r"\s+"), ""),
+                          password: passwordController.text.replaceAll(new RegExp(r"\s+"), ""),
                         );
+
+                        // Load coach and user image (url link)
+
+                        imgBaseUrl = await FirebaseStorage.instance
+                            .ref('Image/UserImage/profile_vide.png')
+                            .getDownloadURL();
+
+                        db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).once().then((DataSnapshot data) async {
+                          Map<dynamic, dynamic> userInfo = data.value;
+
+                          if (userInfo["coach_info"] != null) imgCoachUrl = userInfo["coach_info"]["image"];
+                          imgUserUrl = userInfo["user_info"]["image"];
+
+                          if (imgUserUrl == null) {
+                            imgUserUrl = imgBaseUrl;
+                          }
+
+                          if (imgCoachUrl == null) {
+                            imgCoachUrl = imgBaseUrl;
+                          }
+                        });
+
+                        // Load img and video for person who don't choose any image or video
+
+                        urlNoImgChoose = await FirebaseStorage.instance
+                            .ref('Image/ExerciseImage/no_image.png')
+                            .getDownloadURL();
+
+                        urlNoVideoChoose = await FirebaseStorage.instance
+                            .ref('Video/no_video.mp4')
+                            .getDownloadURL();
 
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>
-                              TrainingPlans(indexTab: 0)),
+                          MaterialPageRoute(
+                              builder: (context) => TrainingPlans(indexTab: 0),
+                              settings: RouteSettings(name: "/trainingPlan")
+                          ),
                         );
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
                           print('The password provided is too weak.');
-                          setState(() {
-                            error = "Le mot de passe proposé est trop faible";
-                          });
+                          error = "Le mot de passe proposé est trop faible";
+                          setState(() {});
                         } else if (e.code == 'email-already-in-use') {
                           print('The account already exists for that email.');
-                          setState(() {
-                            error = "Le compte existe déjà";
-                          });
+                          error = "Le compte existe déjà";
+                          setState(() {});
                         }
                       } catch (e) {
                         print(e);

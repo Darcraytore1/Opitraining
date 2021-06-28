@@ -71,7 +71,11 @@ class _CoachAccountState extends State<CoachAccount> {
       String text = "";
 
       this.listPathFirebase.forEach((element) {
-        this.listController.add(TextEditingController());
+        if (element == "availability") {
+          this.listController.add(TextEditingController(text: "noDay"));
+        } else {
+          this.listController.add(TextEditingController());
+        }
       });
       setState(() {});
 
@@ -253,7 +257,6 @@ class _CoachAccountState extends State<CoachAccount> {
                         value: isChecked,
                         onChanged: (bool value) {
                           bool isCompleted = true;
-
                           listController.forEach((controller) {
                             if (controller.text == "" || controller.text == null) {
                               ScaffoldMessenger.of(context).showSnackBar(

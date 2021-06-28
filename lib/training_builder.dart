@@ -33,10 +33,11 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   bool _isVisible = false;
   bool _setTrainingNameVisible = false;
   bool isRepetition = false;
-  Exercise currentExercise;
+  Exercise currentExercise = Exercise("","", "", "", 20, true, 0);
   bool createTrainingButton = false;
   bool isEdit = false;
   bool isCoaching = false;
+  int restTime = 0;
 
   String textButtonEditCreate = "";
 
@@ -65,8 +66,8 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
 
       values.forEach((exercise) {
         setState(() {
-          listExercise.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
-          listExerciseFiltered.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+          listExercise.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"], exercise["restTime"]));
+          listExerciseFiltered.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"], exercise["restTime"]));
         });
       });
     });
@@ -77,8 +78,8 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
       if (values != null) {
         values.forEach((key, value) {
           setState(() {
-            listExercise.add(Exercise("",value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
-            listExerciseFiltered.add(Exercise("",value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"]));
+            listExercise.add(Exercise("",value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"], value["restTime"]));
+            listExerciseFiltered.add(Exercise("",value["video"], value["animatedImage"], value["title"], value["info"], value["isRepetition"], value["restTime"]));
           });
         });
       }
@@ -89,11 +90,11 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
     return Center (
       child: InkWell(
         onTap: () {
-          setState(() {
-            _isVisible = true;
-            isRepetition = exercise.getIsRepetition();
-            currentExercise = exercise;
-          });
+          _isVisible = true;
+          isRepetition = exercise.getIsRepetition();
+          currentExercise = exercise;
+          restTime = exercise.getRestTime();
+          setState(() {});
         },
         child: Container(
           width: MediaQuery.of(context).size.width*0.85,
@@ -213,13 +214,13 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                         ),
                         IconButton(
                           onPressed: () {
-                            setState(() {
-                              isEdit = true;
-                              _isVisible = true;
-                              isRepetition = exercise.getIsRepetition();
-                              value = exercise.getInfo();
-                              currentExercise = exercise;
-                            });
+                            isEdit = true;
+                            _isVisible = true;
+                            isRepetition = exercise.getIsRepetition();
+                            value = exercise.getInfo();
+                            currentExercise = exercise;
+                            restTime = exercise.getRestTime();
+                            setState(() {});
                           },
                           icon: Icon(Icons.edit),
                         ),
@@ -440,12 +441,13 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
   }
 
   Widget itemSettingExercises(bool isRepetition, Exercise exercise) {
+
     return Visibility(
       visible: _isVisible,
       child: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.90,
-          height: MediaQuery.of(context).size.height * 0.40,
+          height: MediaQuery.of(context).size.height * 0.42,
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -462,18 +464,17 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * 0.06),
               setTitleSettings(isRepetition),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                       onPressed: () {
-                        setState(() {
-                          if (isRepetition) value --;
-                          else value -= 5;
-                        });
+                        if (isRepetition && value > 1) value --;
+                        else if(value > 5) value -= 5;
+                        setState(() {});
                       },
-                      icon: Icon(Icons.arrow_back_ios_sharp)
+                      icon: Icon(Icons.arrow_back_ios_sharp),
                   ),
                   SizedBox(width:  MediaQuery.of(context).size.width * 0.05),
                   Text(
@@ -486,16 +487,54 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                   SizedBox(width:  MediaQuery.of(context).size.width * 0.05),
                   IconButton(
                       onPressed: () {
-                        setState(() {
-                          if (isRepetition) value ++;
-                          else value += 5;
-                        });
+                        if (isRepetition) value ++;
+                        else value += 5;
+                        setState(() {});
                       },
                       icon: Icon(Icons.arrow_forward_ios_sharp)
                   ),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              Text(
+                "Choisir le temps de repos",
+                style: TextStyle(
+                  color: Color(fontColor2),
+                  fontSize: med
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      if(restTime > 5) restTime -= 5;
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.arrow_back_ios_sharp),
+                    iconSize: 16,
+                  ),
+                  SizedBox(width:  MediaQuery.of(context).size.width * 0.05),
+                  Text(
+                    _printDuration(Duration(seconds: restTime)),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: med
+                    ),
+                  ),
+                  SizedBox(width:  MediaQuery.of(context).size.width * 0.05),
+                  IconButton(
+                    onPressed: () {
+                      restTime += 5;
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.arrow_forward_ios_sharp),
+                    iconSize: 16,
+                  ),
+                ],
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               Row(
                 children: [
                   Expanded(
@@ -503,11 +542,10 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                   ),
                   TextButton(
                       onPressed: () {
-                        setState(() {
-                          isEdit = false;
-                          _isVisible = false;
-                          value = defaultValue;
-                        });
+                        isEdit = false;
+                        _isVisible = false;
+                        value = defaultValue;
+                        setState(() {});
                       },
                       child: Text(
                         "ANNULER",
@@ -523,8 +561,9 @@ class _TrainingBuilderState extends State<TrainingBuilder> {
                       onPressed: () {
                         if (isEdit) {
                           exercise.setInfo(value);
+                          exercise.setRestTime(restTime);
                         } else {
-                          newListExercise.add(Exercise("",exercise.urlVideo, exercise.urlImage, exercise.exerciseTitle, value, exercise.getIsRepetition()));
+                          newListExercise.add(Exercise("",exercise.urlVideo, exercise.urlImage, exercise.exerciseTitle, value, exercise.getIsRepetition(), restTime));
                         }
                         _isVisible = false;
                         value = defaultValue;

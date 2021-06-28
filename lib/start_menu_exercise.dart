@@ -13,14 +13,16 @@ class Exercise {
   String exerciseTitle;
   int info;
   bool isRepetition;
+  int restTime;
 
-  Exercise(String id, String urlVideo, String urlImage, String exerciseTitle, int info, bool isRepetition ) {
+  Exercise(String id, String urlVideo, String urlImage, String exerciseTitle, int info, bool isRepetition, int restTime) {
     this.id = id;
     this.urlVideo = urlVideo;
     this.urlImage = urlImage;
     this.exerciseTitle = exerciseTitle;
     this.info = info;
     this.isRepetition = isRepetition;
+    this.restTime = restTime;
   }
 
   /*
@@ -57,13 +59,22 @@ class Exercise {
     this.info = info;
   }
 
+  int getRestTime() {
+    return restTime;
+  }
+
+  void setRestTime(int restTime) {
+    this.restTime = restTime;
+  }
+
   Map<String,dynamic> json() {
     return {
       "animatedImage": urlImage,
       "video": urlVideo,
       "title": exerciseTitle,
       "info": info,
-      "isRepetition": isRepetition
+      "isRepetition": isRepetition,
+      "restTime": restTime
     };
   }
 }

@@ -37,7 +37,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
       (Timer timer) {
         setState(() {
           restTime++;
-          if (restTime % advisedTime == 0) {
+          if (restTime % widget.listExercise[widget.indexExercise - 1].restTime == 0) {
             controller.reset();
             controller.forward();
           }
@@ -51,14 +51,10 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
     startTimer();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: advisedTime),
+      duration: Duration(seconds: widget.listExercise[widget.indexExercise - 1].restTime),
     )..addListener(() {
       setState(() {});
     });
-    /*
-    controller.forward(from: restTime.toDouble());
-    controller.reverse();
-     */
     controller.forward();
     super.initState();
   }
@@ -88,7 +84,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.25),
             Text(
-              "REPOS " + "(" + _printDuration(Duration(seconds: advisedTime)) + ")",
+              "REPOS " + "(" + _printDuration(Duration(seconds: widget.listExercise[widget.indexExercise - 1].restTime)) + ")",
               style: TextStyle(
                 fontSize: xxl,
                 color: Color(fontColor1)

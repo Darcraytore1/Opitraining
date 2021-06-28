@@ -59,7 +59,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         index = 0;
         List<dynamic> exercisesList = trainingC['listExercise'];
         exercisesList.forEach((exercise) {
-          exercises.add(Exercise("", exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+          exercises.add(Exercise("", exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"], exercise["restTime"]));
           index ++;
           if (index == exercisesList.length){
             training = Training(trainingC["title"], trainingC['description'], trainingC['url_image'], exercises);
@@ -89,7 +89,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                 if (trainings[key]["coaching"]) {
                   exercises = [];
                   trainings[key]["listExercise"].forEach((exercise) {
-                    exercises.add(Exercise("", exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+                    exercises.add(Exercise("", exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"], exercise["restTime"]));
                   });
                   listCoachTraining.add(UserTraining(key,trainings[key]['title'], exercises));
                 }
@@ -109,7 +109,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         trainings.forEach((key, value) {
           exercises = [];
           trainings[key]["listExercise"].forEach((exercise) {
-            exercises.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"]));
+            exercises.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"], exercise["restTime"]));
           });
           listUserTraining.add(UserTraining(key,trainings[key]['title'], exercises));
         });
@@ -275,10 +275,21 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.03),
-              Text(
-                userTraining.listExercise.length.toString() + " exercice",
-                style: TextStyle(
-                  color: Color(fontColor1)
+              Container(
+                width: margeWidth(context),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      userTraining.listExercise.length.toString() + " exercice",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(fontColor1)
+                      ),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                    Icon(IconData(62418, fontFamily: 'MaterialIcons')),
+                  ],
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.03),
@@ -353,7 +364,23 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
         ),
       );
     }
-    else return Container();
+    else return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
+      child: Row(
+        children: [
+          Expanded(child: SizedBox()),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ScheduleChoice(title: userTraining.title)),
+                );
+              },
+              icon: Icon(Icons.add_alarm)
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _bottomsButtons() {

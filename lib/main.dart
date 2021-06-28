@@ -176,8 +176,8 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                 onPressed: () async {
                   try {
                     UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: emailController.text,
-                      password: passwordController.text,
+                      email: emailController.text.replaceAll(new RegExp(r"\s+"), ""),
+                      password: passwordController.text.replaceAll(new RegExp(r"\s+"), ""),
                     );
 
                   uid = userCredential.user.uid;
@@ -237,7 +237,7 @@ class _OpitrainingLoginState extends State<OpitrainingLogin> {
                     } else if (e.code == 'wrong-password') {
                       print('Wrong password provided for that user.');
                     }
-                    this.error = "Wrong email or password.";
+                    this.error = "Ce compte n'existe pas";
                     print(error);
                     emailController.text = "";
                     passwordController.text = "";

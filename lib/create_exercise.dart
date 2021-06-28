@@ -130,9 +130,8 @@ class _CreateExerciseState extends State<CreateExercise> {
                   value: true,
                   groupValue: isChecked,
                   onChanged: (bool value) {
-                    setState(() {
-                      isChecked = value;
-                    });
+                    isChecked = value;
+                    setState(() {});
                   },
                 ),
               ),
@@ -142,9 +141,8 @@ class _CreateExerciseState extends State<CreateExercise> {
                   value: false,
                   groupValue: isChecked,
                   onChanged: (bool value) {
-                    setState(() {
-                      isChecked = value;
-                    });
+                    isChecked = value;
+                    setState(() {});
                   },
                 ),
               ),
@@ -163,6 +161,18 @@ class _CreateExerciseState extends State<CreateExercise> {
                     // do something to handle error
                   });
                   urlImage = await (await uploadTask).ref.getDownloadURL();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            "L'image a bien été envoyé"
+                        ),
+                        action: SnackBarAction(
+                          label: "X",
+                          onPressed: () {},
+                        ),
+                      )
+                  );
+                  setState(() {});
                 },
                 child: Text(
                   "UPLOAD IMAGE",
@@ -201,6 +211,18 @@ class _CreateExerciseState extends State<CreateExercise> {
                     // do something to handle error
                   });
                   urlVideo = await (await uploadTask).ref.getDownloadURL();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            "La vidéo a bien été envoyé"
+                        ),
+                        action: SnackBarAction(
+                          label: "X",
+                          onPressed: () {},
+                        ),
+                      )
+                  );
+                  setState(() {});
                 },
                 child: Text(
                   "UPLOAD VIDEO",
@@ -237,7 +259,8 @@ class _CreateExerciseState extends State<CreateExercise> {
                             "video" : urlVideo,
                             "info" : 20,
                             "isRepetition": isChecked,
-                            "title": controller.text
+                            "title": controller.text,
+                            "restTime": advisedTime
                           }
                       );
                     } else {
@@ -247,7 +270,8 @@ class _CreateExerciseState extends State<CreateExercise> {
                             "video" : urlVideo,
                             "info" : 20,
                             "isRepetition": isChecked,
-                            "title": controller.text
+                            "title": controller.text,
+                            "restTime": advisedTime
                           }
                       );
                     }
