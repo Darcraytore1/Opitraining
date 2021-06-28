@@ -141,6 +141,11 @@ class _OpitrainingSignUpState extends State<OpitrainingSignUp> {
                           print('The account already exists for that email.');
                           error = "Le compte existe déjà";
                           setState(() {});
+                        } else if (e.code == "invalid-email") {
+                          print('Your email address appears to be malformed..');
+                          error = "L'adresse email est mal formé";
+                        } else {
+                          error = "Une erreur c'est produite";
                         }
                       } catch (e) {
                         print(e);
