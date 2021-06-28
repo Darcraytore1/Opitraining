@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:opitraining/app_bar.dart';
+import 'package:opitraining/main.dart';
 
 import 'constant.dart';
 import 'my_drawer.dart';
@@ -14,10 +15,14 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
 
+  int restTime = advisedTime;
+  bool _isVisible = false;
+
   Widget itemSetting(String settingName, Icon icon) {
     return InkWell(
       onTap: () {
-
+        _isVisible = true;
+        setState(() {});
       },
       child: Padding(
         padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1, right: MediaQuery.of(context).size.width * 0.1),
@@ -50,8 +55,14 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  /*
-  Widget itemSettingExercises(bool isRepetition, Exercise exercise) {
+  String _printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$twoDigitMinutes:$twoDigitSeconds";
+  }
+
+  Widget itemSettingActive(String title) {
     return Visibility(
       visible: _isVisible,
       child: Center(
@@ -73,7 +84,12 @@ class _SettingsState extends State<Settings> {
           child: Column(
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-              setTitleSettings(isRepetition),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: lg
+                ),
+              ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.08),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,15 +97,14 @@ class _SettingsState extends State<Settings> {
                   IconButton(
                       onPressed: () {
                         setState(() {
-                          if (isRepetition) value --;
-                          else value -= 5;
+                          restTime -= 5;
                         });
                       },
                       icon: Icon(Icons.arrow_back_ios_sharp)
                   ),
                   SizedBox(width:  MediaQuery.of(context).size.width * 0.05),
                   Text(
-                    setTime(value, isRepetition),
+                    _printDuration(Duration(seconds: restTime)),
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: builderTime
@@ -98,10 +113,8 @@ class _SettingsState extends State<Settings> {
                   SizedBox(width:  MediaQuery.of(context).size.width * 0.05),
                   IconButton(
                       onPressed: () {
-                        setState(() {
-                          if (isRepetition) value ++;
-                          else value += 5;
-                        });
+                        restTime += 5;
+                        setState(() {});
                       },
                       icon: Icon(Icons.arrow_forward_ios_sharp)
                   ),
@@ -114,33 +127,28 @@ class _SettingsState extends State<Settings> {
                     child: SizedBox(),
                   ),
                   TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isEdit = false;
-                          _isVisible = false;
-                          value = defaultValue;
-                        });
-                      },
-                      child: Text(
-                        "ANNULER",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: lg
-                        ),
-                      )
+                    onPressed: () {
+                      restTime = advisedTime;
+                      _isVisible = false;
+                      setState(() {});
+                    },
+                    child: Text(
+                      "ANNULER",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: lg
+                      ),
+                    )
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.04, left: MediaQuery.of(context).size.width * 0.04),
                     child: TextButton(
                         onPressed: () {
-                          if (isEdit) {
-                            exercise.setInfo(value);
-                          } else {
-                            newListExercise.add(Exercise("",exercise.urlVideo, exercise.urlImage, exercise.exerciseTitle, value, exercise.getIsRepetition()));
-                          }
+                          db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userInfo).child("restTime").set(
+                            restTime
+                          );
+                          advisedTime = restTime;
                           _isVisible = false;
-                          value = defaultValue;
-                          createTrainingButton = true;
                           setState(() {});
                         },
                         child: Text(
@@ -159,7 +167,7 @@ class _SettingsState extends State<Settings> {
       ),
     );
   }
-  */
+
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +186,7 @@ class _SettingsState extends State<Settings> {
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           itemSetting("Temps de repos", Icon(IconData(58984, fontFamily: 'MaterialIcons'))),
+          itemSettingActive("Temps de repos")
           /*
           SizedBox(height: MediaQuery.of(context).size.height * 0.08),
           Text(

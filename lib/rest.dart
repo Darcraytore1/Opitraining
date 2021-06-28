@@ -16,7 +16,7 @@ class Rest extends StatefulWidget {
   final int indexExercise;
   final List<Exercise> listExercise;
   final String title;
-  final Duration totalTime;
+  final int totalTime;
 
   Rest({Key key, this.indexExercise, this.listExercise, this.title, this.totalTime}) : super (key: key);
 
@@ -88,7 +88,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.25),
             Text(
-              "REPOS",
+              "REPOS " + "(" + _printDuration(Duration(seconds: advisedTime)) + ")",
               style: TextStyle(
                 fontSize: xxl,
                 color: Color(fontColor1)
@@ -103,7 +103,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin{
                 color: Colors.white,
                 semanticsLabel: "eae",
                 strokeWidth: 8,
-              ),
+              )
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.08),
             Text (

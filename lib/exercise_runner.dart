@@ -17,7 +17,7 @@ class ExerciseRunner extends StatefulWidget {
   final int indexExercise;
   final List<Exercise> listExercise;
   final String title;
-  final Duration totalTime;
+  final int totalTime;
 
   ExerciseRunner({Key key, this.indexExercise, this.listExercise, this.title, this.totalTime}) : super (key: key);
 
@@ -35,7 +35,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
 
   Timer _timer;
   int _start;
-  Duration totalTime;
+  int totalTime;
 
   bool isRepetition() {
     if (widget.listExercise[widget.indexExercise].getIsRepetition()) return true;
@@ -46,10 +46,10 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
   void initState() {
     if (!isRepetition()) {
       _start = widget.listExercise[widget.indexExercise].getInfo();
-      //totalTime = Duration(seconds: (widget.totalTime.inSeconds + _start));
+      totalTime = widget.totalTime + _start;
       startTimer();
     } else {
-      //totalTime = Duration(seconds: (widget.totalTime.inSeconds + _start));
+      totalTime = widget.totalTime + 30;
     }
 
     // Create an store the VideoPlayerController. The VideoPlayerController
@@ -286,6 +286,7 @@ class _ExerciseRunnerState extends State<ExerciseRunner> {
                       child: ElevatedButton(
                         onPressed: () {
                           //_videController.dispose();
+                          print(totalTime.toString());
                           _videController.pause();
                           if (!isRepetition()) _timer.cancel();
                           if (widget.indexExercise == widget.listExercise.length - 1) {

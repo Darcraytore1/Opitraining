@@ -243,7 +243,7 @@ class _StartMenuExerciseState extends State<StartMenuExercise> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ExerciseRunner(indexExercise: 0, listExercise: widget.listExercise, title: widget.title, totalTime: Duration(seconds: 0))),
+                    MaterialPageRoute(builder: (context) => ExerciseRunner(indexExercise: 0, listExercise: widget.listExercise, title: widget.title, totalTime: 0)),
                   );
                 },
                 child: Text(

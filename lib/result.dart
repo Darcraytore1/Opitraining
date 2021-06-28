@@ -10,7 +10,7 @@ class ResultTraining extends StatefulWidget {
 
   final String title;
   final int exerciseNumber;
-  final Duration totalTime;
+  final int totalTime;
 
   ResultTraining({Key key, this.title, this.exerciseNumber, this.totalTime}) : super (key: key);
 
@@ -71,7 +71,7 @@ class _ResultTrainingState extends State<ResultTraining> {
                     Column(
                       children: [
                         Text(
-                          "05:00",
+                          _printDuration(Duration(seconds: widget.totalTime)),
                           style: TextStyle(
                               fontSize: lg,
                               color: Color(fontColor1)
@@ -113,12 +113,6 @@ class _ResultTrainingState extends State<ResultTraining> {
           SizedBox(height: MediaQuery.of(context).size.height * 0.04),
           ElevatedButton(
             onPressed: () {
-              /*
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TrainingPlans(indexTab: 0)),
-              );
-               */
               Navigator.popUntil(
                   context,
                   ModalRoute.withName('/trainingPlan')
