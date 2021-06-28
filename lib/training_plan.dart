@@ -45,7 +45,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
   }
 
   // Take the trainings in the realtime database of firebase and put them in a list
-  void createListTraining() {
+  void createListTraining() async {
 
     List<Training> trainings = [];
     List<Exercise> exercises = [];
@@ -53,7 +53,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     int index = 0;
 
     // global training
-    db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_trainings).once().then((DataSnapshot data){
+    await db.child(opi_pathFirebase).child(opi_cf_configuration).child(opi_cf_trainings).once().then((DataSnapshot data){
       List<dynamic> values = data.value;
       values.forEach((trainingC) async {
         index = 0;
@@ -65,9 +65,8 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
             training = Training(trainingC["title"], trainingC['description'], trainingC['url_image'], exercises);
             exercises = [];
             index = 0;
-            setState(() {
-              trainings.add(training);
-            });
+            trainings.add(training);
+            setState(() {});
           }
         });
       });
@@ -75,7 +74,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
 
 
     // coach training
-    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).once().then((DataSnapshot data){
+    await db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).once().then((DataSnapshot data){
 
       Map<dynamic,dynamic> users = data.value;
 
@@ -91,7 +90,8 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                   trainings[key]["listExercise"].forEach((exercise) {
                     exercises.add(Exercise("", exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"], exercise["restTime"]));
                   });
-                  listCoachTraining.add(UserTraining(key,trainings[key]['title'], exercises));
+                  listCoachTraining.add(UserTraining(key,trainings[key]['title'], exercises, true));
+                  setState(() {});
                 }
               });
             }
@@ -102,7 +102,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
 
 
     // user training
-    db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).once().then((DataSnapshot data){
+    await db.child(opi_pathFirebase).child(opi_dt_data).child(opi_dt_users).child(uid).child(opi_dt_userTraining).once().then((DataSnapshot data){
       Map<dynamic,dynamic> trainings = data.value;
 
       if (trainings != null) {
@@ -111,7 +111,8 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
           trainings[key]["listExercise"].forEach((exercise) {
             exercises.add(Exercise("",exercise["video"], exercise["animatedImage"], exercise["title"], exercise["info"], exercise["isRepetition"], exercise["restTime"]));
           });
-          listUserTraining.add(UserTraining(key,trainings[key]['title'], exercises));
+          listUserTraining.add(UserTraining(key,trainings[key]['title'], exercises, trainings[key]["coaching"]));
+          setState(() {});
         });
       }
     });
@@ -255,7 +256,20 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
     );
   }
 
-  Widget itemUserTraining(UserTraining userTraining, bool isCoaching) {
+  Widget coachWhistle(bool isCoaching) {
+    if (isCoaching) {
+      return Row(
+        children: [
+          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+          Icon(IconData(62418, fontFamily: 'MaterialIcons')),
+        ],
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget itemUserTraining(UserTraining userTraining, bool isAnotherCoaching) {
     return Column(
       children: [
         Container(
@@ -287,8 +301,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
                           color: Color(fontColor1)
                       ),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                    Icon(IconData(62418, fontFamily: 'MaterialIcons')),
+                    coachWhistle(userTraining.isCoaching)
                   ],
                 ),
               ),
@@ -321,7 +334,7 @@ class _TrainingPlansState extends State<TrainingPlans> with SingleTickerProvider
             ],
           ),
         ),
-        editDeleteBar(isCoaching, userTraining)
+        editDeleteBar(isAnotherCoaching, userTraining)
       ],
     );
   }

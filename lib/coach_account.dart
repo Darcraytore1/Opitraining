@@ -285,10 +285,10 @@ class _CoachAccountState extends State<CoachAccount> {
                     )
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 Container(
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   decoration: new BoxDecoration(
                       shape: BoxShape.circle,
                       image: new DecorationImage(

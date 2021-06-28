@@ -187,8 +187,8 @@ class _MyAccountState extends State<MyAccount> with SingleTickerProviderStateMix
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Container(
-                    width: 120,
-                    height: 120,
+                    width: 100,
+                    height: 100,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,

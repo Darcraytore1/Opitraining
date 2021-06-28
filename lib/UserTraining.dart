@@ -5,11 +5,13 @@ class UserTraining {
   String id;
   String title;
   List<Exercise> listExercise;
+  bool isCoaching;
 
-  UserTraining(String id, String title, List<Exercise> listExercise) {
+  UserTraining(String id, String title, List<Exercise> listExercise, bool isCoaching) {
     this.id = id;
     this.title = title;
     this.listExercise = listExercise;
+    this.isCoaching = isCoaching;
   }
 
   String getId() {
@@ -22,5 +24,9 @@ class UserTraining {
 
   List<Exercise> getListExercise() {
     return listExercise;
+  }
+
+  bool getIsCoaching() {
+    return isCoaching;
   }
 }
